@@ -1,0 +1,57 @@
+.folder {
+    width: 60px;
+    // margin-bottom: 5px !important;
+}
+
+.three-dots {
+    // object-fit: contain;
+    width: 24px;
+    transform: rotate(90deg);
+    position: relative;
+    left: 6px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.folder-card {
+    background: #D4FFF5;
+}
+
+.folder-card:hover {
+    background: #00ffff14;
+    box-shadow: 3px 5px rgb(209 202 202);
+    transition: 0.5s;
+    cursor: pointer;
+
+}
+
+.card-body,
+.card-footer {
+    padding: 10px 25px;
+}
+
+.card-body div {
+    margin-top: 10px;
+}
+
+.card-footer {
+    background: transparent;
+    border-top: 1px solid white;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+.card-text {
+    font-size: 12px;
+}
+
+// .card-footer a {
+//     font-size: 12px;
+// }
+.card-title-1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
