@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-buckets',
@@ -13,13 +12,23 @@ export class BucketsComponent implements OnInit {
   singleBucketsData: any = []
   bucketsView = true
   allBuckets: any = []
+  dataToSend: any = "Buckets"
 
-  constructor(private http: HttpClient, private router: Router, private location: Location) {
+
+  back: any = false
+  front: any = false
+  BackIndexVal = 0
+  FrontIndexVal = 0
+  queryParams: any = {}
+  bucketNameGlobal: any
+
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
     this.getBuckets()
+    this.getCurrentFolders()
   }
   getBuckets() {
     this.http.get("http://192.168.1.151:8000/bucket/list").subscribe((res: any) => {
@@ -30,39 +39,57 @@ export class BucketsComponent implements OnInit {
     })
   }
 
-  goBack() {
-    this.location.back();
+  getCurrentFolders() {
+    this.singleBucketsData = []
+    this.route.queryParamMap.subscribe(params => {
+      const name = params.get('folderName')
+      const path = params.get('path')
+      const bucketName = params.get("bucket")
+      // console.log(bucketName);
+      this.http.get("http://192.168.1.151:8000/bucket/get_bucket_data/" + bucketName).subscribe((res: any) => {
+        // console.log(res, "response");
+        for (let i in res) {
+          console.log(res[i].files);
+          this.singleBucketsData.push(res[i].files)
+        }
+      })
+    });
   }
-
 
   bucketClick(bucketName: any) {
     this.bucketsView = false
     this.singleBucketsData = []
+    this.BackIndexVal += 1
+    console.log(bucketName);
+    const queryParams = {
+      bucket: bucketName
+    }
+    this.router.navigate(['/'], { queryParams: queryParams });
+    this.bucketNameGlobal = bucketName
+    this.dataToSend = bucketName
     this.http.get("http://192.168.1.151:8000/bucket/get_bucket_data/" + bucketName).subscribe((res: any) => {
       this.singleBucketsData.push(...res);
-      const queryParams = { folder: this.singleBucketsData.folderName };
-      this.router.navigate(['/'], { queryParams });
       // console.log(this.singleBucketsData, "Data");
-      if (this.singleBucketsData[0].type) {
-        console.log(this.singleBucketsData[0].type);
-        // this.title = true
-      }
-
     })
   }
-  innerFolderNavigation(InnerFiles: any, bucketName: any, type: any) {
+
+  innerFolderNavigation(InnerFiles: any, bucketName: any, folderName: any, path: any) {
     let data = {
       files: InnerFiles,
-      folderName: bucketName,
-      type: "folder"
+      folderName: folderName,
+      type: "folder",
+      path: path
     }
-    console.log(data.folderName);
-    const queryParams = { folder: data.folderName };
-    this.router.navigate(['/'], { queryParams });
-    if (!type) {
-      console.log("success");
-    }
+    this.queryParams = {
+      folderName: bucketName.folderName,
+      path: path,
+      mainbucket: this.bucketNameGlobal
+    };
+    console.log(bucketName, "Hello");
+    this.dataToSend = folderName
+
+    this.router.navigate(['/'], { queryParams: this.queryParams });
+
     this.singleBucketsData = [data]
-    console.log(this.singleBucketsData[0].files, "data")
   }
 }
