@@ -1,6 +1,11 @@
 .folder {
-    width: 60px;
+    width: 28px;
     // margin-bottom: 5px !important;
+}
+
+
+.folders {
+    width: 60px;
 }
 
 .three-dots {
@@ -10,6 +15,17 @@
     position: relative;
     left: 6px;
     top: 5px;
+    cursor: pointer;
+}
+
+.card-body div {
+    padding: 10px !important;
+}
+
+.three-dots-1 {
+    width: 22px;
+    transform: rotate(90deg);
+
     cursor: pointer;
 }
 
@@ -30,9 +46,6 @@
     padding: 10px 25px;
 }
 
-.card-body div {
-    margin-top: 10px;
-}
 
 .card-footer {
     background: transparent;
@@ -54,4 +67,5 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
 }

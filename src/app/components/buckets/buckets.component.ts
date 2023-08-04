@@ -13,14 +13,16 @@ export class BucketsComponent implements OnInit {
   singleBucketsData: any = []
   bucketsView = true
   allBuckets: any = []
-  dataToSend: any = ""
+  dataToSend: any[] = []
   BackIndexVal: any = 0
   FrontIndexVal: any = 0
   queryParams: any = {}
   bucketNameGlobal: any
+  FileTypes: any = []
 
+  clickedFolder: any = []
+  extensionsArray: any = [".docx", ".pdf", ".xlsx", ".csv", ".pptx", ".jpg"]
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
-
   }
 
   ngOnInit(): void {
@@ -31,12 +33,12 @@ export class BucketsComponent implements OnInit {
         this.getBuckets()
         this.bucketsView = true
         this.singleBucketsData = []
-        this.dataToSend = '';
+        this.dataToSend = []
       }
       else {
         this.getBucketsData(params.get('mainbucket')).then((res: any) => {
           if (params.has("path")) {
-            this.getBucketsDataByPath(params.get('path'))
+            this.getBucketsDataByPath(params.get('path'), params.get("mainbucket"))
           }
         })
       }
@@ -47,15 +49,14 @@ export class BucketsComponent implements OnInit {
     this.allBuckets = []
     this.http.get("http://192.168.1.151:8000/bucket/list").subscribe((res: any) => {
       this.buckets = [res]
-      console.log(this.buckets)
       for (let bucket in this.buckets) {
         this.allBuckets.push(...this.buckets[bucket].buckets)
       }
-      const queryParams = {
-        backIndex: 0,
-        frontIndex: 0
-      }
-      this.router.navigate(['/'], { queryParams: queryParams });
+      // const queryParams = {
+      //   backIndex: 0,
+      //   frontIndex: 0
+      // }
+      // this.router.navigate(['/'], { queryParams: queryParams });
     })
   }
 
@@ -72,10 +73,10 @@ export class BucketsComponent implements OnInit {
   }
 
 
-  getBucketsDataByPath(path: any) {
+
+  getBucketsDataByPath(path: any, folderName: any) {
     this.loopArray(this.singleBucketsData, path)
-    this.dataToSend = "  / " + path
-    // console.log(path, "path");
+
   }
 
 
@@ -84,7 +85,6 @@ export class BucketsComponent implements OnInit {
       if (arr[i].type == "folder") {
         if (arr[i].path == path) {
           this.bucketsView = false
-          // console.log(arr[i].path, arr[i].files, path)
           let data = {
             files: arr[i].files,
             folderName: arr[i].folderName,
@@ -92,7 +92,6 @@ export class BucketsComponent implements OnInit {
             path: path
           }
           this.singleBucketsData = [data]
-          // console.log(this.singleBucketsData)
           return
         } else {
           this.loopArray(arr[i].files, path);
@@ -108,34 +107,92 @@ export class BucketsComponent implements OnInit {
     this.FrontIndexVal = this.FrontIndexVal + 1
     this.bucketsView = false
     this.singleBucketsData = []
+    let data = {
+      folder: bucketName,
+      path: bucketName
+    }
+
+    if (!this.dataToSend.includes(data)) {
+      this.dataToSend.push(data)
+    }
     const queryParams = {
       mainbucket: bucketName,
       path: bucketName,
-      backIndex: this.BackIndexVal,
-      frontIndex: this.FrontIndexVal
+      // backIndex: this.BackIndexVal,
+      // frontIndex: this.FrontIndexVal,
+      data: JSON.stringify(this.dataToSend)
     }
     this.router.navigate(['/'], { queryParams: queryParams });
-
   }
 
+  innerFolderNavigation(InnerFiles: any, bucketName: any, folderName: any, path: any, files: any) {
 
-  innerFolderNavigation(InnerFiles: any, bucketName: any, folderName: any, path: any) {
+    for (let file in files.files) {
+      if (files.files[file].type == "file") {
+        this.FileTypes.push(files.files[file].filetype)
+      }
+    }
     this.BackIndexVal = this.BackIndexVal + 1
     this.FrontIndexVal = this.FrontIndexVal + 1
+
+
+    let innerData = {
+      folder: folderName,
+      path: path
+    }
+    console.log(innerData, "data");
+
+
+    let isFolderExist = this.dataToSend.some((res: any) => res.folder == innerData.folder)
+    if (!isFolderExist) {
+      this.dataToSend.push(innerData)
+
+    }
+    // if (this.dataToSend.includes((res: any) => res.folder != innerData.folder)) {
+    // }
+
     let data = {
       files: InnerFiles,
       folderName: folderName,
       type: "folder",
-      path: path,
+      path: path
     }
+    this.singleBucketsData = [data]
     this.queryParams = {
       path: path,
       mainbucket: this.bucketNameGlobal,
-      backIndex: this.BackIndexVal,
-      frontIndex: this.FrontIndexVal
+      // backIndex: this.BackIndexVal,
+      // frontIndex: this.FrontIndexVal,
+      data: JSON.stringify(this.dataToSend)
     };
+    console.log()
     this.router.navigate(['/'], { queryParams: this.queryParams });
-    this.singleBucketsData = [data]
+
+
+  }
+
+
+  clickFolder(value: any) {
+
+    // console.log(value)
+    // let data = {
+    //   bucketname: value.bucketName,
+    //   data: value.folderData,
+    //   mainPath: value.path
+    // }
+    // console.log(data, "values");
+    let queryParams = {
+      path: value.path,
+      mainbucket: this.bucketNameGlobal,
+      // backIndex: this.BackIndexVal,
+      // frontIndex: this.FrontIndexVal,
+      data: JSON.stringify(this.dataToSend)
+    };
+    console.log(queryParams)
+    this.router.navigate(['/'], { queryParams: queryParams });
+    // this.getBucketsData(data.bucketname);
+
+    // this.innerFolderNavigation(null, data.bucketname, data.data, data.mainPath, "")
   }
 
 

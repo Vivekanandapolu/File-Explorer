@@ -1,5 +1,6 @@
 <app-side-nav></app-side-nav>
-<app-global-header [Label]="dataToSend" [Back]="BackIndexVal" [Forward]="FrontIndexVal"></app-global-header>
+<app-global-header [Label]="dataToSend" (outputData)="clickFolder($event)" [Back]="BackIndexVal"
+    [Forward]="FrontIndexVal"></app-global-header>
 
 <ng-container *ngIf="bucketsView">
     <div class="container-fluid">
@@ -9,7 +10,7 @@
                     <div class="card folder-card" (click)="bucketClick(bucket?.name)">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start ">
-                                <img src="../../../assets/paper folder with documents.png" class="folder mb-3 " alt="">
+                                <img src="../../../assets/paper folder with documents.png" class="folders mb-3 " alt="">
                                 <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
                                     alt="">
                             </div>
@@ -37,12 +38,12 @@
                         <div class="row row-cols-4 ">
                             <ng-container *ngFor="let files of bucket.files">
                                 <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngIf="files?.type=='folder'"
-                                    (click)="innerFolderNavigation(files?.files,bucket,files?.folderName,files?.path)">
+                                    (click)="innerFolderNavigation(files?.files,bucket,files?.folderName,files?.path,files)">
                                     <div class="card folder-card">
                                         <div class=" card-body">
                                             <div class="d-flex justify-content-between align-items-start ">
                                                 <img src="../../../assets/paper folder with documents.png"
-                                                    class="folder mb-3 " alt="">
+                                                    class="folders mb-3 " alt="">
                                                 <img src="../../../assets/ph_dots-three-bold.png"
                                                     class="object-fit-contain three-dots" alt="">
                                             </div>
@@ -66,15 +67,31 @@
                         <ng-container *ngFor="let files of bucket?.files">
                             <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngIf="files?.type=='file'">
                                 <div class="card folder-card">
-                                    <div class=" card-body">
-                                        <div class="d-flex justify-content-between align-items-start ">
-                                            <img src="../../../assets/paper folder with documents.png"
-                                                class="folder mb-3 " alt="">
-                                            <img src="../../../assets/ph_dots-three-bold.png"
-                                                class="object-fit-contain three-dots" alt="">
+                                    <div class=" card-body p-0 m-0">
+                                        <div class="d-flex justify-content-between p-2 gap-2 align-items-center ">
+                                            <img clas *ngIf="files?.filetype=='.pdf'" src="../../../assets/pdf.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="files?.filetype=='.xlsx'" src="../../../assets/excel.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="files?.filetype=='.csv'" src="../../../assets/csv.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="files?.filetype=='.docx'" src="../../../assets/docx.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="files?.filetype=='.pptx'" src="../../../assets/ppt.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="files?.filetype=='.jpg'" src="../../../assets/jpg.svg"
+                                                class="folder" alt="">
+                                            <img clas *ngIf="!extensionsArray.includes(files.filetype)"
+                                                src="../../../assets/plain.svg" class="folder" alt="">
+                                            <p class="card-title card-title-1 fw-bold m-0" data-bs-toggle="tooltip"
+                                                data-bs-placement="bottom" [title]="files?.filename">{{files?.filename}}
+                                            </p>
+                                            <div class="m-0 d-flex align-items-baseline ">
+                                                <img src="../../../assets/ph_dots-three-bold.png"
+                                                    class="object-fit-contain three-dots-1" alt="">
+                                            </div>
                                         </div>
-                                        <p class="card-title card-title-1 fw-bold m-0" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" [title]="files?.filename">{{files?.filename}}</p>
+
                                     </div>
                                 </div>
                             </div>

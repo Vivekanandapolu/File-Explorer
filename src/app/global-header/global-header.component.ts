@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -10,22 +10,23 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './global-header.component.html',
   styleUrls: ['./global-header.component.scss']
 })
-export class GlobalHeaderComponent implements OnInit {
+export class GlobalHeaderComponent implements OnInit, OnChanges {
 
   @Input() Label: any = new EventEmitter();
   @Input() Back: any = new EventEmitter();
   @Input() Forward: any = new EventEmitter();
   prev = true
   next = true
-  constructor(private location: Location, private http: HttpClient, private route: ActivatedRoute) {
+
+  @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
+  constructor(private location: Location, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
-    // this.getFiles()
+    console.log(JSON?.parse(JSON.stringify(this.Label)), "lables");
     this.route.queryParamMap.subscribe((params: any) => {
       this.Back = Number(params.get('backIndex'))
       this.Forward = Number(params.get('frontIndex'))
-      // console.log(this.Forward);
 
       if (this.Back == 0) {
         this.prev = true
@@ -41,12 +42,28 @@ export class GlobalHeaderComponent implements OnInit {
       }
     })
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+  }
   goBack() {
     this.location.back();
+    this.Label.pop()
   }
 
   goForward() {
     this.location.forward();
+  }
+
+  sendData(folder: any) {
+    this.route.queryParamMap.subscribe((params: any) => {
+      let bucket = params.get('mainbucket')
+      let path = params.get('path')
+      let foldername = JSON.parse(params.get('data'))
+      // let allDataFromChild: any = {
+      //   bucketName: bucket,
+      //   path: path,
+      //   folderData: foldername
+      // }
+      this.outputData.emit(folder)
+    })
   }
 }
