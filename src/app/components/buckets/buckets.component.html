@@ -1,5 +1,5 @@
 <app-side-nav></app-side-nav>
-<app-global-header [Label]="dataToSend" [Back]="back" [Forward]="front"></app-global-header>
+<app-global-header [Label]="dataToSend" [Back]="BackIndexVal" [Forward]="FrontIndexVal"></app-global-header>
 
 <ng-container *ngIf="bucketsView">
     <div class="container-fluid">
@@ -26,11 +26,12 @@
         </div>
     </div>
 </ng-container>
+
+
 <ng-container *ngIf="!bucketsView">
     <div class="container-fluid">
         <div class=" main-container ">
             <div class="folder-con">
-                <p class="fw-bold ">Folders</p>
                 <div *ngFor="let bucket of singleBucketsData">
                     <div>
                         <div class="row row-cols-4 ">
@@ -60,7 +61,6 @@
             </div>
             <!--Files Card-->
             <div class="files-con">
-                <p class="fw-bold ">Files</p>
                 <div *ngFor="let bucket of singleBucketsData">
                     <div class="row row-cols-4 ">
                         <ng-container *ngFor="let files of bucket?.files">

@@ -2,15 +2,14 @@
 
     <div class=" header-row-1">
         <div class="d-flex align-items-center  gap-1 ">
-            <!-- <span [ngClass]="{ 'disabled-icon': Forward }"> -->
-            <i (click)="goBack()" class="ri-arrow-left-s-line arrow"></i>
-            <!-- </span> -->
-            <!-- <span [ngClass]="{ 'disabled-icon': Back }"> -->
-            <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
-            <!-- </span> -->
-            <p class="m-0 ps-2">{{Label}}</p>
+            <button class="btn shadow-none " [disabled]="prev">
+                <i (click)="goBack()" class="ri-arrow-left-s-line arrow"></i>
+            </button>
+            <button class="btn shadow-none " [disabled]="next">
+                <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
+            </button>
+            <p class="m-0 ps-2">Buckets {{Label}}</p>
         </div>
-
         <div class="d-flex align-items-center gap-5 ">
             <form class="search-files-form">
                 <div class="input-group m-2  border-2 ">

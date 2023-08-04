@@ -11,7 +11,6 @@ import { TrashComponent } from './components/trash/trash.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { GlobalHeaderComponent } from './global-header/global-header.component';
-
 @NgModule({
   declarations: [
     AppComponent,
