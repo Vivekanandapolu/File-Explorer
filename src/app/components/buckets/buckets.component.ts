@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 
@@ -24,10 +24,12 @@ export class BucketsComponent implements OnInit {
   extensionsArray: any = [".docx", ".pdf", ".xlsx", ".csv", ".pptx", ".jpg"]
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
   }
+  dataOfFolder: any = []
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params: any) => {
 
-    this.route.queryParamMap.subscribe(params => {
+      console.log(params?.params?.data, "data");
 
       if (!params.has("mainbucket")) {
         this.getBuckets()
@@ -41,7 +43,11 @@ export class BucketsComponent implements OnInit {
             this.getBucketsDataByPath(params.get('path'), params.get("mainbucket"))
           }
         })
+        if (params?.params?.data) {
+          this.dataToSend = JSON.parse(params?.params?.data)
+        }
       }
+
     });
   }
 
@@ -52,11 +58,11 @@ export class BucketsComponent implements OnInit {
       for (let bucket in this.buckets) {
         this.allBuckets.push(...this.buckets[bucket].buckets)
       }
-      // const queryParams = {
-      //   backIndex: 0,
-      //   frontIndex: 0
-      // }
-      // this.router.navigate(['/'], { queryParams: queryParams });
+      const queryParams = {
+        backIndex: 0,
+        frontIndex: 0
+      }
+      this.router.navigate(['/'], { queryParams: queryParams });
     })
   }
 
@@ -76,7 +82,6 @@ export class BucketsComponent implements OnInit {
 
   getBucketsDataByPath(path: any, folderName: any) {
     this.loopArray(this.singleBucketsData, path)
-
   }
 
 
@@ -103,8 +108,8 @@ export class BucketsComponent implements OnInit {
 
 
   bucketClick(bucketName: any) {
+    console.log(bucketName);
     this.BackIndexVal = this.BackIndexVal + 1
-    this.FrontIndexVal = this.FrontIndexVal + 1
     this.bucketsView = false
     this.singleBucketsData = []
     let data = {
@@ -115,41 +120,36 @@ export class BucketsComponent implements OnInit {
     if (!this.dataToSend.includes(data)) {
       this.dataToSend.push(data)
     }
+    // console.log(this.dataToSend, "hhhhh", data);
     const queryParams = {
       mainbucket: bucketName,
       path: bucketName,
-      // backIndex: this.BackIndexVal,
-      // frontIndex: this.FrontIndexVal,
+      backIndex: this.BackIndexVal,
+      frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend)
     }
     this.router.navigate(['/'], { queryParams: queryParams });
   }
 
   innerFolderNavigation(InnerFiles: any, bucketName: any, folderName: any, path: any, files: any) {
-
     for (let file in files.files) {
       if (files.files[file].type == "file") {
         this.FileTypes.push(files.files[file].filetype)
       }
     }
     this.BackIndexVal = this.BackIndexVal + 1
-    this.FrontIndexVal = this.FrontIndexVal + 1
-
 
     let innerData = {
       folder: folderName,
       path: path
     }
-    console.log(innerData, "data");
 
 
     let isFolderExist = this.dataToSend.some((res: any) => res.folder == innerData.folder)
     if (!isFolderExist) {
       this.dataToSend.push(innerData)
-
     }
-    // if (this.dataToSend.includes((res: any) => res.folder != innerData.folder)) {
-    // }
+
 
     let data = {
       files: InnerFiles,
@@ -161,11 +161,10 @@ export class BucketsComponent implements OnInit {
     this.queryParams = {
       path: path,
       mainbucket: this.bucketNameGlobal,
-      // backIndex: this.BackIndexVal,
-      // frontIndex: this.FrontIndexVal,
+      backIndex: this.BackIndexVal,
+      frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend)
     };
-    console.log()
     this.router.navigate(['/'], { queryParams: this.queryParams });
 
 
@@ -173,26 +172,31 @@ export class BucketsComponent implements OnInit {
 
 
   clickFolder(value: any) {
+    this.route.queryParamMap.subscribe((res: any) => {
+      let data = {
+        bucketname: res.params.mainbucket,
+        data: res.params.data,
+        mainPath: res.params.path
+      }
+    })
 
-    // console.log(value)
-    // let data = {
-    //   bucketname: value.bucketName,
-    //   data: value.folderData,
-    //   mainPath: value.path
-    // }
-    // console.log(data, "values");
+    for (let i in this.dataToSend) {
+      if (value?.folder == this.dataToSend[i]?.folder) {
+        this.dataToSend = this.dataToSend.slice(0, this.dataToSend?.indexOf(this.dataToSend[i]) + 1)
+      }
+    }
+
     let queryParams = {
       path: value.path,
       mainbucket: this.bucketNameGlobal,
-      // backIndex: this.BackIndexVal,
-      // frontIndex: this.FrontIndexVal,
+      backIndex: this.BackIndexVal,
+      frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend)
     };
-    console.log(queryParams)
-    this.router.navigate(['/'], { queryParams: queryParams });
-    // this.getBucketsData(data.bucketname);
 
-    // this.innerFolderNavigation(null, data.bucketname, data.data, data.mainPath, "")
+
+
+    this.router.navigate(['/'], { queryParams: queryParams });
   }
 
 

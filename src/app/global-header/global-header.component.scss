@@ -16,14 +16,15 @@
 }
 
 .filter {
-    font-size: 24px;
+    font-size: 16px;
 }
 
 .category-div {
     width: fit-content;
     margin: auto;
     border: 1px solid #C5C5C5;
-    padding: 0px 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
 }
 
 .arrow::before {

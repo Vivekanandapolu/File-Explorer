@@ -17,14 +17,14 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   @Input() Forward: any = new EventEmitter();
   prev = true
   next = true
-
+  previousVal: number = 0
   @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
   constructor(private location: Location, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
-    console.log(JSON?.parse(JSON.stringify(this.Label)), "lables");
     this.route.queryParamMap.subscribe((params: any) => {
+
       this.Back = Number(params.get('backIndex'))
       this.Forward = Number(params.get('frontIndex'))
 
@@ -34,10 +34,11 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
       if (this.Back > 0) {
         this.prev = false
       }
-      if (this.Forward < 0) {
+      if (this.previousVal == 0) {
         this.next = true
+
       }
-      else {
+      else if (this.previousVal > 0) {
         this.next = false
       }
     })
@@ -46,24 +47,31 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   }
   goBack() {
     this.location.back();
-    this.Label.pop()
+    this.previousVal++
+    console.log(this.previousVal);
   }
 
   goForward() {
     this.location.forward();
+    this.previousVal--
+    console.log(this.previousVal);
+
   }
 
   sendData(folder: any) {
+    this.outputData.emit(folder)
+    for (let i in this.Label) {
+      if (folder?.folder == this.Label[i]?.folder) {
+        this.Label = this.Label.slice(0, this.Label?.indexOf(this.Label[i]) + 1)
+        // console.log(this.Label, "label");
+      }
+    }
     this.route.queryParamMap.subscribe((params: any) => {
-      let bucket = params.get('mainbucket')
-      let path = params.get('path')
-      let foldername = JSON.parse(params.get('data'))
-      // let allDataFromChild: any = {
-      //   bucketName: bucket,
-      //   path: path,
-      //   folderData: foldername
-      // }
-      this.outputData.emit(folder)
+      if (params?.params) {
+        let dataOfFolder: any = JSON.parse(params?.params?.data)
+        console.log(dataOfFolder, "parsed Data");
+        this.Label = dataOfFolder
+      }
     })
   }
 }
