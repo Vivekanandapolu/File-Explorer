@@ -21,6 +21,7 @@
     border-radius: 50%;
     padding: 6px 8px;
     border: none;
+    margin-right: 8px
 }
 
 .header-row {
@@ -64,4 +65,10 @@
 
 .arrow::before {
     border: 1px solid #E4E4E4;
+}
+
+.header-row {
+    display: flex;
+    justify-content: end;
+    padding: 7px !important;
 }

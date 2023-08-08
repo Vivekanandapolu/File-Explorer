@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-
+import { apiurls } from 'src/app/shared/apiurls';
 
 @Component({
   selector: 'app-buckets',
@@ -19,26 +19,28 @@ export class BucketsComponent implements OnInit {
   queryParams: any = {}
   bucketNameGlobal: any
   FileTypes: any = []
-
+  TabName: any = ''
   clickedFolder: any = []
   extensionsArray: any = [".docx", ".pdf", ".xlsx", ".csv", ".pptx", ".jpg"]
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
   }
+  viewtype: any
   dataOfFolder: any = []
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params: any) => {
-
-      console.log(params?.params?.data, "data");
-
+      this.viewtype = params.get('view')
       if (!params.has("mainbucket")) {
+        this.viewtype = "grid"
         this.getBuckets()
         this.bucketsView = true
         this.singleBucketsData = []
+        this.TabName = params.get('tabName')
         this.dataToSend = []
       }
       else {
         this.getBucketsData(params.get('mainbucket')).then((res: any) => {
+
           if (params.has("path")) {
             this.getBucketsDataByPath(params.get('path'), params.get("mainbucket"))
           }
@@ -53,16 +55,21 @@ export class BucketsComponent implements OnInit {
 
   getBuckets() {
     this.allBuckets = []
-    this.http.get("http://192.168.1.151:8000/bucket/list").subscribe((res: any) => {
+    this.http.get(apiurls.buckets).subscribe((res: any) => {
       this.buckets = [res]
+      console.log(res, "response");
       for (let bucket in this.buckets) {
         this.allBuckets.push(...this.buckets[bucket].buckets)
+        console.log(this.buckets[bucket], "buckets");
       }
       const queryParams = {
         backIndex: 0,
-        frontIndex: 0
+        frontIndex: 0,
+        tabName: 'Buckets',
+        view: this.viewtype
       }
       this.router.navigate(['/'], { queryParams: queryParams });
+      console.log(queryParams.view, "type");
     })
   }
 
@@ -77,8 +84,6 @@ export class BucketsComponent implements OnInit {
     })
 
   }
-
-
 
   getBucketsDataByPath(path: any, folderName: any) {
     this.loopArray(this.singleBucketsData, path)
@@ -108,7 +113,6 @@ export class BucketsComponent implements OnInit {
 
 
   bucketClick(bucketName: any) {
-    console.log(bucketName);
     this.BackIndexVal = this.BackIndexVal + 1
     this.bucketsView = false
     this.singleBucketsData = []
@@ -120,14 +124,15 @@ export class BucketsComponent implements OnInit {
     if (!this.dataToSend.includes(data)) {
       this.dataToSend.push(data)
     }
-    // console.log(this.dataToSend, "hhhhh", data);
     const queryParams = {
       mainbucket: bucketName,
       path: bucketName,
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
-      data: JSON.stringify(this.dataToSend)
+      data: JSON.stringify(this.dataToSend),
+      view: this.viewtype
     }
+    this.TabName = ''
     this.router.navigate(['/'], { queryParams: queryParams });
   }
 
@@ -163,7 +168,8 @@ export class BucketsComponent implements OnInit {
       mainbucket: this.bucketNameGlobal,
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
-      data: JSON.stringify(this.dataToSend)
+      data: JSON.stringify(this.dataToSend),
+      view: this.viewtype
     };
     this.router.navigate(['/'], { queryParams: this.queryParams });
 
@@ -191,14 +197,13 @@ export class BucketsComponent implements OnInit {
       mainbucket: this.bucketNameGlobal,
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
-      data: JSON.stringify(this.dataToSend)
+      data: JSON.stringify(this.dataToSend),
+      view: this.viewtype
     };
-
-
-
     this.router.navigate(['/'], { queryParams: queryParams });
   }
-
-
-
+  type(type: any) {
+    console.log(type);
+    this.viewtype = type
+  }
 }

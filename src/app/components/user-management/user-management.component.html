@@ -1,7 +1,39 @@
 <app-side-nav></app-side-nav>
-<app-global-header></app-global-header>
+<app-global-header [tabname]="TabName"></app-global-header>
+
 <div class="main-container">
     <div class="header-row">
-        User Management
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr class="table-secondary text-center ">
+                    <th colspan="3" scope="col">Name</th>
+                    <th colspan="3" scope="col">Bucket</th>
+                    <th colspan="3" scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center body-tr">
+                    <td colspan="3">
+                        <span class="name-title">V</span>
+                        Vivek
+                    </td>
+                    <td colspan="3">CaratRedBucket</td>
+
+                    <td colspan="3" class="d-flex align-items-center justify-content-evenly   ">
+                        <div class="d-flex align-items-center ">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input shadow-none " type="checkbox"
+                                    id="flexSwitchCheckDefault">
+                            </div>
+                            <button class="btn btn-primary d-flex gap-1 view-polici"><i
+                                    class="ri-information-line info"></i>View
+                                Policies</button>
+                        </div>
+                        <button class="btn btn-light d-flex gap-1 add-policy"><i class="ri-add-line plus"></i> Add
+                            Policy</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
-</div>

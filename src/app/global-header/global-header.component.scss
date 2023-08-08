@@ -36,10 +36,11 @@
     cursor: pointer;
 }
 
+.folders {
+    font-size: 14px;
+    padding: 4px 8px;
+}
 
-.disabled-icon {
-    opacity: 0.5;
-    /* Decrease the opacity to make it appear disabled */
-    pointer-events: none;
-    /* Disable pointer events so it cannot be clicked */
+.arrow-btn {
+    padding: 0px;
 }

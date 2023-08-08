@@ -1,0 +1,35 @@
+<div class="container-fluid con">
+    <div class="container login-div">
+        <div class="row">
+            <div class=" col-lg-7 col-md-12 col-md-12 ">
+                <div class="img-div">
+                    <img src="../../assets/login-img.jpg" class="login-img" alt="">
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12 col-sm-12 ">
+                <div class="login-inputs">
+                    <h5 class="text-white ">EZY | EXPLORER</h5>
+                    <div class="login-form">
+                        <h6 class="text-white ">
+                            LOGIN
+                        </h6>
+                        <p class="text-white login-msg">Please enter the valid credentials to login.</p>
+                        <form #form="ngForm" (ngSubmit)="submitForm(form)">
+                            <label for="username" class="form-label m-0">User Name</label>
+                            <input id="username" name="username" [(ngModel)]="loginDetails.username" type="text "
+                                class="form-control mb-3" placeholder="Enter Username">
+                            <label for="password" class="form-label m-0">Password</label>
+                            <input id="password" type="password " name="password" [(ngModel)]="loginDetails.password"
+                                class="form-control mb-3" placeholder="Password">
+                            <div class="pass-label mb-4 ">
+                                <p class="m-0 text-white forgot-msg" routerLink="/forgot-password">Forgot Password?</p>
+                            </div>
+                            <button class="btn btn-warning text-white w-100 shadow-none  submit-btn"
+                                type="submit">LOGIN</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

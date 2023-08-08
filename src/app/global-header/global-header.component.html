@@ -2,14 +2,15 @@
 
     <div class=" header-row-1">
         <div class="d-flex align-items-center  gap-1 ">
-            <button class="btn shadow-none " [disabled]="prev">
+            <button class="btn shadow-none arrow-btn" [disabled]="prev">
                 <i (click)="goBack()" class="ri-arrow-left-s-line arrow"></i>
             </button>
-            <button class="btn shadow-none " [disabled]="next">
+            <button class="btn shadow-none arrow-btn" [disabled]="next">
                 <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
             </button>
-            <button class="btn btn-secondary shadow-none " (click)="sendData(folder)"
-                *ngFor="let folder of Label">{{folder?.folder}}</button>
+            <p class="m-0 ms-2">{{tabname}}</p>
+            <button class="btn btn-secondary shadow-none folders" (click)="sendData(folder)"
+                *ngFor="let folder of Label"> {{folder?.folder}}</button>
         </div>
         <div class="d-flex align-items-center gap-5 ">
             <form class="search-files-form">
@@ -21,10 +22,11 @@
             </form>
 
             <div class="d-flex justify-content-center align-items-center gap-2 category-div">
-                <button class="btn category-btn">
+                <button class="btn category-btn shadow-none " (click)="viewType('grid')">
                     <i class="ri-function-fill category"></i>
                 </button>
-                <i class="ri-list-check filter"></i>
+                <button class="btn p-0 shadow-none" (click)="viewType('list')"><i
+                        class="ri-list-check filter"></i></button>
             </div>
         </div>
     </div>

@@ -1,0 +1,24 @@
+.dot {
+    font-size: 10px;
+}
+
+.policy {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    gap: 12px;
+}
+
+.three-dots {
+    transform: rotate(90deg);
+}
+
+.group-card {
+    // background: linear-gradient(45deg, #00000061, transparent);
+    border: none;
+    background-color: #D4FFF5;
+}
+
+.folders {
+    mix-blend-mode: multiply !important;
+}

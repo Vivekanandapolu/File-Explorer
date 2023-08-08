@@ -12,17 +12,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class GlobalHeaderComponent implements OnInit, OnChanges {
 
-  @Input() Label: any = new EventEmitter();
-  @Input() Back: any = new EventEmitter();
-  @Input() Forward: any = new EventEmitter();
+  @Input() Label: any
+  @Input() Back: any
+  @Input() Forward: any
   prev = true
   next = true
   previousVal: number = 0
+  @Input() tabname: any
   @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
+  @Output() view_con: EventEmitter<string> = new EventEmitter<string>();
+  list: any = "grid"
+
   constructor(private location: Location, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
+    this.view_con.emit(this.list)
     this.route.queryParamMap.subscribe((params: any) => {
 
       this.Back = Number(params.get('backIndex'))
@@ -44,18 +49,16 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
     })
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.tabname, "name");
   }
   goBack() {
     this.location.back();
     this.previousVal++
-    console.log(this.previousVal);
   }
 
   goForward() {
     this.location.forward();
     this.previousVal--
-    console.log(this.previousVal);
-
   }
 
   sendData(folder: any) {
@@ -63,15 +66,18 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
     for (let i in this.Label) {
       if (folder?.folder == this.Label[i]?.folder) {
         this.Label = this.Label.slice(0, this.Label?.indexOf(this.Label[i]) + 1)
-        // console.log(this.Label, "label");
       }
     }
     this.route.queryParamMap.subscribe((params: any) => {
       if (params?.params) {
-        let dataOfFolder: any = JSON.parse(params?.params?.data)
-        console.log(dataOfFolder, "parsed Data");
+        let dataOfFolder: any = JSON.parse(params?.params?.data || null)
         this.Label = dataOfFolder
       }
     })
+  }
+
+  viewType(type: string) {
+    console.log("======= ", type)
+    this.view_con.emit(type)
   }
 }
