@@ -15,19 +15,23 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   @Input() Label: any
   @Input() Back: any
   @Input() Forward: any
-  prev = true
-  next = true
-  previousVal: number = 0
   @Input() tabname: any
   @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
   @Output() view_con: EventEmitter<string> = new EventEmitter<string>();
-  list: any = "grid"
+  prev = true
+  next = true
+  previousVal: number = 0
+  list: any
 
   constructor(private location: Location, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
-    this.view_con.emit(this.list)
+    this.route.queryParamMap.subscribe((res: any) => {
+      this.list = res.get('view')
+    })
+
+    // this.view_con.emit(this.list)
     this.route.queryParamMap.subscribe((params: any) => {
 
       this.Back = Number(params.get('backIndex'))
@@ -49,7 +53,6 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
     })
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.tabname, "name");
   }
   goBack() {
     this.location.back();
@@ -77,7 +80,9 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   }
 
   viewType(type: string) {
-    console.log("======= ", type)
-    this.view_con.emit(type)
+    localStorage.setItem("view", type)
+    this.list = localStorage.getItem('view')
+    this.view_con.emit(this.list)
   }
+
 }

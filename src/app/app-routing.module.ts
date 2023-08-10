@@ -7,11 +7,16 @@ import { TrashComponent } from './components/trash/trash.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { LoaderComponent } from './loader/loader.component';
 
 const routes: Routes = [
 
   {
     path: '',
+    component: LoginComponent
+  },
+  {
+    path: 'buckets',
     component: BucketsComponent
   },
   {

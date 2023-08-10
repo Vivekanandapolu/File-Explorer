@@ -1,5 +1,5 @@
 .folder {
-    width: 28px;
+    width: 22px;
     // margin-bottom: 5px !important;
 }
 
@@ -73,4 +73,19 @@
 .list-folder {
     margin: 0px !important;
     width: 30px;
+}
+
+.download {
+    cursor: pointer;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    font-size: 14px !important;
+    border-bottom: 1px solid #00000030;
+}
+
+.folderName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

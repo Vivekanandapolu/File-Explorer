@@ -10,9 +10,16 @@
 }
 
 .category-btn {
-    background-color: #AE7744;
+    // background-color: #AE7744;
+    color: black;
+    padding: 0px 6px;
+}
+
+.form-check-input[type=radio]:checked .form-check-label {
+    background-color: #AE7744 !important;
     color: white;
     padding: 0px 6px;
+
 }
 
 .filter {
@@ -43,4 +50,13 @@
 
 .arrow-btn {
     padding: 0px;
+}
+
+.folders {
+    font-size: 14px;
+    padding: 4px 8px;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100px !important;
 }

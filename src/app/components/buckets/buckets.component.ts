@@ -11,9 +11,11 @@ import { apiurls } from 'src/app/shared/apiurls';
 export class BucketsComponent implements OnInit {
   buckets: any = []
   singleBucketsData: any = []
+
   bucketsView = true
   allBuckets: any = []
   dataToSend: any[] = []
+  Loader: Boolean = false
   BackIndexVal: any = 0
   FrontIndexVal: any = 0
   queryParams: any = {}
@@ -27,18 +29,27 @@ export class BucketsComponent implements OnInit {
   viewtype: any
   dataOfFolder: any = []
 
+
+  createdArrow: Boolean = true
+  sizeArrow: Boolean = true
+  nameArrow: Boolean = true
+
   ngOnInit(): void {
+
+    this.viewtype = localStorage.getItem('view') || 'grid'
+    console.log(this.viewtype)
+    this.bucketsView = false
     this.route.queryParamMap.subscribe((params: any) => {
-      this.viewtype = params.get('view')
       if (!params.has("mainbucket")) {
-        this.viewtype = "grid"
+
         this.getBuckets()
         this.bucketsView = true
         this.singleBucketsData = []
-        this.TabName = params.get('tabName')
+        this.TabName = params.get('name')
         this.dataToSend = []
       }
       else {
+
         this.getBucketsData(params.get('mainbucket')).then((res: any) => {
 
           if (params.has("path")) {
@@ -47,50 +58,53 @@ export class BucketsComponent implements OnInit {
         })
         if (params?.params?.data) {
           this.dataToSend = JSON.parse(params?.params?.data)
+          console.log(this.dataToSend, "Params");
         }
       }
 
     });
   }
 
+
+  //Get Buckets
+
   getBuckets() {
+
     this.allBuckets = []
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       this.buckets = [res]
-      console.log(res, "response");
       for (let bucket in this.buckets) {
         this.allBuckets.push(...this.buckets[bucket].buckets)
-        console.log(this.buckets[bucket], "buckets");
       }
+
       const queryParams = {
         backIndex: 0,
         frontIndex: 0,
         tabName: 'Buckets',
-        view: this.viewtype
       }
-      this.router.navigate(['/'], { queryParams: queryParams });
-      console.log(queryParams.view, "type");
+      this.router.navigate(['/'], { queryParams: { name: 'Buckets' } })
     })
   }
 
-
   getBucketsData(bucketName: any) {
+
     return new Promise((resolve, reject) => {
       this.bucketNameGlobal = bucketName
-      this.http.get("http://192.168.1.151:8000/bucket/get_bucket_data/" + bucketName).subscribe((res: any) => {
+      this.http.get(apiurls.bucketsData + bucketName).subscribe((res: any) => {
         this.singleBucketsData.push(...res);
+
+        console.log(this.singleBucketsData, "1");
         resolve(true)
       })
     })
-
   }
 
   getBucketsDataByPath(path: any, folderName: any) {
     this.loopArray(this.singleBucketsData, path)
   }
 
-
   loopArray(arr: any, path: any) {
+
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].type == "folder") {
         if (arr[i].path == path) {
@@ -102,6 +116,8 @@ export class BucketsComponent implements OnInit {
             path: path
           }
           this.singleBucketsData = [data]
+
+          console.log(this.singleBucketsData, "2");
           return
         } else {
           this.loopArray(arr[i].files, path);
@@ -113,9 +129,11 @@ export class BucketsComponent implements OnInit {
 
 
   bucketClick(bucketName: any) {
+
     this.BackIndexVal = this.BackIndexVal + 1
     this.bucketsView = false
     this.singleBucketsData = []
+    console.log(this.singleBucketsData, "3");
     let data = {
       folder: bucketName,
       path: bucketName
@@ -130,13 +148,15 @@ export class BucketsComponent implements OnInit {
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend),
-      view: this.viewtype
     }
     this.TabName = ''
     this.router.navigate(['/'], { queryParams: queryParams });
+
   }
 
   innerFolderNavigation(InnerFiles: any, bucketName: any, folderName: any, path: any, files: any) {
+
+    console.log("innerfolder")
     for (let file in files.files) {
       if (files.files[file].type == "file") {
         this.FileTypes.push(files.files[file].filetype)
@@ -148,7 +168,6 @@ export class BucketsComponent implements OnInit {
       folder: folderName,
       path: path
     }
-
 
     let isFolderExist = this.dataToSend.some((res: any) => res.folder == innerData.folder)
     if (!isFolderExist) {
@@ -163,21 +182,21 @@ export class BucketsComponent implements OnInit {
       path: path
     }
     this.singleBucketsData = [data]
+
+    console.log(this.singleBucketsData, "4");
     this.queryParams = {
       path: path,
       mainbucket: this.bucketNameGlobal,
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend),
-      view: this.viewtype
     };
     this.router.navigate(['/'], { queryParams: this.queryParams });
 
-
   }
 
-
   clickFolder(value: any) {
+
     this.route.queryParamMap.subscribe((res: any) => {
       let data = {
         bucketname: res.params.mainbucket,
@@ -198,12 +217,160 @@ export class BucketsComponent implements OnInit {
       backIndex: this.BackIndexVal,
       frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend),
-      view: this.viewtype
     };
+
     this.router.navigate(['/'], { queryParams: queryParams });
   }
   type(type: any) {
-    console.log(type);
-    this.viewtype = type
+
+    this.viewtype = type || localStorage.getItem('view')
+    let queryParams = {
+      mainbucket: this.bucketNameGlobal,
+      backIndex: this.BackIndexVal,
+      frontIndex: this.FrontIndexVal,
+      data: JSON.stringify(this.dataToSend),
+    };
+
+    this.router.navigate(['/'], { queryParams: queryParams });
+  }
+
+
+
+  lastmodified(type: string) {
+
+    console.log(type, "modified");
+    let modified: any = []
+    if (type == 'asc') {
+      this.createdArrow = false
+      this.allBuckets.filter((buckets: any) => {
+        if (buckets) {
+          buckets.created = new Date(buckets.created)
+          modified.push(buckets)
+        }
+      })
+      this.allBuckets = modified.sort((a: any, b: any) => a.created.getTime() - b.created.getTime());
+
+      console.log(this.allBuckets, "Ascending Order");
+    }
+
+
+    if (type == 'dec') {
+
+      this.createdArrow = true
+      this.allBuckets.filter((buckets: any) => {
+        buckets.created = new Date(buckets.created)
+        modified.push(buckets)
+      })
+      this.allBuckets = modified.sort((a: any, b: any) => b.created.getTime() - a.created.getTime());
+
+      console.log(this.allBuckets, "Descneding Order");
+    }
+    if (type == "size") {
+      let folderArr: any = []
+      this.singleBucketsData.filter((res: any) => {
+        modified = []
+        res?.files?.filter((file: any) => {
+          if (file?.type == "file") {
+            modified.push(file);
+          } else {
+            folderArr.push(file)
+          }
+        })
+
+        modified = modified?.sort((a: any, b: any) => a.size_value - b.size_value)
+        console.log(modified)
+        this.singleBucketsData = [...modified, ...folderArr]
+
+        console.log(this.singleBucketsData, "5")
+      })
+    }
+
+    if (type == "size-asc") {
+      this.sizeArrow = false
+      this.allBuckets.filter((buckets: any) => {
+        if (buckets) {
+          modified.push(buckets)
+        }
+      })
+      this.allBuckets = modified.sort((a: any, b: any) => a.size_value - b.size_value);
+
+    }
+    if (type == "size-dec") {
+      this.sizeArrow = true
+      this.allBuckets.filter((buckets: any) => {
+        if (buckets) {
+          modified.push(buckets)
+        }
+      })
+      this.allBuckets = modified.sort((a: any, b: any) => b.size_value - a.size_value);
+
+      console.log(this.allBuckets, "decending Order");
+    }
+
+    if (type == "name-asc") {
+      this.nameArrow = false
+      this.allBuckets.filter((buckets: any) => {
+        if (buckets) {
+          modified.push(buckets)
+        }
+      })
+
+      this.allBuckets = modified.slice().sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+      console.log(this.allBuckets, "ascending Order");
+    }
+    if (type == "name-dec") {
+      this.nameArrow = true
+      this.allBuckets.filter((buckets: any) => {
+        if (buckets) {
+          modified.push(buckets)
+        }
+      })
+
+      this.allBuckets = modified.slice().sort((a: any, b: any) => b.name.localeCompare(a.name));
+
+      console.log(this.allBuckets, "decending Order");
+    }
+
+  }
+
+
+  //Download File 
+
+
+  downloadFile(bucketName: any, file: any) {
+    let data: any = {
+
+    }
+    let name
+    for (let i in bucketName) {
+      if (i == "path") {
+        name = bucketName[i].split("/")[0]
+        data.bucket_name = name
+        data.path = file.fileurl
+      }
+    }
+    console.log(data);
+    this.http.post(apiurls.downloadFile, data).subscribe((res: any) => {
+      console.log(res, "res");
+      window.open(res.download_url)
+    })
+
+  }
+
+
+  //Download Folder
+
+  downloadFolder(folderName: any, BucketName: any) {
+    let folderData: any = {
+
+    }
+    folderData.bucket_name = BucketName.path.split('/')[0]
+    folderData.path = folderName
+    console.log(folderData);
+    this.http.post(apiurls.downloadFile, folderData).subscribe((res: any) => {
+      window.open(res.download_url)
+      console.log("Download Folder Success");
+    })
   }
 }

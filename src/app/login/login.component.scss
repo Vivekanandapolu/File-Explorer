@@ -24,6 +24,8 @@ label {
 
 .login-msg {
     font-size: 12px;
+    margin-bottom: 35px;
+
 }
 
 .form-control {
@@ -51,7 +53,7 @@ label {
 }
 
 .login-form {
-    margin: 75px 0px 0px 50px;
+    margin: 50px 0px 0px 50px;
 }
 
 @media (min-width:1200px) {
@@ -61,7 +63,7 @@ label {
     }
 
     .login-form {
-        margin: 75px 50px 0px 50px;
+        margin: 50px 50px 0px 50px;
     }
 }
 

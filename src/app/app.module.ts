@@ -17,6 +17,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { ToastrModule } from 'ngx-toastr';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { LoaderComponent } from './loader/loader.component';
 @NgModule({
   declarations: [
     // NgMultiSelectDropDownModule.forRoot(),
@@ -30,6 +31,7 @@ import { AuthGuardGuard } from './auth-guard.guard';
     LoginComponent,
     ForgotPassComponent,
     GroupsComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
