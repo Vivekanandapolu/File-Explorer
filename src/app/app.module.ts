@@ -17,6 +17,8 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { LoaderComponent } from './loader/loader.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     // NgMultiSelectDropDownModule.forRoot(),
@@ -34,8 +36,10 @@ import { LoaderComponent } from './loader/loader.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule, FormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

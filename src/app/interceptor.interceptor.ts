@@ -17,6 +17,8 @@ export class InterceptorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.loadingService.show()
 
+    // Json Token Parsing
+
     let data = JSON.parse(JSON.stringify(localStorage.getItem('token')));
     const reqCopy = request.clone({
       setHeaders: { Authorization: `${data}` }
@@ -25,9 +27,5 @@ export class InterceptorInterceptor implements HttpInterceptor {
       this.loadingService.hide()
     }
     ))
-    // Json Token Parsing
-
-
-
   }
 }

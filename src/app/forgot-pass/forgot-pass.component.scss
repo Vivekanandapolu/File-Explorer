@@ -1,8 +1,6 @@
 .login-img {
     width: -webkit-fill-available;
-    width: 500px;
-    height: 479px;
-    object-fit: cover;
+    object-fit: contain !important;
 }
 
 
@@ -16,6 +14,32 @@
 
 }
 
+.first-6 {
+    border-right: 1px solid white;
+}
+
+.msg {
+    font-weight: bold;
+    position: relative;
+    bottom: 10px;
+    font-size: 12px;
+}
+
+.logo-img {
+    width: -webkit-fill-available;
+    padding-left: 3.25rem !important;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.logos-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
 label {
@@ -94,6 +118,14 @@ label {
 
     .img-div {
         margin-bottom: 50px;
+    }
+}
+
+@media (min-width:1400px) {
+
+    .img-div {
+        position: relative;
+        right: 100px;
     }
 }
 

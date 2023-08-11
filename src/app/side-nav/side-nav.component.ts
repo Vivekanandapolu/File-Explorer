@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
   options: any = {
-    fragment: 'exact' || 'ignored',
-    matrixParams: 'exact' || 'subset' || 'ignored',
+    fragment: 'ignored',
+    matrixParams: 'ignored',
     paths: 'exact' || 'subset',
     queryParams: 'ignored'
   }
+  userType: any;
   ngOnInit(): void {
-
-
+    this.userType = localStorage.getItem('userType')
+    console.log(this.userType, "hello");
   }
 }

@@ -11,7 +11,7 @@
                                     class="login-img object-fit-contain  " alt=""></div>
                         </div>
                         <div class="col-5 d-flex align-items-center ">
-                            <div class="w-100 ">
+                            <div class="w-100">
                                 <img src="../../assets/ezy-btn.jpg" class="logo-img ps-1" alt="">
                             </div>
                         </div>
@@ -33,11 +33,23 @@
                             <label for="password" class="form-label m-0">Password</label>
                             <input id="password" type="password" name="password" [(ngModel)]="loginDetails.password"
                                 class="form-control mb-3" placeholder="Password">
+                            <p *ngIf="invalidDetailsErr" class="msg text-danger m-0">*Invalid User Credentials</p>
+                            <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
                             <div class="pass-label mb-4 ">
-                                <p class="m-0 text-white forgot-msg" routerLink="/forgot-password">Forgot Password?</p>
+                                <p class="m-0 text-white forgot-msg" routerLink="/forgot">Forgot Password?</p>
                             </div>
-                            <button class="btn btn-warning text-white w-100 shadow-none  submit-btn"
-                                type="submit">LOGIN</button>
+                            <!-- <button class="btn btn-warning text-white w-100 shadow-none  submit-btn"
+                                type="submit"></button> -->
+                            <button *ngIf="spinnerBtn"
+                                class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn"
+                                type="submit">LOGIN
+                            </button>
+                            <button *ngIf="spinner" disabled
+                                class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn" type="submit">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
                         </form>
                     </div>
                 </div>

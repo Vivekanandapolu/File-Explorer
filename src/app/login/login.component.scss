@@ -1,7 +1,5 @@
 .login-img {
     width: -webkit-fill-available;
-    // width: 500px;
-    // height: 479px;
     object-fit: contain !important;
 
 }
@@ -21,6 +19,17 @@
 
 }
 
+.msg {
+    font-weight: bold;
+    position: relative;
+    bottom: 10px;
+    font-size: 12px;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
 
 .logos-div {
     display: flex;
@@ -48,6 +57,8 @@ label {
 
 .forgot-msg {
     font-size: 13px;
+    cursor: pointer;
+
 }
 
 .pass-label .forgot-msg {
@@ -122,8 +133,4 @@ label {
     .img-div {
         margin-bottom: 50px;
     }
-}
-
-.forgot-msg {
-    cursor: pointer;
 }

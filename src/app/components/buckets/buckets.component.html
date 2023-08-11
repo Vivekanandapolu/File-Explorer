@@ -79,20 +79,31 @@
                         <div>
                             <div class="row row-cols-1">
                                 <ng-container *ngFor="let files of bucket.files">
-                                    <div class=" mb-4 col-3" *ngIf="files?.type=='folder'"
-                                        (click)="innerFolderNavigation(files?.files,bucket,files?.folderName,files?.path,files)">
+                                    <div class=" mb-4 col-3" *ngIf="files?.type=='folder'">
                                         <div class="card folder-card">
                                             <div class=" card-body">
                                                 <div class="d-flex justify-content-between align-items-start ">
                                                     <img src="../../../assets/paper folder with documents.png"
                                                         class="folders mb-3 " alt="">
-                                                    <img src="../../../assets/ph_dots-three-bold.png"
-                                                        class="object-fit-contain three-dots" alt=""
-                                                        (click)="downloadFile(bucket,files)">
+                                                    <div class="m-0 d-flex align-items-baseline three-div dropdown">
+
+                                                        <img src="../../../assets/ph_dots-three-bold.png"
+                                                            class="object-fit-contain three-dots-1" alt=""
+                                                            id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                        <ul class="dropdown-menu dropdown-menu-dark"
+                                                            aria-labelledby="dropdownMenuButton2">
+                                                            <li><a class="dropdown-item"
+                                                                    (click)="downloadFolder(files?.folderName,bucket)">Download
+                                                                    <i class="ri-download-2-line ms-3 "></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                                 <p class="card-title fw-bold m-0 folderName">{{files?.folderName}}</p>
                                             </div>
-                                            <div class="card-footer d-flex align-items-center justify-content-between ">
+                                            <div class="card-footer d-flex align-items-center justify-content-between "
+                                                (click)="innerFolderNavigation(files?.files,bucket,files?.folderName,files?.path,files)">
                                                 <a href="#" class="nav-link text-dark p-0">View</a>
                                                 <i class="ri-arrow-right-line"></i>
                                             </div>

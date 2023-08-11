@@ -5,5 +5,7 @@ export const apiurls = {
     login: domain + "/auth/login",
     buckets: domain + "/bucket/list",
     bucketsData: domain + "/bucket/get_bucket_data/",
-    downloadFile: domain + '/bucket/file/download'
+    downloadFile: domain + '/bucket/file/download',
+    forgotPass: domain + '/auth/forgot_password',
+    usertype: domain + "/auth/show"
 }

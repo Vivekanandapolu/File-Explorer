@@ -1,14 +1,25 @@
 <div class="container-fluid con">
     <div class="container login-div">
         <div class="row">
-            <div class=" col-lg-7 col-md-12 col-md-12 ">
-                <div class="img-div">
-                    <img src="../../assets/login-img.jpg" class="login-img" alt="">
+            <div class=" col-lg-7 col-md-12 col-md-12 logos-div">
+                <div class="img-div ">
+                    <!-- <img src="../../assets/logo-btn-ezy.jpg" class="login-img" alt=""> -->
+                    <div class="row">
+                        <div class="col-7 first-6">
+                            <div><img src="../../assets/ezy-logo.jpg" width="80px" height="70px"
+                                    class="login-img object-fit-contain  " alt=""></div>
+                        </div>
+                        <div class="col-5 d-flex align-items-center ">
+                            <div class="w-100 ">
+                                <img src="../../assets/ezy-btn.jpg" class="logo-img ps-1" alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-5 col-md-12 col-sm-12 ">
                 <div class="login-inputs">
-                    <h5 class="text-white ">EZY | EXPLORER</h5>
+                    <h5 class="text-white visually-hidden ">EZY | EXPLORER</h5>
                     <div class="login-form">
                         <h6 class="text-white">
                             Forgot your password?
@@ -18,10 +29,20 @@
                             <label for="username" class="form-label m-0">User Name</label>
                             <input id="username" name="username" [(ngModel)]="loginDetails.username" type="text "
                                 class="form-control mb-3" placeholder="Enter Username">
-                            <button class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn"
-                                type="submit">Request password reset</button>
+                            <p *ngIf="emailMsg" class="text-danger msg m-0 ">*Enter Valid Email</p>
+                            <p *ngIf="emailMsg_1" class="text-danger msg m-0">*Inavlid Email</p>
+                            <button *ngIf="spinnerBtn"
+                                class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn"
+                                type="submit">Request password reset
+                            </button>
+                            <button *ngIf="spinner" disabled
+                                class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn" type="submit">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
                             <div class="pass-label mb-4 ">
-                                <p class="m-0 text-white forgot-msg" routerLink="/login">Back to sign in !</p>
+                                <p class="m-0 text-white forgot-msg" routerLink="/">Back to sign in !</p>
                             </div>
                         </form>
                     </div>

@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { timeout } from 'rxjs';
+import { apiurls } from '../shared/apiurls';
 
 @Component({
   selector: 'app-login',
@@ -13,29 +16,52 @@ export class LoginComponent implements OnInit {
     username: '',
     password: ''
   }
-  constructor(private http: HttpClient, private router: Router) {
+
+  AllfieldsErr = false
+  invalidDetailsErr = false
+  spinner = false
+  spinnerBtn = true
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
   }
   ngOnInit(): void {
 
   }
   submitForm(form: NgForm) {
+    this.spinner = true
+    this.spinnerBtn = false
     if (this.loginDetails.username == '' || this.loginDetails.password == '') {
-      // this.toaster.error('Enter a vaild Credentials', '', {
-      //   timeOut: 2000,
-      // });
-      console.log("hello");
+      this.spinner = false
+      this.spinnerBtn = true
+      console.log();
+      this.AllfieldsErr = true
+      setTimeout(() => {
+        this.AllfieldsErr = false
+      }, 2500)
     }
     else {
-      this.http.post("http://192.168.1.151:8000/auth/login", form.value).subscribe((res: any) => {
+      this.http.post(apiurls.login, form.value).subscribe((res: any) => {
+        console.log(res);
         if (res.msg) {
+          this.spinner = false
+          this.spinnerBtn = true
           console.log(res.msg);
+          this.invalidDetailsErr = true
+          setTimeout(() => {
+            this.invalidDetailsErr = false
+          }, 2500)
         }
         else if (res.token) {
+          this.spinner = false
+          this.spinnerBtn = true
+          this.toastr.success("Login Successfull", '', { timeOut: 1500 })
           localStorage.setItem('token', res.token)
+          localStorage.setItem('userType', res.User_type)
+          console.log(res.User_type);
           this.router.navigate(['/buckets'])
         }
       })
     }
   }
+
 }
