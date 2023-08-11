@@ -1,10 +1,15 @@
 .login-img {
     width: -webkit-fill-available;
-    width: 500px;
-    height: 479px;
-    object-fit: cover;
+    // width: 500px;
+    // height: 479px;
+    object-fit: contain !important;
+
 }
 
+.logo-img {
+    width: -webkit-fill-available;
+    padding-left: 3.25rem !important;
+}
 
 .con {
     background-color: #1C1B1F !important;
@@ -17,6 +22,15 @@
 }
 
 
+.logos-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.first-6 {
+    border-right: 1px solid white;
+}
 
 label {
     color: white;
@@ -59,13 +73,24 @@ label {
 @media (min-width:1200px) {
     .login-img {
         width: -webkit-fill-available;
-        object-fit: fill;
+        object-fit: cover;
     }
 
     .login-form {
         margin: 50px 50px 0px 50px;
     }
+
+
 }
+
+@media (min-width:1400px) {
+
+    .img-div {
+        position: relative;
+        right: 100px;
+    }
+}
+
 
 @media (max-width:768px) {
     .login-img {
