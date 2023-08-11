@@ -7,14 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
   options: any = {
-    fragment: 'ignored',
-    matrixParams: 'ignored',
+    fragment: 'exact' || 'ignored',
+    matrixParams: 'exact' || 'subset' || 'ignored',
     paths: 'exact' || 'subset',
     queryParams: 'ignored'
   }
+
+  isActive: any
+
   userType: any;
+
   ngOnInit(): void {
     this.userType = localStorage.getItem('userType')
-    console.log(this.userType, "hello");
+    if (localStorage.getItem('userType') == 'regular_user') {
+      this.isActive = true
+    }
+    else {
+      this.isActive = false
+    }
   }
+
 }

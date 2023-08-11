@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     if (this.loginDetails.username == '' || this.loginDetails.password == '') {
       this.spinner = false
       this.spinnerBtn = true
-      console.log();
       this.AllfieldsErr = true
       setTimeout(() => {
         this.AllfieldsErr = false
@@ -41,7 +40,6 @@ export class LoginComponent implements OnInit {
     }
     else {
       this.http.post(apiurls.login, form.value).subscribe((res: any) => {
-        console.log(res);
         if (res.msg) {
           this.spinner = false
           this.spinnerBtn = true
@@ -57,7 +55,6 @@ export class LoginComponent implements OnInit {
           this.toastr.success("Login Successfull", '', { timeOut: 1500 })
           localStorage.setItem('token', res.token)
           localStorage.setItem('userType', res.User_type)
-          console.log(res.User_type);
           this.router.navigate(['/buckets'])
         }
       })
