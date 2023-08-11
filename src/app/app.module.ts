@@ -14,7 +14,6 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { FormsModule } from '@angular/forms';
 import { GroupsComponent } from './components/groups/groups.component';
-import { ToastrModule } from 'ngx-toastr';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { LoaderComponent } from './loader/loader.component';
@@ -37,7 +36,6 @@ import { LoaderComponent } from './loader/loader.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, FormsModule,
-    ToastrModule.forRoot()
   ],
   providers: [
     {

@@ -11,14 +11,11 @@ export class AuthServiceService {
   constructor(private router: Router, private http: HttpClient) { }
   isUserAuthenticated() {
     if (localStorage.getItem('token')) {
-      this.http.get(apiurls.login).subscribe((res: any) => {
-        localStorage.setItem('user_type', res.user_type)
-      })
       return true;
     }
     else {
-      this.router.navigate(['/'])
-      return false
+      return this.router.navigate(['/'])
+
     }
   }
 }

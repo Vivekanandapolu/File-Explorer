@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SideNavComponent } from './side-nav/side-nav.component';
 import { BucketsComponent } from './components/buckets/buckets.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { TrashComponent } from './components/trash/trash.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { LoaderComponent } from './loader/loader.component';
+import { AuthGuardGuard } from './auth-guard.guard';
 
 const routes: Routes = [
 
@@ -17,26 +16,31 @@ const routes: Routes = [
   },
   {
     path: 'buckets',
-    component: BucketsComponent
+    component: BucketsComponent,
+    canActivate: [AuthGuardGuard]
   },
   {
     path: 'user-management',
     component: UserManagementComponent,
+    canActivate: [AuthGuardGuard]
+
   },
   {
     path: 'groups',
-    component: GroupsComponent
+    component: GroupsComponent,
+    canActivate: [AuthGuardGuard]
+
   },
   {
     path: 'trash',
-    component: TrashComponent
-  }, {
-    path: 'login',
-    component: LoginComponent
+    component: TrashComponent,
+    canActivate: [AuthGuardGuard]
+
   },
   {
     path: 'forgot-password',
-    component: ForgotPassComponent
+    component: ForgotPassComponent,
+    canActivate: [AuthGuardGuard]
   }
 ];
 

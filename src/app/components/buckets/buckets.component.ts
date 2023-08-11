@@ -82,7 +82,7 @@ export class BucketsComponent implements OnInit {
         frontIndex: 0,
         tabName: 'Buckets',
       }
-      this.router.navigate(['/'], { queryParams: { name: 'Buckets' } })
+      this.router.navigate(['/buckets'], { queryParams: { name: 'Buckets' } })
     })
   }
 
@@ -150,7 +150,7 @@ export class BucketsComponent implements OnInit {
       data: JSON.stringify(this.dataToSend),
     }
     this.TabName = ''
-    this.router.navigate(['/'], { queryParams: queryParams });
+    this.router.navigate(['/buckets'], { queryParams: queryParams });
 
   }
 
@@ -191,7 +191,7 @@ export class BucketsComponent implements OnInit {
       frontIndex: this.FrontIndexVal,
       data: JSON.stringify(this.dataToSend),
     };
-    this.router.navigate(['/'], { queryParams: this.queryParams });
+    this.router.navigate(['/buckets'], { queryParams: this.queryParams });
 
   }
 
@@ -219,7 +219,7 @@ export class BucketsComponent implements OnInit {
       data: JSON.stringify(this.dataToSend),
     };
 
-    this.router.navigate(['/'], { queryParams: queryParams });
+    this.router.navigate(['/buckets'], { queryParams: queryParams });
   }
   type(type: any) {
 
@@ -231,7 +231,7 @@ export class BucketsComponent implements OnInit {
       data: JSON.stringify(this.dataToSend),
     };
 
-    this.router.navigate(['/'], { queryParams: queryParams });
+    this.router.navigate(['/buckets'], { queryParams: queryParams });
   }
 
 
