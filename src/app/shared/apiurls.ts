@@ -7,5 +7,10 @@ export const apiurls = {
     bucketsData: domain + "/bucket/get_bucket_data/",
     downloadFile: domain + '/bucket/file/download',
     forgotPass: domain + '/auth/forgot_password',
-    usertype: domain + "/auth/show"
+    usertype: domain + "/auth/show",
+    newBucket: domain + "/api/bucket_create",
+    createUser: domain + '/auth/user_create',
+    allUsers: domain + '/api/user_list',
+    enableuser: domain + '/api/user_status',
+    addBuckets: domain + '/api/user/add_bucket'
 }

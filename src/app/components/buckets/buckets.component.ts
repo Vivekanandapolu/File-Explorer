@@ -373,4 +373,28 @@ export class BucketsComponent implements OnInit {
       console.log("Download Folder Success");
     })
   }
+  newBukcet(val: any) {
+    if (val) {
+      this.getBuckets()
+    }
+  }
+
+  openFile(bucketName: any, file: any) {
+    let data: any = {
+
+    }
+    let name
+    for (let i in bucketName) {
+      if (i == "path") {
+        name = bucketName[i].split("/")[0]
+        data.bucket_name = name
+        data.path = file.fileurl
+      }
+    }
+    console.log(data);
+    this.http.post(apiurls.downloadFile, data).subscribe((res: any) => {
+      console.log(res, "res");
+      window.open(res.download_url, '_blank')
+    })
+  }
 }

@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   invalidDetailsErr = false
   spinner = false
   spinnerBtn = true
+  disabledbyAdmin = false
   constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
   }
@@ -39,6 +40,8 @@ export class LoginComponent implements OnInit {
       }, 2500)
     }
     else {
+
+      //Login API
       this.http.post(apiurls.login, form.value).subscribe((res: any) => {
         if (res.msg) {
           this.spinner = false
@@ -49,12 +52,23 @@ export class LoginComponent implements OnInit {
             this.invalidDetailsErr = false
           }, 2500)
         }
+        if (res.detail) {
+          this.spinner = false
+          this.spinnerBtn = true
+          this.disabledbyAdmin = true
+          console.log(res.detail);
+
+          setTimeout(() => {
+            this.disabledbyAdmin = false
+          }, 2500)
+        }
         else if (res.token) {
           this.spinner = false
           this.spinnerBtn = true
           this.toastr.success("Login Successfull", '', { timeOut: 1500 })
           localStorage.setItem('token', res.token)
           localStorage.setItem('userType', res.User_type)
+          localStorage.setItem('view', "grid")
           this.router.navigate(['/buckets'])
         }
       })

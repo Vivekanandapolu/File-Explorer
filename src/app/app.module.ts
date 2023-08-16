@@ -19,9 +19,11 @@ import { AuthGuardGuard } from './auth-guard.guard';
 import { LoaderComponent } from './loader/loader.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
-    // NgMultiSelectDropDownModule.forRoot(),
+
     AppComponent,
     SideNavComponent,
     BucketsComponent,
@@ -39,7 +41,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule, FormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
+    NgbModule
   ],
   providers: [
     {

@@ -19,6 +19,39 @@
     margin-right: 10px;
 }
 
+.msg {
+    font-weight: bold;
+    position: relative;
+    bottom: 10px;
+    font-size: 12px;
+}
+
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .body-tr {
     line-height: 36px;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// .sub {
+//     margin-right: 30px;
+// }
+
+.view-polici,
+.add-policy {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.table-striped {
+    font-size: 14px;
 }

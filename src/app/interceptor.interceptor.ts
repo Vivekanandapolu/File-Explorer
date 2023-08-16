@@ -20,10 +20,12 @@ export class InterceptorInterceptor implements HttpInterceptor {
     // Json Token Parsing
 
     let data = JSON.parse(JSON.stringify(localStorage.getItem('token')));
-    const reqCopy = request.clone({
-      setHeaders: { Authorization: `${data}` }
+    console.log(data)
+    request = request.clone({
+      setHeaders: { Authorization: `Bearer ${data}` }
     })
-    return next.handle(reqCopy), next.handle(request).pipe(finalize(() => {
+    console.log(request, "copy");
+    return next.handle(request).pipe(finalize(() => {
       this.loadingService.hide()
     }
     ))

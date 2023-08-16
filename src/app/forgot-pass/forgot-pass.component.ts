@@ -37,6 +37,8 @@ export class ForgotPassComponent implements OnInit {
       }, 2500)
     }
     else {
+
+      //Forgot api
       this.http.post(apiurls.forgotPass, form.value).subscribe((res: any) => {
         if (res.invalid) {
           this.spinner = false

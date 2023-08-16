@@ -3,34 +3,95 @@
 
 <div class="main-container">
     <div class="header-row">
-        <table class="table table-striped table-hover ">
+        <table class="table table-striped ">
             <thead>
                 <tr class="table-secondary text-center ">
-                    <th colspan="3" scope="col">Name</th>
-                    <th colspan="3" scope="col">Bucket</th>
-                    <th colspan="3" scope="col">Action</th>
+                    <td scope="col" class="text-center">Name</td>
+                    <td colspan="3" scope="col">Bucket</td>
+                    <td scope="col">Action</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="text-center body-tr">
-                    <td colspan="3">
-                        <span class="name-title">V</span>
-                        Vivek
+            <tbody *ngFor="let user of allUsers">
+                <tr class=" body-tr">
+                    <td class="text-start   text-nowrap  ">
+                        <span class="name-title">{{user.letter}}</span>
+                        {{user.name}}
                     </td>
-                    <td colspan="3">CaratRedBucket</td>
-
-                    <td colspan="3" class="d-flex align-items-center justify-content-evenly   ">
-                        <div class="d-flex align-items-center ">
+                    <td colspan="3" data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="user?.bucketname"
+                        *ngIf="user.bucketname" class="text-center ellipsis">
+                        <p class="m-0 buckets text-center ">
+                            {{user.bucketname}}
+                        </p>
+                    </td>
+                    <td colspan="3" *ngIf="!user.bucketname" class="text-center"> <i class="ri-subtract-line sub"></i>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center justify-content-between  gap-3 ">
                             <div class="form-check form-switch">
-                                <input class="form-check-input shadow-none " type="checkbox"
-                                    id="flexSwitchCheckDefault">
+                                <input [checked]="user?.userstatus=='enabled'" class="form-check-input shadow-none"
+                                    type="checkbox" id="flexSwitchCheckDefault"
+                                    (change)="enableUser(user.name,user?.userstatus)">
                             </div>
-                            <button class="btn btn-primary d-flex gap-1 view-polici"><i
-                                    class="ri-information-line info"></i>View
-                                Policies</button>
+
+                            <button class="btn btn-primary d-flex gap-1 view-polici" (click)="open(content1,null)"
+                                (click)="
+                                viewUserBuckets(user)"><i class="ri-information-line info"></i>View
+                                Bukcets</button>
+
+                            <ng-template #content1 let-modal>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal-basic-title">{{userData.username}}</h5>
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        (click)="modal.dismiss('Cross click')"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h6 class="modal-title mb-3" id="modal-basic-title">Buckets</h6>
+                                    <ol *ngIf="userData.buckets">
+                                        <li *ngFor="let i of userData.buckets ">{{i}}</li>
+                                    </ol>
+                                    <ol *ngIf="!userData.buckets">
+                                        <li style="list-style: none;">No Bukcets Found</li>
+                                    </ol>
+                                </div>
+
+                            </ng-template>
+
+                            <button class="btn btn-light d-flex gap-1 add-policy"
+                                [disabled]="user.userstatus=='disabled'" (click)="open(content2,user)"><i
+                                    class="ri-add-line plus"></i> Add
+                                Bucket</button>
+
+
+                            <ng-template #content2 let-modal1>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal-basic-title">Add Buckets</h5>
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        (click)="modal1.dismiss('Cross click')"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form #form='ngForm' (ngSubmit)="addUserBucket(form)">
+                                        <label for="" class="form-label">username</label>
+                                        <input readonly type="text" class="form-control mb-3" name="username"
+                                            #username='ngModel' [(ngModel)]="addbucket.username">
+                                        <div class="mb-3">
+                                            <ng-multiselect-dropdown #bukcets="ngModel" name="buckets"
+                                                [(ngModel)]="addbucket.buckets" placeholder="Select Buckets"
+                                                [data]="allBuckets" [settings]="dropdownSettings">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <p class="m-0 text-danger msg mb-3" *ngIf="selectMsg">Select Buckets</p>
+                                        <button *ngIf="spinnerBtn" class="btn btn-dark mb-3" type="submit">Add
+                                            Buckets</button>
+                                        <button *ngIf="spinner" disabled
+                                            class="btn btn-dark text-white w-100  shadow-none ">
+                                            <div class="spinner-border text-light" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </form>
+                                </div>
+                            </ng-template>
                         </div>
-                        <button class="btn btn-light d-flex gap-1 add-policy"><i class="ri-add-line plus"></i> Add
-                            Policy</button>
                     </td>
                 </tr>
 

@@ -1,6 +1,6 @@
 <app-side-nav></app-side-nav>
-<app-global-header [Label]="dataToSend" (outputData)="clickFolder($event)" (view_con)="type($event)" [tabname]="TabName"
-    [Back]="BackIndexVal" [Forward]="FrontIndexVal"></app-global-header>
+<app-global-header (createbucket_res)="newBukcet($event)" [Label]="dataToSend" (outputData)="clickFolder($event)"
+    (view_con)="type($event)" [tabname]="TabName" [Back]="BackIndexVal" [Forward]="FrontIndexVal"></app-global-header>
 
 <ng-container *ngIf="bucketsView">
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <ng-container *ngIf="viewtype=='grid'">
                 <div class="row row-cols-4 ">
                     <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngFor="let bucket of allBuckets">
-                        <div class="card folder-card" (click)="bucketClick(bucket?.name)">
+                        <div class="card folder-card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start ">
                                     <img src="../../../assets/paper folder with documents.png" class="folders mb-3 "
@@ -19,7 +19,8 @@
                                 <p class="card-title fw-bold m-0">{{bucket?.name}}</p>
                                 <p class="card-text ">{{bucket?.objects}} Objects</p>
                             </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between ">
+                            <div (click)="bucketClick(bucket?.name)"
+                                class="card-footer d-flex align-items-center justify-content-between ">
                                 <a href="#" class="nav-link text-dark p-0">View</a>
                                 <i class="ri-arrow-right-line"></i>
                             </div>
@@ -120,7 +121,6 @@
                         <thead>
                             <tr class="table-secondary  ">
                                 <th colspan="1" scope="col">Name</th>
-                                <!-- <th scope="col">Size <i (click)="lastmodified('size')" class="ri-arrow-down-line"></i> -->
                                 <th scope="col">Size
                                 </th>
                                 <th scope="col">Action</th>
@@ -140,7 +140,7 @@
                                                     class="list-folder mb-3 " alt=""> {{files?.folderName}}
                                             </div>
                                         </td>
-                                        <td><i class="ms-3 ri-subtract-fill"></i></td>
+                                        <td><i class="ms-2 ri-subtract-fill"></i></td>
                                         <td class="download"><i download class="ri-download-2-line ms-3 "
                                                 (click)="downloadFolder(files?.folderName,bucket)"></i></td>
                                     </tr>
@@ -150,7 +150,7 @@
                                 <tbody *ngIf="files?.type=='file'">
                                     <tr data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="files?.filename"
                                         class=" body-tr">
-                                        <td colspan="1" class="">
+                                        <td colspan="1" class="" (click)="openFile(bucket,files)">
                                             <div class=" d-flex gap-2 ">
                                                 <img clas *ngIf="files?.filetype=='.pdf'" src="../../../assets/pdf.svg"
                                                     class="folder" alt="">
@@ -186,7 +186,7 @@
                         <div class="row row-cols-4 ">
                             <ng-container *ngFor="let files of bucket?.files">
                                 <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngIf="files?.type=='file'">
-                                    <div class="card folder-card">
+                                    <div class="card folder-card" (click)="openFile(bucket,files)">
                                         <div class=" card-body p-0 m-0" data-bs-toggle="tooltip"
                                             data-bs-placement="bottom" [title]="files?.filename">
                                             <div class="d-flex justify-content-between p-2 gap-2 align-items-center ">

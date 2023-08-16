@@ -41,7 +41,10 @@
     background: #00ffff14;
     box-shadow: 3px 5px rgb(209 202 202);
     transition: 0.5s;
-    cursor: pointer;
+
+    .card-footer {
+        background-color: #D4FFF5;
+    }
 
 }
 
@@ -52,9 +55,12 @@
 
 
 .card-footer {
+    cursor: pointer;
     background: transparent;
     border-top: 1px solid white;
 }
+
+
 
 .card-title {
     font-size: 16px;
@@ -76,7 +82,7 @@
 
 .list-folder {
     margin: 0px !important;
-    width: 30px;
+    width: 22px;
 }
 
 .download {

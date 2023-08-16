@@ -1,3 +1,10 @@
+.container-fluid {
+    position: sticky;
+    top: 50px;
+    background: white;
+    z-index: 100;
+}
+
 .header-row-1 {
     background-color: #F8F5F5;
     display: flex;
@@ -9,8 +16,33 @@
     z-index: 10;
 }
 
+.msg {
+    font-weight: bold;
+    position: relative;
+    // bottom: 10px;
+    font-size: 12px;
+}
+
+.gridView {
+    background-color: #AE7744;
+    border-radius: 5px;
+}
+
+.gridView i {
+    color: white !important;
+}
+
+
+.listView {
+    border-radius: 5px;
+    background-color: #AE7744;
+}
+
+.listView i {
+    color: white !important;
+}
+
 .category-btn {
-    // background-color: #AE7744;
     color: black;
     padding: 0px 6px;
 }
@@ -20,6 +52,24 @@
     color: white;
     padding: 0px 6px;
 
+}
+
+.errMsg {
+    font-size: 12px;
+}
+
+.add-bucket {
+    color: white;
+    background-color: #AE7744;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.list-icon {
+    padding: 0px 5px;
 }
 
 .filter {
