@@ -113,7 +113,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
       for (let i in res.buckets) {
         this.buckets.push(res.buckets[i].name)
       }
-      console.log(this.buckets);
+      // console.log(this.buckets);
 
     })
   }
@@ -203,7 +203,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   //Create User
   AllfieldsErr = false
 
-  createUser(form: any) {
+  createUser(form: NgForm) {
     this.spinnerBtn = false
     this.spinner = true
     console.log(form.value);
@@ -215,7 +215,9 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
         this.AllfieldsErr = false
       }, 2500)
     }
+    form.value.username = form.value.username.toLowerCase()
     this.http.post(apiurls.createUser, form.value).subscribe((res: any) => {
+      console.log(form.value);
       if (res.detail) {
         this.spinnerBtn = true
         this.spinner = false
@@ -231,6 +233,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
         this.spinnerBtn = true
         this.spinner = false
         this.toastr.success("User Created Successfully")
+        this.getAllUsers()
       }
     })
   }

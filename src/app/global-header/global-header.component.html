@@ -85,7 +85,7 @@
             <ng-template #content1 let-modal>
                 <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title">Create User</h4>
-                    <button type="button" class="btn-close" aria-label="Close"
+                    <button type="button" [disabled]="spinner" class="shadow-none btn-close" aria-label="Close"
                         (click)="modal.dismiss('Cross click')"></button>
                 </div>
                 <div class="modal-body">
@@ -96,39 +96,13 @@
                         <label for="bukcet" class="form-check-label ">Username</label>
                         <input type="email" class="form-control  shadow-none " placeholder="Enter Email"
                             #username="ngModel" [(ngModel)]="NewUserData.username" name="username">
-                        <p *ngIf="alreadyExists" class="text-danger m-0  msg">Username Already Exist</p>
+                        <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Username Already Exist</p>
                         <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
-                        <!-- <div class="mb-3 ">
-                            <ng-multiselect-dropdown placeholder="Select Buckets" [data]="buckets" class="mb-3"
-                                #Buckets="ngModel" name="Buckets" [(ngModel)]="NewUserData"
-                                [settings]="dropdownSettings">
-                            </ng-multiselect-dropdown>
-                        </div> -->
-                        <!--User Enable and Disable Buttons-->
-
-
-                        <!-- <div class="d-flex gap-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    Disable
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    Enable
-                                </label>
-                            </div>
-                        </div> -->
-
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button *ngIf="spinnerBtn" type="button" (click)="createUser(form)"
-                        class="btn btn-dark w-100 ">Create
+                        class="btn btn-dark w-100 shadow-none ">Create
                         User</button>
                     <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
                         <div class="spinner-border text-light" role="status">

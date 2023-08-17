@@ -14,9 +14,15 @@
 
 .name-title {
     background: pink;
-    padding: 7px 10px;
     border-radius: 50%;
     margin-right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .msg {
@@ -36,10 +42,25 @@
     line-height: 36px;
 }
 
-.ellipsis {
+.buckets {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+
+.table>:not(:last-child)>:last-child>* {
+    font-size: 14px !important;
+    border-bottom: 1px solid #00000030;
+}
+
+.userBucket {
+    background-color: burlywood;
+    margin: 3px;
+    padding: 6px;
+    text-align: center;
+    font-size: 15px;
 }
 
 // .sub {
@@ -54,4 +75,13 @@
 
 .table-striped {
     font-size: 14px;
+}
+
+.addBucket {
+    background-color: #AE7743;
+    border: none;
+}
+
+.addBucket:hover {
+    background-color: #cf833d;
 }

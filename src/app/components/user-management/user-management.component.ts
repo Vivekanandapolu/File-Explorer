@@ -17,14 +17,11 @@ export class UserManagementComponent implements OnInit {
   selectMsg: any = false
   spinnerBtn: any = true
   spinner = false
-  firstletters: any = []
+  btn_close = false
   constructor(private router: ActivatedRoute, private route: Router, private http: HttpClient, private toastr: ToastrService, private modalservice: NgbModal) {
     this.dropdownSettings = {
       singleSelection: false,
-      textField: 'itemName',
-      selectAllText: 'Select All',
-      unSelectAllText: 'Unselect All',
-      itemsShowLimit: 3
+      itemsShowLimit: 4
     };
   }
   allUsers: any = []
@@ -46,25 +43,10 @@ export class UserManagementComponent implements OnInit {
   getAllUsers() {
     this.http.get(apiurls.allUsers).subscribe((res: any) => {
       this.allUsers = res
-      let ProfileName: any = []
-      let data = {
-        letter: '',
-        name: '',
-        bucketname: [],
-        userstatus: '',
-        member: null
-      }
-      for (let user in this.allUsers) {
-        ProfileName.push(...this.allUsers[user].name.split(','))
-        data.letter = ProfileName[user].split('')[0]
-        data.name = this.allUsers[user].name
-        data.bucketname = this.allUsers[user].bucketname,
-          data.userstatus = this.allUsers[user].userstatus,
-          data.member = this.allUsers[user].member
-      }
-      console.log(this.firstletters, "sjbdhsjuhdjsidj");
     })
   }
+
+
   enableUser(username: any, status: any) {
     let UserStatus = status
     let data: any = {
@@ -93,39 +75,46 @@ export class UserManagementComponent implements OnInit {
   viewUserBuckets(user: any) {
     this.userData.username = user.name
     this.userData.buckets = user?.bucketname?.split(',')
-    console.log(this.userData);
   }
   //open modal
   open(content: any, user: any) {
     this.modalservice.open(content, { backdrop: 'static' })
     this.addbucket.username = user.name
-    this.addbucket.buckets = user.bucketname.split(',')
+    this.addbucket.buckets = user?.bucketname?.split(',')
+    // let userbuckets: any = user.bucketname.split(',')
+    // let arr: any = []
+    // let val = this.allBuckets.filter((item: any) => !userbuckets.includes(item)).concat(userbuckets.filter((item: any) => !this.allBuckets.includes(item)))
+    // this.allBuckets = val
   }
 
   //add buckets to user
-  addUserBucket(form: NgForm) {
+  addUserBucket(form: NgForm, user: any) {
+
     this.spinnerBtn = false
     this.spinner = true
     if (!this.addbucket.buckets) {
+
       this.spinnerBtn = true
       this.spinner = false
       this.selectMsg = true
       setTimeout(() => {
         this.selectMsg = false
-      }, 2500)
+      }, 1500)
     }
-    let selectedBuckets: any
-    selectedBuckets = form.value.buckets.join(',')
-    form.value.buckets = selectedBuckets
-    console.log(form.value);
-    this.http.post(apiurls.addBuckets, form.value).subscribe((res: any) => {
-      this.spinnerBtn = true
-      this.spinner = false
-      this.modalservice.dismissAll();
-      this.getAllUsers()
-      this.toastr.success('Buckets added successfully')
-      console.log(res);
-    })
+    else {
+      console.log(form.value);
+      let selectedBuckets: any
+      selectedBuckets = form?.value?.buckets?.join(',')
+      form.value.buckets = selectedBuckets
+      this.http.post(apiurls.addBuckets, form.value).subscribe((res: any) => {
+        console.log(form.value);
+        this.spinnerBtn = true
+        this.spinner = false
+        this.modalservice.dismissAll();
+        this.getAllUsers()
+        this.toastr.success('Buckets added successfully')
+      })
+    }
 
   }
 
@@ -138,8 +127,7 @@ export class UserManagementComponent implements OnInit {
       for (let i in res.buckets) {
         this.allBuckets.push(res.buckets[i].name)
       }
-      console.log(this.allBuckets);
-
+      // console.log(this.allBuckets);
     })
   }
 }

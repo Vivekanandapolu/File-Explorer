@@ -7,48 +7,53 @@
             <thead>
                 <tr class="table-secondary text-center ">
                     <td scope="col" class="text-center">Name</td>
-                    <td colspan="3" scope="col">Bucket</td>
+                    <td colspan="3" class="buckets" scope="col">Bucket</td>
                     <td scope="col">Action</td>
                 </tr>
             </thead>
             <tbody *ngFor="let user of allUsers">
                 <tr class=" body-tr">
-                    <td class="text-start   text-nowrap  ">
-                        <span class="name-title">{{user.letter}}</span>
-                        {{user.name}}
+                    <td class="text-start text-nowrap ">
+                        <div class="d-flex align-items-center gap-4 ">
+
+                            <p class="name-title m-0">{{user.name[0].toUpperCase()}}</p>
+                            {{user.name}}
+                        </div>
                     </td>
-                    <td colspan="3" data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="user?.bucketname"
-                        *ngIf="user.bucketname" class="text-center ellipsis">
-                        <p class="m-0 buckets text-center ">
-                            {{user.bucketname}}
-                        </p>
+                    <td colspan="3" data-bs-toggle="tooltip" data-bs-placement="top" [title]="user?.bucketname"
+                        *ngIf="user.bucketname" class="text-center buckets">
+                        {{user.bucketname}}
                     </td>
                     <td colspan="3" *ngIf="!user.bucketname" class="text-center"> <i class="ri-subtract-line sub"></i>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center justify-content-between  gap-3 ">
+                        <div class="d-flex align-items-center justify-content-evenly ">
                             <div class="form-check form-switch">
                                 <input [checked]="user?.userstatus=='enabled'" class="form-check-input shadow-none"
                                     type="checkbox" id="flexSwitchCheckDefault"
                                     (change)="enableUser(user.name,user?.userstatus)">
                             </div>
 
-                            <button class="btn btn-primary d-flex gap-1 view-polici" (click)="open(content1,null)"
-                                (click)="
+                            <button class="btn btn-primary shadow-none  d-flex gap-1 view-polici"
+                                (click)="open(content1,null)" (click)="
                                 viewUserBuckets(user)"><i class="ri-information-line info"></i>View
                                 Bukcets</button>
 
                             <ng-template #content1 let-modal>
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modal-basic-title">{{userData.username}}</h5>
-                                    <button type="button" class="btn-close" aria-label="Close"
-                                        (click)="modal.dismiss('Cross click')"></button>
+                                    <h4 class="modal-title" id="modal-basic-title">{{userData.username}}</h4>
+                                    <button [disabled]="spinner" type="button" class="btn-close shadow-none "
+                                        aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h6 class="modal-title mb-3" id="modal-basic-title">Buckets</h6>
-                                    <ol *ngIf="userData.buckets">
-                                        <li *ngFor="let i of userData.buckets ">{{i}}</li>
-                                    </ol>
+                                    <h5 class="modal-title mb-3" id="modal-basic-title">Buckets</h5>
+                                    <div class="row row-cols-3" *ngIf="userData.buckets">
+                                        <div class="col" *ngFor="let i of userData.buckets ">
+                                            <div class="userBucket">
+                                                {{i}}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <ol *ngIf="!userData.buckets">
                                         <li style="list-style: none;">No Bukcets Found</li>
                                     </ol>
@@ -56,7 +61,7 @@
 
                             </ng-template>
 
-                            <button class="btn btn-light d-flex gap-1 add-policy"
+                            <button class="btn btn-light shadow-none  d-flex gap-1 add-policy"
                                 [disabled]="user.userstatus=='disabled'" (click)="open(content2,user)"><i
                                     class="ri-add-line plus"></i> Add
                                 Bucket</button>
@@ -65,11 +70,11 @@
                             <ng-template #content2 let-modal1>
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modal-basic-title">Add Buckets</h5>
-                                    <button type="button" class="btn-close" aria-label="Close"
-                                        (click)="modal1.dismiss('Cross click')"></button>
+                                    <button [disabled]="spinner" type="button" class="btn-close shadow-none "
+                                        aria-label="Close" (click)="modal1.dismiss('Cross click')"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form #form='ngForm' (ngSubmit)="addUserBucket(form)">
+                                    <form #form='ngForm' (ngSubmit)="addUserBucket(form,user)">
                                         <label for="" class="form-label">username</label>
                                         <input readonly type="text" class="form-control mb-3" name="username"
                                             #username='ngModel' [(ngModel)]="addbucket.username">
@@ -80,7 +85,8 @@
                                             </ng-multiselect-dropdown>
                                         </div>
                                         <p class="m-0 text-danger msg mb-3" *ngIf="selectMsg">Select Buckets</p>
-                                        <button *ngIf="spinnerBtn" class="btn btn-dark mb-3" type="submit">Add
+                                        <button *ngIf="spinnerBtn" class="btn btn-dark mb-3 w-100 addBucket"
+                                            type="submit">Add
                                             Buckets</button>
                                         <button *ngIf="spinner" disabled
                                             class="btn btn-dark text-white w-100  shadow-none ">

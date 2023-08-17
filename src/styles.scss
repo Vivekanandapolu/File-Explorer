@@ -5,6 +5,10 @@
     position: relative;
     top: 15px;
     padding-left: 18px;
+    height: 80vh;
+    overflow: hidden;
+    overflow-y: scroll;
+
 }
 
 .content-con {
@@ -18,4 +22,14 @@
 .main-container .row {
     padding: 20px;
 
+}
+
+
+.main-container::-webkit-scrollbar {
+    display: none;
+}
+
+thead {
+    position: sticky;
+    top: 0px;
 }
