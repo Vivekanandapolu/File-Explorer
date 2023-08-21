@@ -5,7 +5,6 @@
 .policy {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
     gap: 12px;
 }
 
@@ -14,11 +13,93 @@
 }
 
 .group-card {
-    // background: linear-gradient(45deg, #00000061, transparent);
     border: none;
     background-color: #D4FFF5;
 }
 
 .folders {
     mix-blend-mode: multiply !important;
+}
+
+.group-card:hover {
+    transition: 0.5s;
+    background-color: #dff5ef;
+}
+
+.group-card:hover .card-footer {
+    background-color: #b2fceb;
+    cursor: pointer;
+}
+
+.manage-btn {
+    background: transparent;
+    border-color: #AE7744;
+}
+
+.manage-btn:hover {
+    background-color: #AE7744;
+    color: white;
+}
+
+.folder-card {
+    background: #D4FFF5;
+}
+
+.folder-card:hover {
+    background: #00ffff14;
+    box-shadow: 3px 5px rgb(209 202 202);
+    transition: 0.5s;
+
+    .card-footer {
+        background-color: #D4FFF5;
+    }
+}
+
+.folders {
+    width: 60px;
+}
+
+.three-dots-1 {
+    width: 22px;
+    transform: rotate(90deg);
+
+    cursor: pointer;
+}
+
+.three-dots {
+    width: 24px;
+    transform: rotate(90deg);
+    position: relative;
+    left: 6px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+
+.card-title-1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.card-body,
+.card-footer {
+    padding: 10px 25px;
+}
+
+
+.card-footer {
+    cursor: pointer;
+    background: transparent;
+    border-top: 1px solid white;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    font-size: 14px !important;
+    border-bottom: 1px solid #00000030;
 }

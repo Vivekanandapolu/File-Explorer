@@ -4,7 +4,7 @@
 <div class="main-container">
     <div class="header-row">
         <table class="table table-striped ">
-            <thead>
+            <thead class="fw-bold ">
                 <tr class="table-secondary text-center ">
                     <td scope="col" class="text-center">Name</td>
                     <td colspan="3" class="buckets" scope="col">Bucket</td>
@@ -28,7 +28,7 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center justify-content-evenly ">
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch ">
                                 <input [checked]="user?.userstatus=='enabled'" class="form-check-input shadow-none"
                                     type="checkbox" id="flexSwitchCheckDefault"
                                     (change)="enableUser(user.name,user?.userstatus)">
@@ -46,11 +46,11 @@
                                         aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h5 class="modal-title mb-3" id="modal-basic-title">Buckets</h5>
+                                    <h5 class="modal-title mb-3  " id="modal-basic-title">Buckets</h5>
                                     <div class="row row-cols-3" *ngIf="userData.buckets">
                                         <div class="col" *ngFor="let i of userData.buckets ">
-                                            <div class="userBucket">
-                                                {{i}}
+                                            <div class="userBucket ">
+                                                {{i.toUpperCase()}}
                                             </div>
                                         </div>
                                     </div>

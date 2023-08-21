@@ -55,12 +55,19 @@
     border-bottom: 1px solid #00000030;
 }
 
+
+.form-switch input {
+    cursor: pointer;
+}
+
 .userBucket {
     background-color: burlywood;
     margin: 3px;
     padding: 6px;
     text-align: center;
     font-size: 15px;
+    // white-space: nowrap;
+    width: 100%;
 }
 
 // .sub {

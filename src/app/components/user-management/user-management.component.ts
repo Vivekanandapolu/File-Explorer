@@ -30,6 +30,8 @@ export class UserManagementComponent implements OnInit {
   allBuckets: any = []
   userData: any = {}
   ngOnInit(): void {
+    localStorage.setItem('tabname', 'User management')
+
     this.getBuckets()
     this.getAllUsers()
     let headername = {
@@ -112,7 +114,7 @@ export class UserManagementComponent implements OnInit {
         this.spinner = false
         this.modalservice.dismissAll();
         this.getAllUsers()
-        this.toastr.success('Buckets added successfully')
+        this.toastr.success('Buckets updated successfully')
       })
     }
 

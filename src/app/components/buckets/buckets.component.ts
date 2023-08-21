@@ -35,13 +35,12 @@ export class BucketsComponent implements OnInit {
   nameArrow: Boolean = true
 
   ngOnInit(): void {
-
+    localStorage.setItem('tabname', 'Buckets')
     this.viewtype = localStorage.getItem('view') || 'grid'
     console.log(this.viewtype)
     this.bucketsView = false
     this.route.queryParamMap.subscribe((params: any) => {
       if (!params.has("mainbucket")) {
-
         this.getBuckets()
         this.bucketsView = true
         this.singleBucketsData = []
@@ -104,7 +103,6 @@ export class BucketsComponent implements OnInit {
   }
 
   loopArray(arr: any, path: any) {
-
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].type == "folder") {
         if (arr[i].path == path) {

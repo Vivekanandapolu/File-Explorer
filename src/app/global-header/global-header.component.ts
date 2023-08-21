@@ -41,7 +41,9 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
       username: '',
       Bukcets: []
     }
+  Groupdata: any = {
 
+  }
   alreadyExists = false
   dropdownSettings: any
   spinner = false
@@ -50,6 +52,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   usertype: any = false
   allBuckets: any = []
   buckets: any = []
+  category = true
   constructor(private toastr: ToastrService, private location: Location, private http: HttpClient, private route: ActivatedRoute, private router: Router, private modalservice: NgbModal) {
     this.dropdownSettings = {
       singleSelection: false, // Allow multiple selections
@@ -62,7 +65,12 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
+    if (localStorage.getItem('tabname') == 'User management' || localStorage.getItem('tabname') == 'Groups' || localStorage.getItem('tabname') == 'Trash') {
+      this.category = false
+    }
+    if (localStorage.getItem('tabname') == 'Buckets') {
+      this.category = true
+    }
     if (localStorage.getItem('userType') == 'admin') {
       this.usertype = true
     }
@@ -240,9 +248,18 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
 
   getAllUsers() {
     this.http.get(apiurls.allUsers).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
     })
   }
 
+
+  createGroup(form: NgForm) {
+    if (!this.Groupdata.groupname) {
+      this.AllfieldsErr = true
+      setTimeout(() => {
+        this.AllfieldsErr = false
+      }, 2000)
+    }
+  }
 
 }

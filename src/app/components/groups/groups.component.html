@@ -1,10 +1,10 @@
 <app-side-nav></app-side-nav>
-<app-global-header></app-global-header>
+<app-global-header [tabname]="TabName"></app-global-header>
 <div class="main-container">
     <div class="header-row">
-        <ng-container>
+        <ng-container *ngIf="groupView">
             <div class="row row-cols-4 ">
-                <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2">
+                <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngFor="let group of allGroups">
                     <div class="card group-card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start ">
@@ -12,75 +12,77 @@
                                 <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
                                     alt="">
                             </div>
-                            <p class="card-title fw-bold m-0">South Zone</p>
-                            <p class="card-text policy">210 Policies <span class="d-flex align-items-center gap-1"><i
-                                        class="ri-checkbox-blank-circle-fill dot"></i> 5
+                            <p class="card-title fw-bold m-0">{{group.groupName}}</p>
+                            <p class="card-text policy">{{group?.groupPolicy?.length}} Policies <span
+                                    class="d-flex align-items-center gap-1"><i
+                                        class="ri-checkbox-blank-circle-fill dot"></i> {{group?.members?.length}}
                                     Users</span></p>
                         </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between ">
-                            <a href="#" class="nav-link text-dark p-0">View</a>
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2">
-                    <div class="card group-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start ">
-                                <img src="../../../assets/group-img.jpg" class="folders mb-3 " alt="">
-                                <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
-                                    alt="">
-                            </div>
-                            <p class="card-title fw-bold m-0">South Zone</p>
-                            <p class="card-text policy">210 Policies <span><i
-                                        class="ri-checkbox-blank-circle-fill dot"></i> 5
-                                    Users</span></p>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between ">
-                            <a href="#" class="nav-link text-dark p-0">View</a>
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2">
-                    <div class="card group-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start ">
-                                <img src="../../../assets/group-img.jpg" class="folders mb-3 " alt="">
-                                <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
-                                    alt="">
-                            </div>
-                            <p class="card-title fw-bold m-0">South Zone</p>
-                            <p class="card-text policy">210 Policies <span><i
-                                        class="ri-checkbox-blank-circle-fill dot"></i> 5
-                                    Users</span></p>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between ">
-                            <a href="#" class="nav-link text-dark p-0">View</a>
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2">
-                    <div class="card group-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start ">
-                                <img src="../../../assets/group-img.jpg" class="folders mb-3 " alt="">
-                                <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
-                                    alt="">
-                            </div>
-                            <p class="card-title fw-bold m-0">South Zone</p>
-                            <p class="card-text policy">210 Policies <span><i
-                                        class="ri-checkbox-blank-circle-fill dot"></i> 5
-                                    Users</span></p>
-                        </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between ">
+                        <div class="card-footer d-flex align-items-center justify-content-between "
+                            (click)="innerViewGroup(group?.groupName)">
                             <a href="#" class="nav-link text-dark p-0">View</a>
                             <i class="ri-arrow-right-line"></i>
                         </div>
                     </div>
                 </div>
             </div>
+        </ng-container>
+        <ng-container *ngIf="!groupView">
+            <ng-container *ngFor="let group of GroupData">
+                <div class="groupInfo d-flex justify-content-between align-items-center ">
+                    <p class="m-0 fw-bold ">{{group?.groupName}} Buckets</p>
+                    <div class="manageBuckets d-flex align-items-center gap-4">
+                        <a href="" class="">View all buckets</a>
+                        <button class="btn manage-btn" type="button"><i class="ri-settings-4-line"></i> Manage
+                            Buckets</button>
+                    </div>
+
+                </div>
+                <div class="row row-cols-4 mb-3 ">
+                    <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngFor="let policy of group.groupPolicy">
+                        <div class="card folder-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start ">
+                                    <img src="../../../assets/paper folder with documents.png" class="folders mb-3 "
+                                        alt="">
+                                    <img src="../../../assets/ph_dots-three-bold.png"
+                                        class="object-fit-contain three-dots" alt="">
+                                </div>
+                                <p class="card-title fw-bold m-0">{{policy}}</p>
+                            </div>
+                            <div class=" card-footer d-flex align-items-center justify-content-between ">
+                                <a href=" #" class="nav-link text-dark p-0">View</a>
+                                <i class="ri-arrow-right-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--User List-->
+                <div class="groupInfo d-flex justify-content-between align-items-center mb-2 ">
+                    <p class="m-0 fw-bold ">{{group?.groupName}} Users</p>
+                    <div class="manageBuckets d-flex align-items-center gap-4">
+                        <button class="btn manage-btn" type="button"><i class="ri-settings-4-line"></i> Manage
+                            Users</button>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover ">
+                    <thead class="table-secondary ">
+                        <tr class="table-secondary ">
+                            <th>
+                                Users
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let policy of group.members">
+                            <td>{{policy}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+
         </ng-container>
     </div>
 </div>
