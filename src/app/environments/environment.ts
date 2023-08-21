@@ -1,3 +1,3 @@
 export const environment: any = {
-    appurl: "http://192.168.1.5:8000"
+    appurl: "http://192.168.1.151:8000"
 };
