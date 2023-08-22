@@ -60,7 +60,7 @@ export class GroupsComponent implements OnInit {
           this.groupView = true
         }
         else if (res.params.viewtype == "inner") {
-          this.TabName = ''
+          this.TabName = res.params.tabname
           this.groupView = false
           this.GroupData = [val[res.params?.indexPos]]
         }
@@ -76,9 +76,9 @@ export class GroupsComponent implements OnInit {
   }
 
   innerViewGroup(group: any) {
+    console.log(group.groupName);
     this.groupView = false
     this.BackIndexVal = this.BackIndexVal + 1
-    this.TabName = ''
     this.http.get(apiurls.allGroups).subscribe((res: any) => {
       for (let i of res.groups) {
         if (i.groupName == group?.groupName) {
@@ -89,7 +89,8 @@ export class GroupsComponent implements OnInit {
         viewtype: "inner",
         indexPos: this.allGroups.indexOf(group),
         backIndex: this.BackIndexVal,
-        frontIndex: this.FrontIndexVal
+        frontIndex: this.FrontIndexVal,
+        tabname: group.groupName
       }
       this.route.navigate(['/groups'], { queryParams: queryParams });
     })
@@ -161,6 +162,15 @@ export class GroupsComponent implements OnInit {
             timeOut: 1500
           })
         }
+        if (res.policies) {
+          this.getAllgroupBucketsAndUsers()
+          this.modalservice.dismissAll()
+          this.spinner = false
+          this.spinnerBtn = true
+          this.toastr.success("Buckets Updated Successfully", '', {
+            timeOut: 1500
+          })
+        }
       })
     }
   }
@@ -168,10 +178,10 @@ export class GroupsComponent implements OnInit {
   getAllUsers() {
     this.http.get(apiurls.allUsers).subscribe((res: any) => {
       res.filter((user: any) => {
-        console.log(user.name);
+        // console.log(user.name);
         return this.allUsersData.push(user.name)
       })
-      console.log(this.allUsersData);
+      // console.log(this.allUsersData);
     })
   }
 

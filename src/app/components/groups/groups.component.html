@@ -30,11 +30,11 @@
         <ng-container *ngIf="!groupView">
             <ng-container *ngFor="let group of GroupData">
                 <div class="groupInfo d-flex justify-content-between align-items-center ">
-                    <p class="m-0 fw-bold ">{{group?.groupName}} Buckets</p>
+                    <p class="m-0 fw-bold ">Buckets</p>
                     <div class="manageBuckets d-flex align-items-center gap-4">
                         <a class="viewall">View all buckets </a>
-                        <button class="btn manage-btn shadow-none " (click)="open(content,group)" type="button"><i
-                                class="ri-settings-4-line"></i>
+                        <button class="btn manage-btn shadow-none d-flex gap-2" (click)="open(content,group)"
+                            type="button"><i class="ri-settings-4-line"></i>
                             Manage
                             Buckets</button>
                     </div>
@@ -95,10 +95,10 @@
 
                 <!--User List-->
                 <div class="groupInfo d-flex justify-content-between align-items-center mb-2 ">
-                    <p class="m-0 fw-bold ">{{group?.groupName}} Users</p>
+                    <p class="m-0 fw-bold ">Users</p>
                     <div class="manageBuckets d-flex align-items-center gap-4">
-                        <button class="btn manage-btn shadow-none " (click)="open(content1,group)" type="button"><i
-                                class="ri-settings-4-line"></i>
+                        <button class="btn manage-btn shadow-none d-flex gap-2 " (click)="open(content1,group)"
+                            type="button"><i class="ri-settings-4-line"></i>
                             Manage
                             Users</button>
                     </div>
