@@ -1,5 +1,5 @@
 <app-side-nav></app-side-nav>
-<app-global-header [tabname]="TabName"></app-global-header>
+<app-global-header [tabname]="TabName" (creategroup)="newBukcet($event)"></app-global-header>
 <div class="main-container">
     <div class="header-row">
         <ng-container *ngIf="groupView">
@@ -13,13 +13,13 @@
                                     alt="">
                             </div>
                             <p class="card-title fw-bold m-0">{{group.groupName}}</p>
-                            <p class="card-text policy">{{group?.groupPolicy?.length}} Policies <span
+                            <p class="card-text policy">{{group?.groupPolicy?.length}} Buckets <span
                                     class="d-flex align-items-center gap-1"><i
                                         class="ri-checkbox-blank-circle-fill dot"></i> {{group?.members?.length}}
                                     Users</span></p>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between "
-                            (click)="innerViewGroup(group?.groupName)">
+                            (click)="innerViewGroup(group)">
                             <a href="#" class="nav-link text-dark p-0">View</a>
                             <i class="ri-arrow-right-line"></i>
                         </div>
@@ -32,40 +32,109 @@
                 <div class="groupInfo d-flex justify-content-between align-items-center ">
                     <p class="m-0 fw-bold ">{{group?.groupName}} Buckets</p>
                     <div class="manageBuckets d-flex align-items-center gap-4">
-                        <a href="" class="">View all buckets</a>
-                        <button class="btn manage-btn" type="button"><i class="ri-settings-4-line"></i> Manage
+                        <a class="viewall">View all buckets </a>
+                        <button class="btn manage-btn shadow-none " (click)="open(content,group)" type="button"><i
+                                class="ri-settings-4-line"></i>
+                            Manage
                             Buckets</button>
                     </div>
 
+                    <ng-template let-modal #content>
+                        <div class="modal-header">
+                            <h5 class="modal-title mb-3  " id="modal-basic-title">Manage Buckets</h5>
+                            <button type="button" class="btn-close shadow-none " [disabled]="!spinnerBtn"
+                                aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form #form='ngForm'>
+                                <label for="" class=" form-label">username</label>
+                                <input readonly type="text" class="form-control mb-3" name="groupName"
+                                    #groupName='ngModel' [(ngModel)]="manageBucketsData.groupName">
+                                <div class="mb-3">
+                                    <ng-multiselect-dropdown #bukcets="ngModel" name="buckets"
+                                        [(ngModel)]="manageBucketsData.buckets" placeholder="Select Buckets"
+                                        [data]="allBuckets" [settings]="dropdownSettings">
+                                    </ng-multiselect-dropdown>
+                                </div>
+
+                                <button *ngIf="spinnerBtn" class="btn btn-dark shadow-none msg mb-3 w-100 addBucket"
+                                    (click)="manageBuckets(form)" type="submit">Update
+                                    Buckets</button>
+                                <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </form>
+
+                        </div>
+                    </ng-template>
                 </div>
-                <div class="row row-cols-4 mb-3 ">
-                    <div class=" mb-4 col col-sm-6 col-lg-3 col-xxl-2" *ngFor="let policy of group.groupPolicy">
+                <!-- <div class="row row-cols-4 mb-3 "> -->
+                <div class="mb-4 groupBuckets">
+                    <div class="" *ngFor="let policy of group.groupPolicy">
+
                         <div class="card folder-card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start ">
-                                    <img src="../../../assets/paper folder with documents.png" class="folders mb-3 "
+                                    <img src="../../../assets/paper folder with documents.png" class="folders mb-4  "
                                         alt="">
                                     <img src="../../../assets/ph_dots-three-bold.png"
                                         class="object-fit-contain three-dots" alt="">
                                 </div>
                                 <p class="card-title fw-bold m-0">{{policy}}</p>
                             </div>
-                            <div class=" card-footer d-flex align-items-center justify-content-between ">
-                                <a href=" #" class="nav-link text-dark p-0">View</a>
-                                <i class="ri-arrow-right-line"></i>
-                            </div>
+                            <!-- <div class=" card-footer d-flex align-items-center justify-content-between ">
+                                        <a href=" #" class="nav-link text-dark p-0">View</a>
+                                        <i class="ri-arrow-right-line"></i>
+                                    </div> -->
                         </div>
                     </div>
                 </div>
+                <!-- </div> -->
 
                 <!--User List-->
                 <div class="groupInfo d-flex justify-content-between align-items-center mb-2 ">
                     <p class="m-0 fw-bold ">{{group?.groupName}} Users</p>
                     <div class="manageBuckets d-flex align-items-center gap-4">
-                        <button class="btn manage-btn" type="button"><i class="ri-settings-4-line"></i> Manage
+                        <button class="btn manage-btn shadow-none " (click)="open(content1,group)" type="button"><i
+                                class="ri-settings-4-line"></i>
+                            Manage
                             Users</button>
                     </div>
+
+                    <ng-template let-modal #content1>
+                        <div class="modal-header">
+                            <h5 class="modal-title mb-3  " id="modal-basic-title">Manage Users</h5>
+                            <button type="button" class="btn-close shadow-none " [disabled]="!spinnerBtn"
+                                aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form #form='ngForm'>
+                                <label for="" class=" form-label">username</label>
+                                <input readonly type="text" class="form-control mb-3" name="groupName"
+                                    #groupName='ngModel' [(ngModel)]="manageUsersData.groupName">
+                                <div class="mb-3">
+                                    <ng-multiselect-dropdown #users="ngModel" name="users"
+                                        [(ngModel)]="manageUsersData.users" placeholder="Select Buckets"
+                                        [data]="this.allUsersData" [settings]="dropdownSettings1">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <!-- <p class="m-0 text-danger msg mb-3" *ngIf="selectMsg">Select Buckets</p> -->
+                                <button *ngIf="spinnerBtn" class="btn btn-dark shadow-none msg mb-3 w-100 addBucket"
+                                    (click)="manageUsers(form)" type="submit">Update
+                                    Users</button>
+                                <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </form>
+                        </div>
+                    </ng-template>
                 </div>
+
+                <!--Users List In the group-->
                 <table class="table table-striped table-hover ">
                     <thead class="table-secondary ">
                         <tr class="table-secondary ">

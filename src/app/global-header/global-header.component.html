@@ -115,7 +115,6 @@
             <button class="btn add-bucket shadow-none " *ngIf="tabname=='Groups'" (click)="open(content2)"><i
                     class="ri-add-line"></i> Add
                 Group</button>
-
             <ng-template #content2 let-modal>
                 <div class="modal-header">
                     <h4 class="modal-title " id="modal-basic-title">Create Group</h4>
@@ -126,23 +125,20 @@
                     <form #form="ngForm">
                         <label for="bukcet" class="form-check-label mb-2">Name</label>
                         <input type="text" class="form-control mb-3 shadow-none " placeholder="Enter Group Name"
-                            #groupname="ngModel" [(ngModel)]="Groupdata.groupname" name="groupname">
-                        <!-- <label for="bukcet" class="form-check-label ">Username</label>
-                        <input type="email" class="form-control  shadow-none " placeholder="Enter Email"
-                            #username="ngModel" [(ngModel)]="Groupdata.username" name="username"> -->
-                        <!-- <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Username Already Exist</p> -->
-                        <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
+                            #group="ngModel" [(ngModel)]="Groupdata.group" name="group">
+                        <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Group Name Already Exist</p>
+                        <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter Group Name</p>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button *ngIf="spinnerBtn" type="button" (click)="createGroup(form)"
                         class="btn btn-dark w-100 shadow-none ">Create
                         User</button>
-                    <!-- <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
+                    <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
                         <div class="spinner-border text-light" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                    </button> -->
+                    </button>
                 </div>
             </ng-template>
         </div>

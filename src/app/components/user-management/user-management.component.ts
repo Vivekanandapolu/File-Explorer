@@ -19,6 +19,7 @@ export class UserManagementComponent implements OnInit {
   spinner = false
   btn_close = false
   constructor(private router: ActivatedRoute, private route: Router, private http: HttpClient, private toastr: ToastrService, private modalservice: NgbModal) {
+
     this.dropdownSettings = {
       singleSelection: false,
       itemsShowLimit: 4
@@ -91,7 +92,6 @@ export class UserManagementComponent implements OnInit {
 
   //add buckets to user
   addUserBucket(form: NgForm, user: any) {
-
     this.spinnerBtn = false
     this.spinner = true
     if (!this.addbucket.buckets) {

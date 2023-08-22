@@ -13,5 +13,8 @@ export const apiurls = {
     allUsers: domain + '/api/user_list',
     enableuser: domain + '/api/user_status',
     addBuckets: domain + '/api/user/add_bucket',
-    allGroups: domain + '/api/group_list'
+    allGroups: domain + '/api/group_list',
+    addGroup: domain + '/api/group_create',
+    manageBuckets: domain + '/api/group/add_bucket',
+    manageUsers: domain + '/api/group/add_users'
 }

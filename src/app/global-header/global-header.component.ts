@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './global-header.component.html',
   styleUrls: ['./global-header.component.scss']
 })
-export class GlobalHeaderComponent implements OnInit, OnChanges {
+export class GlobalHeaderComponent implements OnInit {
 
   @Input() Label: any
   @Input() Back: any
@@ -23,6 +23,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
   @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
   @Output() view_con: EventEmitter<string> = new EventEmitter<string>();
   @Output() createbucket_res: EventEmitter<string> = new EventEmitter<string>();
+  @Output() creategroup: EventEmitter<string> = new EventEmitter<string>();
   prev = true
   next = true
   previousVal: number = 0
@@ -105,9 +106,7 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
     this.getBuckets()
     this.getAllUsers()
   }
-  ngOnChanges(changes: SimpleChanges): void {
 
-  }
 
   open(content: any) {
     this.modalservice.open(content, { backdrop: 'static' })
@@ -117,11 +116,9 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
 
     this.allBuckets = []
     this.http.get(apiurls.buckets).subscribe((res: any) => {
-
       for (let i in res.buckets) {
         this.buckets.push(res.buckets[i].name)
       }
-      // console.log(this.buckets);
 
     })
   }
@@ -251,15 +248,44 @@ export class GlobalHeaderComponent implements OnInit, OnChanges {
       // console.log(res);
     })
   }
-
+  getAllGroups() {
+    this.http.get(apiurls.allGroups).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
 
   createGroup(form: NgForm) {
-    if (!this.Groupdata.groupname) {
+    this.spinnerBtn = false
+    this.spinner = true
+    if (!this.Groupdata.group) {
+      this.spinnerBtn = true
+      this.spinner = false
       this.AllfieldsErr = true
       setTimeout(() => {
         this.AllfieldsErr = false
       }, 2000)
     }
+    else {
+      this.http.post(apiurls.addGroup, form.value).subscribe((res: any) => {
+        this.spinnerBtn = true
+        this.spinner = false
+        if (res?.exists) {
+          this.spinnerBtn = true
+          this.spinner = false
+          this.alreadyExists = true
+          setTimeout(() => {
+            console.log(this.alreadyExists)
+            this.alreadyExists = false
+          }, 1500)
+        }
+        if (res?.created) {
+          this.creategroup.emit(res.created)
+          this.toastr.success('Group Added Successfully', '', {
+            timeOut: 1500
+          })
+          this.modalservice.dismissAll()
+        }
+      })
+    }
   }
-
 }

@@ -1,6 +1,10 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { apiurls } from 'src/app/shared/apiurls';
 
 @Component({
@@ -12,56 +16,78 @@ export class GroupsComponent implements OnInit {
   groupView = true
   TabName: any
   allGroups: any = []
-
   BackIndexVal: any = 0
   FrontIndexVal: any = 0
   GroupData: any = []
-  constructor(private route: Router, private http: HttpClient, private router: ActivatedRoute) {
+  spinnerBtn: any = true
+  spinner = false
+  dropdownSettings = {};
+  dropdownSettings1 = {};
+  queryParams = {
+    BackIndexVal: this.BackIndexVal,
+    FrontIndexVal: this.FrontIndexVal
+  }
+  manageBucketsData: any = {
 
   }
+  manageUsersData: any = {
 
+  }
+  constructor(private route: Router, private http: HttpClient, private router: ActivatedRoute, private modalservice: NgbModal, private toastr: ToastrService) {
+    this.dropdownSettings = {
+      singleSelection: false,
+      itemsShowLimit: 3
+    };
+    this.dropdownSettings1 = {
+      singleSelection: false,
+      itemsShowLimit: 2
+    };
+  }
+
+  allBuckets: any = []
+  allUsersData: any = []
 
   ngOnInit(): void {
+    this.getAllUsers()
+    this.getBuckets()
     localStorage.setItem('tabname', 'Groups')
-    let headername = {
-      name: "Groups"
-    }
-    this.route.navigate(['/groups'], { queryParams: headername })
+
     this.router.queryParamMap.subscribe((res: any) => {
-      this.TabName = res.params.name
-      if (!res.get('groupData')) {
-        this.groupView = true
-        this.getAllGroups()
-        this.GroupData = []
-      }
-      else {
-        this.groupView = false
-        this.getGroupDatabyParams(res.get('groupData'))
-      }
+      this.getAllGroups().then((val: any) => {
+        if (!res.params.viewtype || res.params.viewtype == "outer") {
+          this.TabName = localStorage.getItem('tabname')
+          this.allGroups = val
+          this.groupView = true
+        }
+        else if (res.params.viewtype == "inner") {
+          this.TabName = ''
+          this.groupView = false
+          this.GroupData = [val[res.params?.indexPos]]
+        }
+      })
     })
   }
   getAllGroups() {
-    this.http.get(apiurls.allGroups).subscribe((res: any) => {
-      this.allGroups = res.groups
-      console.log(this.allGroups);
+    return new Promise((resolve) => {
+      this.http.get(apiurls.allGroups).subscribe((res: any) => {
+        resolve(res.groups)
+      })
     })
   }
 
-  innerViewGroup(groupName: any) {
-
+  innerViewGroup(group: any) {
     this.groupView = false
     this.BackIndexVal = this.BackIndexVal + 1
-    console.log(this.BackIndexVal);
     this.TabName = ''
     this.http.get(apiurls.allGroups).subscribe((res: any) => {
       for (let i of res.groups) {
-        if (i.groupName == groupName) {
+        if (i.groupName == group?.groupName) {
           this.GroupData = [i]
         }
       }
-      console.log(this.GroupData, "hello");
       const queryParams = {
-        groupData: JSON.stringify(this.GroupData),
+        viewtype: "inner",
+        indexPos: this.allGroups.indexOf(group),
         backIndex: this.BackIndexVal,
         frontIndex: this.FrontIndexVal
       }
@@ -69,30 +95,116 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-
-  getGroupDatabyParams(groupData: any) {
-    console.log(this.GroupData);
-    this.loopArray(this.GroupData, groupData)
+  getBuckets() {
+    this.http.get(apiurls.buckets).subscribe((res: any) => {
+      res.buckets.filter((bucket: any) => {
+        this.allBuckets.push(bucket.name)
+      })
+    })
   }
 
-  loopArray(arr: any, groupData: any) {
-    console.log(arr, JSON.parse(groupData));
-    // for (let i = 0; i < arr.length; i++) {
-    //   if (arr[i].path == path) {
-    //     this.groupView = false
-    //     let data = {
-    //       files: arr[i].files,
-    //       folderName: arr[i].folderName,
-    //       type: "folder",
-    //       path: path
-    //     }
-    //     this.GroupData = [data]
+  open(content: any, group: any) {
+    this.modalservice.open(content, {
+      backdrop: "static"
+    })
+    console.log(group);
+    this.manageBucketsData.groupName = group?.groupName
+    this.manageUsersData.groupName = group?.groupName
+    this.manageBucketsData.buckets = group?.groupPolicy
+    this.manageUsersData.users = group.members
+  }
+  getallgroups() {
+    this.http.get(apiurls.allGroups).subscribe((res: any) => {
+      this.allGroups = res.groups
+    })
+  }
 
-    //     console.log(this.GroupData, "2");
-    //     return
-    //   } else {
-    //     this.loopArray(arr[i].files, path);
-    //   }
-    // }
+
+  getAllgroupBucketsAndUsers() {
+    this.router.queryParamMap.subscribe((res: any) => {
+      this.getAllGroups().then((val: any) => {
+        if (!res.params.viewtype || res.params.viewtype == "outer") {
+          this.TabName = localStorage.getItem('tabname')
+          this.allGroups = val
+          this.groupView = true
+        }
+        else if (res.params.viewtype == "inner") {
+          this.TabName = ''
+          this.groupView = false
+          this.GroupData = [val[res.params?.indexPos]]
+        }
+      })
+    })
+  }
+  newBukcet(val: any) {
+    if (val) {
+      this.getallgroups()
+    }
+  }
+  manageBuckets(form: NgForm) {
+    this.spinner = true
+    this.spinnerBtn = false
+    if (form.invalid) {
+      this.spinner = false
+      this.spinnerBtn = true
+    }
+    else {
+      form.value.buckets = form.value.buckets?.join(',')
+      this.http.post(apiurls.manageBuckets, form.value).subscribe((res: any) => {
+        console.log(res);
+        if (res?.group_update) {
+          this.getAllgroupBucketsAndUsers()
+          this.modalservice.dismissAll()
+          this.spinner = false
+          this.spinnerBtn = true
+          this.toastr.success("Buckets Updated Successfully", '', {
+            timeOut: 1500
+          })
+        }
+      })
+    }
+  }
+
+  getAllUsers() {
+    this.http.get(apiurls.allUsers).subscribe((res: any) => {
+      res.filter((user: any) => {
+        console.log(user.name);
+        return this.allUsersData.push(user.name)
+      })
+      console.log(this.allUsersData);
+    })
+  }
+
+  manageUsers(form: NgForm) {
+    this.spinner = true
+    this.spinnerBtn = false
+    if (form.invalid) {
+      this.spinner = false
+      this.spinnerBtn = true
+    }
+    else {
+      form.value.users = form.value.users?.join(',')
+      this.http.post(apiurls.manageUsers, form.value).subscribe((res: any) => {
+        console.log(res);
+        if (res?.group_users) {
+          this.getAllgroupBucketsAndUsers()
+          this.modalservice.dismissAll()
+          this.spinner = false
+          this.spinnerBtn = true
+          this.toastr.success("Users Updated Successfully", '', {
+            timeOut: 1500
+          })
+        }
+        if (res.group_member) {
+          this.getAllgroupBucketsAndUsers()
+          this.modalservice.dismissAll()
+          this.spinner = false
+          this.spinnerBtn = true
+          this.toastr.success("Users Updated Successfully", '', {
+            timeOut: 1500
+          })
+        }
+      })
+    }
   }
 }

@@ -21,6 +21,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
 
@@ -37,6 +38,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     LoaderComponent,
   ],
   imports: [
+    NgSelectModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
