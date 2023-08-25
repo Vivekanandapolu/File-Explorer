@@ -82,7 +82,7 @@ export class UserManagementComponent implements OnInit {
   //open modal
   open(content: any, user: any) {
     this.modalservice.open(content, { backdrop: 'static' })
-    this.addbucket.username = user.name
+    this.addbucket.username = user?.name
     this.addbucket.buckets = user?.bucketname?.split(',')
     // let userbuckets: any = user.bucketname.split(',')
     // let arr: any = []
@@ -129,8 +129,16 @@ export class UserManagementComponent implements OnInit {
       for (let i in res.buckets) {
         this.allBuckets.push(res.buckets[i].name)
       }
-      // console.log(this.allBuckets);
     })
+  }
+  userCreated(val: any) {
+    if (val) {
+      this.getAllUsers()
+    }
+  }
+  searchUsers(users: any) {
+    console.log(users);
+    this.allUsers = users
   }
 }
 

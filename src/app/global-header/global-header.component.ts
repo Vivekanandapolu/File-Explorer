@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { apiurls } from '../shared/apiurls';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ParseSpan } from '@angular/compiler';
 
 
 @Component({
@@ -24,6 +25,12 @@ export class GlobalHeaderComponent implements OnInit {
   @Output() view_con: EventEmitter<string> = new EventEmitter<string>();
   @Output() createbucket_res: EventEmitter<string> = new EventEmitter<string>();
   @Output() creategroup: EventEmitter<string> = new EventEmitter<string>();
+  @Output() createuser: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchBucket: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchInnerBucektData: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchUsers: EventEmitter<string> = new EventEmitter<string>();
+  @Output() searchGroups: EventEmitter<string> = new EventEmitter<string>();
+
   prev = true
   next = true
   previousVal: number = 0
@@ -45,6 +52,8 @@ export class GlobalHeaderComponent implements OnInit {
   Groupdata: any = {
 
   }
+  bucketName: any
+  searchVal: any = ''
   alreadyExists = false
   dropdownSettings: any
   spinner = false
@@ -86,9 +95,11 @@ export class GlobalHeaderComponent implements OnInit {
       this.list = res.get('view')
     })
     this.route.queryParamMap.subscribe((params: any) => {
+      this.searchVal = ''
+      // console.log(params);
+      this.tabname = params.get('name') || params.get('tabname')
       this.Back = Number(params.get('backIndex'))
       this.Forward = Number(params.get('frontIndex'))
-
       if (this.Back == 0) {
         this.prev = true
       }
@@ -105,6 +116,7 @@ export class GlobalHeaderComponent implements OnInit {
     })
     this.getBuckets()
     this.getAllUsers()
+
   }
 
 
@@ -195,11 +207,9 @@ export class GlobalHeaderComponent implements OnInit {
 
     if (localStorage.getItem('view') == 'grid') {
       this.viewVal = true
-      console.log(this.viewVal);
     }
     else if (localStorage.getItem('view') == 'list') {
       this.viewVal = false
-      console.log(this.viewVal);
     }
     this.list = localStorage.getItem('view')
     this.view_con.emit(this.list)
@@ -211,7 +221,6 @@ export class GlobalHeaderComponent implements OnInit {
   createUser(form: NgForm) {
     this.spinnerBtn = false
     this.spinner = true
-    console.log(form.value);
     if (form.value.name == '' || form.value.username == '') {
       this.spinnerBtn = true
       this.spinner = false
@@ -222,7 +231,6 @@ export class GlobalHeaderComponent implements OnInit {
     }
     form.value.username = form.value.username.toLowerCase()
     this.http.post(apiurls.createUser, form.value).subscribe((res: any) => {
-      console.log(form.value);
       if (res.detail) {
         this.spinnerBtn = true
         this.spinner = false
@@ -232,13 +240,15 @@ export class GlobalHeaderComponent implements OnInit {
         }, 2500)
       }
       if (res.msg) {
-        this.spinnerBtn = false
+        this.createuser.emit(res.msg)
         this.spinner = true
         this.modalservice.dismissAll()
         this.spinnerBtn = true
         this.spinner = false
         this.toastr.success("User Created Successfully")
         this.getAllUsers()
+        this.NewUserData = {}
+
       }
     })
   }
@@ -246,11 +256,6 @@ export class GlobalHeaderComponent implements OnInit {
   getAllUsers() {
     this.http.get(apiurls.allUsers).subscribe((res: any) => {
       // console.log(res);
-    })
-  }
-  getAllGroups() {
-    this.http.get(apiurls.allGroups).subscribe((res: any) => {
-      console.log(res);
     })
   }
 
@@ -287,5 +292,58 @@ export class GlobalHeaderComponent implements OnInit {
         }
       })
     }
+  }
+
+  performSearch() {
+    let arr: any = []
+    let innerBucketData: any = []
+    this.http.get(apiurls.buckets).subscribe((res: any) => {
+      res.buckets.filter((val: any) => {
+        if (val.name.includes(this.searchVal.toLowerCase())) {
+          arr.push(val)
+        }
+      })
+      this.route.queryParamMap.subscribe((params: any) => {
+        this.bucketName = params.get('mainbucket')
+        console.log(params, "Params , Global");
+        // this.http.get(apiurls.bucketsData + this.bucketName).subscribe((res: any) => {
+        //   res.filter((val: any) => {
+        //     if (val?.files) {
+        //       for (let i of val?.files) {
+        //         if (i.filename?.includes(this.searchVal.toLowerCase()) || i.folderName?.includes(this.searchVal.toLowerCase())) {
+        //           innerBucketData.push(i)
+        //         }
+        //       }
+        //     }
+        //   })
+        // })
+      })
+      this.searchBucket.emit(arr)
+    })
+  }
+  userSearch() {
+    let users: any = []
+    this.http.get(apiurls.allUsers).subscribe((res: any) => {
+      res.filter((val: any) => {
+        if (val.name.split('@')[0].includes(this.searchVal.toLowerCase())) {
+          console.log(val);
+          users.push(val)
+        }
+      })
+    })
+    this.searchUsers.emit(users)
+  }
+
+  groupSearch() {
+    let groupArr: any = []
+    this.http.get(apiurls.allGroups).subscribe((res: any) => {
+      res.groups.filter((val: any) => {
+        if (val.groupName.includes(this.searchVal)) {
+          groupArr.push(val)
+        }
+      })
+    })
+    console.log(groupArr, "groups Search");
+    this.searchGroups.emit(groupArr)
   }
 }

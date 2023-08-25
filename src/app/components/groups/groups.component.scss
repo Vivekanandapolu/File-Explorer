@@ -115,12 +115,17 @@
 
 .groupBuckets {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     margin-top: 20px;
     white-space: nowrap;
     overflow: hidden;
 }
 
+.groupBuckets1 {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
 // .viewall {
 //     text-decoration: none !important;
@@ -134,31 +139,71 @@
 
 @media screen and (max-width: 1440px) {
     .groupBuckets {
-        width: 900px !important;
+        width: 870px !important;
+    }
+
+    .viewall-btn-div {
+        background: grey;
+        /* height: -webkit-fill-available; */
+        position: absolute;
+        right: 0px;
+        width: 10rem;
+        height: 8rem;
+        top: 59px;
+        right: 19px;
+        display: flex;
+        align-items: center;
+        background: white;
+        justify-content: center;
+        box-shadow: 0px 0px 7px #a0a7a6;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .viewall-btn-div p {
+        color: black;
+        text-decoration: none;
+        text-transform: lowercase;
+    }
+
+    .viewall-btn-div:hover {
+        background: #D4FFF5;
+        transition: 0.5s;
     }
 }
 
-.ng-select {
-    background-color: #f2f2f2;
-}
 
-.ng-select .ng-value-container .ng-value {
-    background-color: #3498db;
-    color: #fff;
-}
+@media screen and (min-width: 1440px) {
+    .groupBuckets {
+        width: 1380px !important;
+    }
 
-.ng-select .ng-option.ng-option-marked {
-    background-color: #e74c3c;
-    color: #fff;
-}
+    .viewall-btn-div {
 
+        position: absolute;
+        width: 12rem;
+        height: 7rem;
+        top: 67px;
+        right: 19px;
+        right: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        box-shadow: 0px 0px 7px #a0a7a6;
+        font-size: 16x;
+        cursor: pointer;
 
-.ng-select::-webkit-input-placeholder::after {
-    box-sizing: border-box;
-    display: none;
-}
+    }
 
-.ng-dropdown-panel {
-    background: white !important;
-    padding: 0px 20px !important;
+    .viewall-btn-div p {
+        color: black;
+        text-decoration: none;
+    }
+
+    .viewall-btn-div:hover {
+        background: #D4FFF5;
+        transition: 0.5s;
+    }
+
 }

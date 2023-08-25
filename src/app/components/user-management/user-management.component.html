@@ -1,5 +1,6 @@
 <app-side-nav></app-side-nav>
-<app-global-header [tabname]="TabName"></app-global-header>
+<app-global-header [tabname]="TabName" (createuser)="userCreated($event)"
+    (searchUsers)="searchUsers($event)"></app-global-header>
 
 <div class="main-container">
     <div class="header-row">
@@ -31,30 +32,29 @@
                             <div class="form-check form-switch ">
                                 <input [checked]="user?.userstatus=='enabled'" class="form-check-input shadow-none"
                                     type="checkbox" id="flexSwitchCheckDefault"
-                                    (change)="enableUser(user.name,user?.userstatus)">
+                                    (change)="enableUser(user?.name,user?.userstatus)">
                             </div>
-
                             <button class="btn btn-primary shadow-none  d-flex gap-1 view-polici"
-                                (click)="open(content1,null)" (click)="
-                                viewUserBuckets(user)"><i class="ri-information-line info"></i>View
+                                (click)="open(content1,null)" (click)="viewUserBuckets(user)"><i
+                                    class="ri-information-line info"></i>View
                                 Bukcets</button>
 
                             <ng-template #content1 let-modal>
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="modal-basic-title">{{userData.username}}</h4>
+                                    <h4 class="modal-title" id="modal-basic-title">{{userData?.username}}</h4>
                                     <button [disabled]="spinner" type="button" class="btn-close shadow-none "
                                         aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                                 </div>
                                 <div class="modal-body">
                                     <h5 class="modal-title mb-3  " id="modal-basic-title">Buckets</h5>
-                                    <div class="row row-cols-3" *ngIf="userData.buckets">
-                                        <div class="col" *ngFor="let i of userData.buckets ">
+                                    <div class="row row-cols-3" *ngIf="userData?.buckets">
+                                        <div class="col" *ngFor="let i of userData?.buckets ">
                                             <div class="userBucket ">
                                                 {{i.toUpperCase()}}
                                             </div>
                                         </div>
                                     </div>
-                                    <ol *ngIf="!userData.buckets">
+                                    <ol *ngIf="!userData?.buckets">
                                         <li style="list-style: none;">No Bukcets Found</li>
                                     </ol>
                                 </div>

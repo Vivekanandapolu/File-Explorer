@@ -25,10 +25,12 @@
 
 .profile-btn {
     background-color: #AE7744;
-    border-radius: 50%;
-    padding: 6px 8px;
     border: none;
-    margin-right: 8px
+    margin-right: 8px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    box-shadow: none;
 }
 
 .header-row {
@@ -78,4 +80,65 @@
     display: flex;
     justify-content: end !important;
     padding: 7px !important;
+}
+
+.card-header {
+    background-color: #FFD8B2;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.card {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 1000;
+    width: 18rem;
+    height: 16rem;
+}
+
+.profile-btn-1 {
+    position: relative;
+    top: 26px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #AE7744;
+    color: white !important;
+}
+
+.change-pass,
+.logout {
+    cursor: pointer;
+    padding: 3px 5px;
+
+}
+
+.msg {
+    font-weight: bold;
+    position: relative;
+    bottom: 10px;
+    font-size: 12px;
+}
+
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.change-pass:hover,
+.logout:hover {
+    background: #FFD8B2;
+}
+
+.name {
+    width: max-content;
+}
+
+.dropdown-menu {
+    background: transparent;
+    border: none;
+    min-width: unset; // min-width: none !important;
 }

@@ -25,7 +25,7 @@
                         <h6 class="text-white ">
                             LOGIN
                         </h6>
-                        <p class="text-white login-msg">Please enter the valid credentials to login.</p>
+                        <p class="text-white login-msg">*Please enter the valid credentials to login.</p>
                         <form #form="ngForm" (ngSubmit)="submitForm(form)">
                             <label for="username" class="form-label m-0">User Name</label>
                             <input id="username" name="username" [(ngModel)]="loginDetails.username" type="text "
@@ -35,7 +35,7 @@
                                 class="form-control mb-3" placeholder="Password">
                             <p *ngIf="invalidDetailsErr" class="msg text-danger m-0">*Invalid User Credentials</p>
                             <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
-                            <p *ngIf="disabledbyAdmin" class="msg text-danger m-0">User Disabled by Admin</p>
+                            <p *ngIf="disabledbyAdmin" class="msg text-danger m-0">*User Disabled by Admin</p>
                             <div class="pass-label mb-4 ">
                                 <p class="m-0 text-white forgot-msg" routerLink="/forgot">Forgot Password?</p>
                             </div>

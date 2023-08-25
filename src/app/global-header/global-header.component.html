@@ -7,7 +7,7 @@
             <button class="btn shadow-none arrow-btn" [disabled]="next">
                 <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
             </button>
-            <p class="m-0 ms-2">{{tabname}}</p>
+            <p class="m-0 ms-2 fw-bold ">{{tabname}}</p>
             <button class="btn btn-secondary shadow-none folders w-25" (click)="sendData(folder)"
                 data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="folder?.folder"
                 *ngFor="let folder of Label">
@@ -16,9 +16,27 @@
         <div class="d-flex align-items-center gap-3 ">
             <form class="search-files-form">
                 <div class="input-group m-2  border-2 ">
-                    <span class="input-group-text text-dark bg-white border-0 "><i
+                    <!--For Bucket search-->
+                    <span class="input-group-text text-dark bg-white border-0 "
+                        *ngIf="usertype && tabname=='Buckets' || tabname=='' "><i
                             class="ri-search-line search"></i></span>
-                    <input type="search" class="form-control border-0 shadow-none " placeholder="Search for Bucket">
+                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='Buckets'"
+                        name="search" [(ngModel)]="searchVal" (ngModelChange)="performSearch()"
+                        placeholder="Search for Buckets">
+                    <!--For users search-->
+                    <span class="input-group-text text-dark bg-white border-0 "
+                        *ngIf="usertype && tabname=='User management' || tabname=='' "><i
+                            class="ri-search-line search"></i></span>
+                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='User management'"
+                        name="search" [(ngModel)]="searchVal" (ngModelChange)="userSearch()"
+                        placeholder="Search for Users">
+                    <!--For Group search-->
+                    <span class="input-group-text text-dark bg-white border-0 "
+                        *ngIf="usertype && tabname=='Groups' || tabname=='' "><i
+                            class="ri-search-line search"></i></span>
+                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='Groups'"
+                        name="search" [(ngModel)]="searchVal" (ngModelChange)="groupSearch()"
+                        placeholder="Search for Groups">
                 </div>
             </form>
 
@@ -56,9 +74,10 @@
                         <label for="bukcet" class="form-check-label mb-3">Bucket Name</label>
                         <input type="text" class="form-control shadow-none " placeholder="Enter Bucket Name"
                             #bucket_name="ngModel" [(ngModel)]="newBucketData.bucket_name" name="bucket_name">
-                        <p *ngIf="errMsg " [ngClass]="{'errMsg':errMsg}" class="text-danger m-0 ">Bucket name is minimum
+                        <p *ngIf="errMsg " [ngClass]="{'errMsg':errMsg}" class="text-danger m-0 ">*Bucket name is
+                            minimum
                             three characters</p>
-                        <p *ngIf="specialChars " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 ">Bucket
+                        <p *ngIf="specialChars " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 ">*Bucket
                             name
                             doesnot includes spaces or special characters</p>
                     </form>

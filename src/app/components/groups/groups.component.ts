@@ -33,6 +33,8 @@ export class GroupsComponent implements OnInit {
   manageUsersData: any = {
 
   }
+
+  allBucketsView = false
   constructor(private route: Router, private http: HttpClient, private router: ActivatedRoute, private modalservice: NgbModal, private toastr: ToastrService) {
     this.dropdownSettings = {
       singleSelection: false,
@@ -46,6 +48,10 @@ export class GroupsComponent implements OnInit {
 
   allBuckets: any = []
   allUsersData: any = []
+  groupView1: any = false
+  groupBuckets: any = []
+
+  viewBtn = false
 
   ngOnInit(): void {
     this.getAllUsers()
@@ -58,11 +64,27 @@ export class GroupsComponent implements OnInit {
           this.TabName = localStorage.getItem('tabname')
           this.allGroups = val
           this.groupView = true
+          this.groupView1 = false
+          this.allBucketsView = false
         }
         else if (res.params.viewtype == "inner") {
           this.TabName = res.params.tabname
           this.groupView = false
+          this.groupView1 = true
+          this.allBucketsView = false
           this.GroupData = [val[res.params?.indexPos]]
+        }
+        else if (res.params.viewtype == "viewallbuckets") {
+          // console.log(val);
+          this.TabName = res.params.tabname
+          this.groupView = false
+          this.groupView1 = false
+          this.allBucketsView = true
+
+          this.groupBuckets = val[res.params?.indexPos]?.groupPolicy
+          if (val[res.params?.indexPos]?.groupPolicy.length >= 3) {
+            this.viewBtn = true
+          }
         }
       })
     })
@@ -75,26 +97,6 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  innerViewGroup(group: any) {
-    console.log(group.groupName);
-    this.groupView = false
-    this.BackIndexVal = this.BackIndexVal + 1
-    this.http.get(apiurls.allGroups).subscribe((res: any) => {
-      for (let i of res.groups) {
-        if (i.groupName == group?.groupName) {
-          this.GroupData = [i]
-        }
-      }
-      const queryParams = {
-        viewtype: "inner",
-        indexPos: this.allGroups.indexOf(group),
-        backIndex: this.BackIndexVal,
-        frontIndex: this.FrontIndexVal,
-        tabname: group.groupName
-      }
-      this.route.navigate(['/groups'], { queryParams: queryParams });
-    })
-  }
 
   getBuckets() {
     this.http.get(apiurls.buckets).subscribe((res: any) => {
@@ -130,8 +132,10 @@ export class GroupsComponent implements OnInit {
           this.groupView = true
         }
         else if (res.params.viewtype == "inner") {
-          this.TabName = ''
+          this.TabName = res.params.tabname
           this.groupView = false
+          this.groupView1 = true
+
           this.GroupData = [val[res.params?.indexPos]]
         }
       })
@@ -142,7 +146,7 @@ export class GroupsComponent implements OnInit {
       this.getallgroups()
     }
   }
-  manageBuckets(form: NgForm) {
+  manageBuckets(form: NgForm, group: any) {
     this.spinner = true
     this.spinnerBtn = false
     if (form.invalid) {
@@ -150,12 +154,16 @@ export class GroupsComponent implements OnInit {
       this.spinnerBtn = true
     }
     else {
+      this.router.queryParamMap.subscribe((params: any) => {
+        console.log(params.params.tabname, "params");
+      })
       form.value.buckets = form.value.buckets?.join(',')
       this.http.post(apiurls.manageBuckets, form.value).subscribe((res: any) => {
         console.log(res);
         if (res?.group_update) {
           this.getAllgroupBucketsAndUsers()
           this.modalservice.dismissAll()
+          this.TabName = group.groupName
           this.spinner = false
           this.spinnerBtn = true
           this.toastr.success("Buckets Updated Successfully", '', {
@@ -163,6 +171,7 @@ export class GroupsComponent implements OnInit {
           })
         }
         if (res.policies) {
+          this.TabName = group.groupName
           this.getAllgroupBucketsAndUsers()
           this.modalservice.dismissAll()
           this.spinner = false
@@ -197,6 +206,7 @@ export class GroupsComponent implements OnInit {
       this.http.post(apiurls.manageUsers, form.value).subscribe((res: any) => {
         console.log(res);
         if (res?.group_users) {
+
           this.getAllgroupBucketsAndUsers()
           this.modalservice.dismissAll()
           this.spinner = false
@@ -216,5 +226,59 @@ export class GroupsComponent implements OnInit {
         }
       })
     }
+  }
+
+
+  innerViewGroup(group: any) {
+    // console.log(group.groupName);
+    this.groupView = false
+    this.groupView1 = true
+    this.BackIndexVal = this.BackIndexVal + 1
+
+    this.http.get(apiurls.allGroups).subscribe((res: any) => {
+      const queryParams = {
+        viewtype: "inner",
+        indexPos: this.allGroups.indexOf(group),
+        backIndex: this.BackIndexVal,
+        frontIndex: this.FrontIndexVal,
+        tabname: group.groupName
+      }
+      for (let i of res.groups) {
+        if (i.groupName == group?.groupName) {
+          this.GroupData = [i]
+        }
+      }
+      this.route.navigate(['/groups'], { queryParams: queryParams });
+    })
+  }
+
+  //All Buckets view
+
+  ViewallBuckets(group: any) {
+    this.allBucketsView = true
+    this.groupView1 = false
+    this.groupView = false
+    this.BackIndexVal = this.BackIndexVal + 1
+    this.http.get(apiurls.allGroups).subscribe((res: any) => {
+      let queryParams = {
+        viewtype: "viewallbuckets",
+        indexPos: this.allGroups.indexOf(group),
+        backIndex: this.BackIndexVal,
+        frontIndex: this.FrontIndexVal,
+        tabname: group.groupName
+      }
+      for (let i of res.groups) {
+        if (i.groupName == group?.groupName) {
+          this.groupBuckets = i.groupPolicy
+          queryParams.indexPos = res.groups.indexOf(i)
+          console.log(this.groupBuckets);
+        }
+      }
+      this.route.navigate(['/groups'], { queryParams: queryParams });
+    })
+  }
+
+  groupSearch(groups: any) {
+    this.allGroups = groups
   }
 }

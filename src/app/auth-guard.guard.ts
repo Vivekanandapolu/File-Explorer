@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthServiceService } from './auth-service.service';
+import { TokenService } from './token.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardGuard implements CanActivate {
-  constructor(private authService: AuthServiceService, private router: Router) {
+  constructor(private authService: AuthServiceService, private router: Router, private tokenservice: TokenService) {
 
   }
   canActivate(next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | UrlTree {
-    if (this.authService.isUserAuthenticated()) {
+    const token = localStorage.getItem('token')
+    if (this.tokenservice.validateTokenAndRefresh()) {
       return true
     }
     else {
-      return this.router.createUrlTree(['/']);
+      alert("Session Expired Resfresh and Login Again")
+      localStorage.clear()
+      this.router.navigate(['/'])
+      return false
     }
   }
 

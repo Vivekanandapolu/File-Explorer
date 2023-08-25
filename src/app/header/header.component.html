@@ -1,5 +1,60 @@
 <div class="container-fluid content-con me-3 ">
     <div class=" header-row ">
-        <button class="btn btn-warning text-white profile-btn">ML</button>
+        <div class="dropdown">
+            <button class="btn btn-secondary text-white profile-btn" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {{firstLetter}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="cardDropdown">
+                <div class="card">
+                    <div class="card-header">
+                        <button class="btn btn-warning fw-bold profile-btn-1">{{firstLetter}}</button>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3 mt-3 fw-bold name">{{username}}</p>
+                        <p class="mb-3 change-pass d-flex gap-2 " (click)="open(content2)"><i class="ri-key-fill"></i>
+                            Change Password</p>
+                        <p class="logout d-flex gap-2" (click)="logout()"><i class="ri-logout-box-r-line"></i>
+                            Logout
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <ng-template #content2 let-modal1>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-basic-title">Change Password</h5>
+                    <button [disabled]="spinner" type="button" class="btn-close shadow-none " aria-label="Close"
+                        (click)="modal1.dismiss('Cross click')"></button>
+                </div>
+                <div class="modal-body">
+                    <form #form='ngForm' (ngSubmit)="changePassword(form)">
+                        <label for="" class="form-label">Current Password</label>
+                        <input type="password" class="form-control shadow-none  mb-3" name="CurrentPassword"
+                            #CurrentPassword='ngModel' [(ngModel)]="changeData.CurrentPassword">
+                        <p class="m-0 text-danger msg mb-3" *ngIf="currentMsg">*Current Password is Invalid</p>
+                        <label for="" class="form-label">New Password</label>
+                        <input type="text" class="form-control shadow-none  mb-3" name="NewPassword"
+                            #NewPassword='ngModel' [(ngModel)]="changeData.NewPassword"><label for=""
+                            class="form-label">Confirm
+                            Password</label>
+                        <input type="password" class="form-control shadow-none  mb-3" name="ConfirmPassword"
+                            #ConfirmPassword='ngModel' [(ngModel)]="changeData.ConfirmPassword">
+                        <p class="m-0 text-danger msg mb-3" *ngIf="newPassAndConbfirm">*New Password and Confirm
+                            Password should
+                            be same</p>
+                        <p class="m-0 text-danger msg mb-3" *ngIf="errorMsg">*Enter All Fields</p>
+                        <p class="m-0 text-danger msg mb-3" *ngIf="minimumMsg">*New Password minimum 8 characters and
+                            consist of one special character</p>
+                        <button *ngIf="spinnerBtn" class="btn btn-dark mb-3 w-100 addBucket" type="submit">Update
+                            Password</button>
+                        <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </ng-template>
+        </div>
     </div>
 </div>

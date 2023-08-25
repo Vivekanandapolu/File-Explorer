@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
             this.invalidDetailsErr = false
           }, 2500)
         }
-        if (res.detail) {
+        if (res.disable) {
           this.spinner = false
           this.spinnerBtn = true
           this.disabledbyAdmin = true
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
             this.disabledbyAdmin = false
           }, 2500)
         }
-        else if (res.token) {
+        if (res.token) {
           this.spinner = false
           this.spinnerBtn = true
           this.toastr.success("Login Successfull", '', { timeOut: 1500 })

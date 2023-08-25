@@ -1,5 +1,6 @@
 <app-side-nav></app-side-nav>
-<app-global-header [tabname]="TabName" (creategroup)="newBukcet($event)"></app-global-header>
+<app-global-header [tabname]="TabName" (creategroup)="newBukcet($event)"
+    (searchGroups)="groupSearch($event)"></app-global-header>
 <div class="main-container">
     <div class="header-row">
         <ng-container *ngIf="groupView">
@@ -27,12 +28,11 @@
                 </div>
             </div>
         </ng-container>
-        <ng-container *ngIf="!groupView">
+        <ng-container *ngIf="groupView1">
             <ng-container *ngFor="let group of GroupData">
                 <div class="groupInfo d-flex justify-content-between align-items-center ">
                     <p class="m-0 fw-bold ">Buckets</p>
                     <div class="manageBuckets d-flex align-items-center gap-4">
-                        <a class="viewall">View all buckets </a>
                         <button class="btn manage-btn shadow-none d-flex gap-2" (click)="open(content,group)"
                             type="button"><i class="ri-settings-4-line"></i>
                             Manage
@@ -58,7 +58,7 @@
                                 </div>
 
                                 <button *ngIf="spinnerBtn" class="btn btn-dark shadow-none msg mb-3 w-100 addBucket"
-                                    (click)="manageBuckets(form)" type="submit">Update
+                                    (click)="manageBuckets(form,group)" type="submit">Update
                                     Buckets</button>
                                 <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
                                     <div class="spinner-border text-light" role="status">
@@ -70,29 +70,28 @@
                         </div>
                     </ng-template>
                 </div>
-                <!-- <div class="row row-cols-4 mb-3 "> -->
-                <div class="mb-4 groupBuckets">
-                    <div class="" *ngFor="let policy of group.groupPolicy">
-
-                        <div class="card folder-card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start ">
-                                    <img src="../../../assets/paper folder with documents.png" class="folders mb-4  "
-                                        alt="">
-                                    <img src="../../../assets/ph_dots-three-bold.png"
-                                        class="object-fit-contain three-dots" alt="">
+                <div class="d-flex ">
+                    <div class="mb-4 groupBuckets">
+                        <div class="" *ngFor="let policy of group.groupPolicy">
+                            <!-- {{group.groupPolicy | json}} -->
+                            <div class="card folder-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start ">
+                                        <img src="../../../assets/paper folder with documents.png"
+                                            class="folders mb-4  " alt="">
+                                        <img src="../../../assets/ph_dots-three-bold.png"
+                                            class="object-fit-contain three-dots" alt="">
+                                    </div>
+                                    <p class="card-title fw-bold m-0">{{policy}}</p>
                                 </div>
-                                <p class="card-title fw-bold m-0">{{policy}}</p>
+
                             </div>
-                            <!-- <div class=" card-footer d-flex align-items-center justify-content-between ">
-                                        <a href=" #" class="nav-link text-dark p-0">View</a>
-                                        <i class="ri-arrow-right-line"></i>
-                                    </div> -->
                         </div>
                     </div>
+                    <div class="viewall-btn-div" *ngIf="group.groupPolicy.length>4" (click)="ViewallBuckets(group)">
+                        <p class="m-0">View All Buckets <i class="ri-arrow-right-s-line"></i></p>
+                    </div>
                 </div>
-                <!-- </div> -->
-
                 <!--User List-->
                 <div class="groupInfo d-flex justify-content-between align-items-center mb-2 ">
                     <p class="m-0 fw-bold ">Users</p>
@@ -152,6 +151,24 @@
                 </table>
             </ng-container>
 
+        </ng-container>
+        <ng-container *ngIf="allBucketsView">
+            <p class="mb-3  fw-bold">Buckets</p>
+            <div class="mb-4 groupBuckets1 d-flex ">
+                <div class="" *ngFor="let bucket of groupBuckets">
+                    <div class="card folder-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start ">
+                                <img src="../../../assets/paper folder with documents.png" class="folders mb-4  "
+                                    alt="">
+                                <img src="../../../assets/ph_dots-three-bold.png" class="object-fit-contain three-dots"
+                                    alt="">
+                            </div>
+                            <p class="card-title fw-bold m-0">{{bucket}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </ng-container>
     </div>
 </div>

@@ -16,5 +16,7 @@ export const apiurls = {
     allGroups: domain + '/api/group_list',
     addGroup: domain + '/api/group_create',
     manageBuckets: domain + '/api/group/add_bucket',
-    manageUsers: domain + '/api/group/add_users'
+    manageUsers: domain + '/api/group/add_users',
+    changePassword: domain + '/auth/change_password',
+    refreshToken: domain + '/auth/refresh_token'
 }
