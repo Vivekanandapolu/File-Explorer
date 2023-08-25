@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark header">
     <div class="container-fluid d-flex flex-column side-bar-con">
-        <a href="#" class="navbar-brand">
+        <a class="navbar-brand">
             <h5 class="text-white ">EZY | EXPLORER</h5>
         </a>
         <button class="navbar-toggler" data-bs-target="#lis" data-bs-toggle="collapse">
@@ -9,22 +9,22 @@
         <div class="collapse navbar-collapse w-100 " id="lis">
             <ul class="navbar-nav w-100">
                 <li class="nav-item w-100" *ngIf="userType=='admin' || userType=='regular_user'">
-                    <a routerLink="/buckets" [routerLinkActiveOptions]="options" routerLinkActive="active" href="#"
+                    <a routerLink="/buckets" [routerLinkActiveOptions]="options" routerLinkActive="active"
                         class="nav-link text-white "><img src="../../assets/entypo_bucket.png" alt="">
                         Buckets</a>
                 </li>
                 <li class="nav-item" *ngIf="userType=='admin'">
-                    <a routerLink="/user-management" routerLinkActive="active" href="#"
-                        class="nav-link text-white "><img src="../../assets/usermanage.png" alt=""> User
+                    <a routerLink="/user-management" routerLinkActive="active" class="nav-link text-white "><img
+                            src="../../assets/usermanage.png" alt=""> User
                         Management</a>
                 </li>
                 <li class="nav-item" *ngIf="userType=='admin'">
-                    <a href="#" routerLink="/groups" routerLinkActive="active" class="nav-link text-white "><img
+                    <a routerLink="/groups" routerLinkActive="active" class="nav-link text-white "><img
                             src="../../assets/policies.png" alt="">
                         Groups</a>
                 </li>
                 <!-- <li class="nav-item" *ngIf="userType=='admin'">
-                    <a href="#" routerLink="/trash" routerLinkActive="active" class="nav-link text-white "><img
+                    <a routerLink="/trash" routerLinkActive="active" class="nav-link text-white "><img
                             src="../../assets/trash.png" alt="">
                         Trash</a>
                 </li> -->

@@ -296,28 +296,13 @@ export class GlobalHeaderComponent implements OnInit {
 
   performSearch() {
     let arr: any = []
-    let innerBucketData: any = []
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       res.buckets.filter((val: any) => {
         if (val.name.includes(this.searchVal.toLowerCase())) {
           arr.push(val)
         }
       })
-      this.route.queryParamMap.subscribe((params: any) => {
-        this.bucketName = params.get('mainbucket')
-        console.log(params, "Params , Global");
-        // this.http.get(apiurls.bucketsData + this.bucketName).subscribe((res: any) => {
-        //   res.filter((val: any) => {
-        //     if (val?.files) {
-        //       for (let i of val?.files) {
-        //         if (i.filename?.includes(this.searchVal.toLowerCase()) || i.folderName?.includes(this.searchVal.toLowerCase())) {
-        //           innerBucketData.push(i)
-        //         }
-        //       }
-        //     }
-        //   })
-        // })
-      })
+      console.log(arr);
       this.searchBucket.emit(arr)
     })
   }
