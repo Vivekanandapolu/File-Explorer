@@ -80,6 +80,8 @@
                         <p *ngIf="specialChars " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 ">*Bucket
                             name
                             doesnot includes spaces or special characters</p>
+                        <p *ngIf="nameErr " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 msg">*Bucket Name
+                            Already Exist</p>
                     </form>
                 </div>
                 <div class="modal-footer">

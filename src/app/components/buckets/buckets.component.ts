@@ -173,6 +173,7 @@ export class BucketsComponent implements OnInit {
       path: path
     }
     this.singleBucketsData = [data]
+    console.table(this.singleBucketsData)
 
     this.queryParams = {
       path: path,

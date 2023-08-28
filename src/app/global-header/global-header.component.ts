@@ -30,7 +30,7 @@ export class GlobalHeaderComponent implements OnInit {
   @Output() searchInnerBucektData: EventEmitter<string> = new EventEmitter<string>();
   @Output() searchUsers: EventEmitter<string> = new EventEmitter<string>();
   @Output() searchGroups: EventEmitter<string> = new EventEmitter<string>();
-
+  nameErr: any = false
   prev = true
   next = true
   previousVal: number = 0
@@ -164,12 +164,22 @@ export class GlobalHeaderComponent implements OnInit {
     else {
       form.value.bucket_name = form.value.bucket_name.toLowerCase()
       this.http.post(apiurls.newBucket, form.value).subscribe((res: any) => {
-        console.log(res);
-        this.modalservice.dismissAll()
-        this.newBucketData = {}
-        this.spinnerBtn = true
-        this.spinner = false
-        this.createbucket_res.emit(res.message)
+        if (res.message1) {
+          this.spinner = false
+          this.spinnerBtn = true
+          this.nameErr = true
+          setTimeout(() => {
+            this.nameErr = false
+          }, 2000)
+        }
+
+        else {
+          this.modalservice.dismissAll()
+          this.newBucketData = {}
+          this.spinnerBtn = true
+          this.spinner = false
+          this.createbucket_res.emit(res.message)
+        }
       })
     }
   }
