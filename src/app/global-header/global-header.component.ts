@@ -38,6 +38,7 @@ export class GlobalHeaderComponent implements OnInit {
   viewVal: Boolean = true
   viewIcons = true
   errMsg = false
+  emailErr = false
   newBucketData: any =
     {
       bucket_name: ''
@@ -239,28 +240,39 @@ export class GlobalHeaderComponent implements OnInit {
         this.AllfieldsErr = false
       }, 2500)
     }
-    form.value.username = form.value.username.toLowerCase()
-    this.http.post(apiurls.createUser, form.value).subscribe((res: any) => {
-      if (res.detail) {
-        this.spinnerBtn = true
-        this.spinner = false
-        this.alreadyExists = true
-        setTimeout(() => {
-          this.alreadyExists = false
-        }, 2500)
-      }
-      if (res.msg) {
-        this.createuser.emit(res.msg)
-        this.spinner = true
-        this.modalservice.dismissAll()
-        this.spinnerBtn = true
-        this.spinner = false
-        this.toastr.success("User Created Successfully")
-        this.getAllUsers()
-        this.NewUserData = {}
+    else if (!form.value.username.includes("@gmail.com")) {
+      this.spinner = false
+      this.spinnerBtn = true
+      this.emailErr = true
+      setTimeout(() => {
+        this.emailErr = false
+      }, 2000)
+    }
+    else {
 
-      }
-    })
+      form.value.username = form.value.username.toLowerCase()
+      this.http.post(apiurls.createUser, form.value).subscribe((res: any) => {
+        if (res.detail) {
+          this.spinnerBtn = true
+          this.spinner = false
+          this.alreadyExists = true
+          setTimeout(() => {
+            this.alreadyExists = false
+          }, 2500)
+        }
+        if (res.msg) {
+          this.createuser.emit(res.msg)
+          this.spinner = true
+          this.modalservice.dismissAll()
+          this.spinnerBtn = true
+          this.spinner = false
+          this.toastr.success("User Created Successfully")
+          this.getAllUsers()
+          this.NewUserData = {}
+
+        }
+      })
+    }
   }
 
   getAllUsers() {

@@ -1,8 +1,8 @@
 <app-side-nav></app-side-nav>
 <app-global-header (createbucket_res)="newBukcet($event)" [Label]="dataToSend" (outputData)="clickFolder($event)"
     (view_con)="type($event)" [tabname]="TabName" [Back]="BackIndexVal" [Forward]="FrontIndexVal"
-    (searchBucket)="getBucketsBySearch($event)"
-    (searchInnerBucektData)="getInnerBucketDataBySearch($event)"></app-global-header>
+    (searchBucket)="getBucketsBySearch($event)" (searchInnerBucektData)="getInnerBucketDataBySearch($event)">
+</app-global-header>
 
 <ng-container *ngIf="bucketsView">
     <div class="container-fluid">

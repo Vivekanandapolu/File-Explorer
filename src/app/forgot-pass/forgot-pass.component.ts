@@ -37,26 +37,31 @@ export class ForgotPassComponent implements OnInit {
       }, 2500)
     }
     else {
+      try {
 
+        this.http.post(apiurls.forgotPass, form.value).subscribe((res: any) => {
+          if (res.invalid) {
+            this.spinner = false
+            this.spinnerBtn = true
+            this.emailMsg_1 = true
+            setTimeout(() => {
+              this.emailMsg_1 = false
+            }, 2500)
+          }
+          if (res.success) {
+            this.spinner = true
+            this.spinnerBtn = false
+
+            this.toastr.success("Password Generated Successfully", '', { timeOut: 1500 })
+            this.router.navigate(['/'])
+          }
+
+        })
+      }
+      catch {
+        this.toastr.error("Internal server Error 500", '', { timeOut: 1500 })
+      }
       //Forgot api
-      this.http.post(apiurls.forgotPass, form.value).subscribe((res: any) => {
-        if (res.invalid) {
-          this.spinner = false
-          this.spinnerBtn = true
-          this.emailMsg_1 = true
-          setTimeout(() => {
-            this.emailMsg_1 = false
-          }, 2500)
-        }
-        if (res.success) {
-          this.spinner = true
-          this.spinnerBtn = false
-
-          this.toastr.success("Password Generated Successfully", '', { timeOut: 1500 })
-          this.router.navigate(['/'])
-        }
-
-      })
     }
   }
 }

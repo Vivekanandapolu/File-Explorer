@@ -18,5 +18,8 @@ export const apiurls = {
     manageBuckets: domain + '/api/group/add_bucket',
     manageUsers: domain + '/api/group/add_users',
     changePassword: domain + '/auth/change_password',
-    refreshToken: domain + '/auth/refresh_token'
+    refreshToken: domain + '/auth/refresh_token',
+    smptCreate: domain + '/auth/smtp_create',
+    smptUser: domain + '/auth/get_smtp',
+    testMail: domain + '/auth/test_smtp',
 }

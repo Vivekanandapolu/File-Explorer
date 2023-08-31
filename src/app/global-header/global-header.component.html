@@ -117,6 +117,7 @@
                             #username="ngModel" [(ngModel)]="NewUserData.username" name="username">
                         <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Username Already Exist</p>
                         <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
+                        <p *ngIf="emailErr" class="msg text-danger m-0">*Email must include '@gmail.com'</p>
                     </form>
                 </div>
                 <div class="modal-footer">

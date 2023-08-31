@@ -23,16 +23,14 @@ const routes: Routes = [
     path: 'user-management',
     component: UserManagementComponent,
     canActivate: [AuthGuardGuard]
-
   },
   {
     path: 'groups',
     component: GroupsComponent,
     canActivate: [AuthGuardGuard]
-
   },
   {
-    path: 'trash',
+    path: 'settings',
     component: TrashComponent,
     canActivate: [AuthGuardGuard]
 
