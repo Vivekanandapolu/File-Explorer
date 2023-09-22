@@ -121,8 +121,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button *ngIf="spinnerBtn" type="button" (click)="createUser(form)"
-                        class="btn btn-dark w-100 shadow-none ">Create
+                    <button type="button" (click)="createUser(form)" class="btn btn-dark w-100 shadow-none ">Create
                         User</button>
                     <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
                         <div class="spinner-border text-light" role="status">
@@ -155,7 +154,7 @@
                 <div class="modal-footer">
                     <button *ngIf="spinnerBtn" type="button" (click)="createGroup(form)"
                         class="btn btn-dark w-100 shadow-none ">Create
-                        User</button>
+                        Group</button>
                     <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
                         <div class="spinner-border text-light" role="status">
                             <span class="visually-hidden">Loading...</span>

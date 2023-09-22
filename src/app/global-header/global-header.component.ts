@@ -126,13 +126,12 @@ export class GlobalHeaderComponent implements OnInit {
   }
   //All Buckets
   getBuckets() {
-
     this.allBuckets = []
     this.http.get(apiurls.buckets).subscribe((res: any) => {
+      console.log(res);
       for (let i in res.buckets) {
-        this.buckets.push(res.buckets[i].name)
+        this.buckets.push(res.buckets[i].name);
       }
-
     })
   }
 
@@ -230,6 +229,7 @@ export class GlobalHeaderComponent implements OnInit {
   AllfieldsErr = false
 
   createUser(form: NgForm) {
+    console.log("hello");
     this.spinnerBtn = false
     this.spinner = true
     if (form.value.name == '' || form.value.username == '') {
@@ -240,7 +240,7 @@ export class GlobalHeaderComponent implements OnInit {
         this.AllfieldsErr = false
       }, 2500)
     }
-    else if (!form.value.username.includes("@gmail.com")) {
+    else if (!form?.value?.username?.includes("@gmail.com")) {
       this.spinner = false
       this.spinnerBtn = true
       this.emailErr = true
@@ -277,7 +277,7 @@ export class GlobalHeaderComponent implements OnInit {
 
   getAllUsers() {
     this.http.get(apiurls.allUsers).subscribe((res: any) => {
-      // console.log(res);
+      console.log(res);
     })
   }
 
