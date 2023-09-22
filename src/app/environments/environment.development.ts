@@ -1,4 +1,3 @@
 export const environment = {
-    // appurl: "http://192.168.1.151:8000"
-    appurl: ""
+    appurl: "http://192.46.213.24:9005"
 };
