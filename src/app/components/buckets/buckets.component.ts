@@ -80,7 +80,7 @@ export class BucketsComponent implements OnInit {
         frontIndex: 0,
         tabName: 'Buckets',
       }
-      this.router.navigate(['/buckets'], { queryParams: { name: 'Buckets' } })
+      this.router.navigate(['/buckets'], { queryParams: { name: 'Archives' } })
     })
   }
 
