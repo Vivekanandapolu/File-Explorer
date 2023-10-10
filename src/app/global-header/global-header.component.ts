@@ -240,7 +240,7 @@ export class GlobalHeaderComponent implements OnInit {
         this.AllfieldsErr = false
       }, 2500)
     }
-    else if (!form?.value?.username?.includes("@gmail.com")) {
+    else if (!form?.value?.username?.includes("@gmail.com") || !form?.value?.username?.includes("@local.in")) {
       this.spinner = false
       this.spinnerBtn = true
       this.emailErr = true

@@ -323,13 +323,15 @@ export class BucketsComponent implements OnInit {
   //Download Folder
 
   downloadFolder(folderName: any, BucketName: any) {
+    console.log(folderName.path.split('/').slice(1).join('/'));
+
     let folderData: any = {
 
     }
-    folderData.bucket_name = BucketName.path.split('/')[0]
-    folderData.path = folderName
-    this.http.post(apiurls.downloadFile, folderData).subscribe((res: any) => {
-      console.log(res, "url");
+    folderData.bucket_name = folderName.path.split('/')[0]
+    folderData.folder_path = folderName.path.split('/').slice(1).join('/')
+    this.http.post(apiurls.folderDownload, folderData).subscribe((res: any) => {
+      // console.log(res, "url");
       window.open(res.download_url)
     })
   }

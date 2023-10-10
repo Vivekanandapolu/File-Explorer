@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
       }, 2500)
     }
     else {
-
       //Login API
+      console.log(form.value, "====");
       this.http.post(apiurls.login, form.value).subscribe((res: any) => {
         if (res.msg) {
           this.spinner = false

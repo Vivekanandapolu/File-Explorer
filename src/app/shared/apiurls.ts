@@ -22,4 +22,5 @@ export const apiurls = {
     smptCreate: domain + '/auth/smtp_create',
     smptUser: domain + '/auth/get_smtp',
     testMail: domain + '/auth/test_smtp',
+    folderDownload: domain + '/bucket/download_folder/'
 }
