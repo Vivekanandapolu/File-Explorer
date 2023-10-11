@@ -1,167 +1,324 @@
 <div class="container-fluid p-0">
-    <div class=" header-row-1">
-        <div class="d-flex align-items-center  gap-1 ">
-            <button class="btn shadow-none arrow-btn" [disabled]="prev">
-                <i (click)="goBack()" class="ri-arrow-left-s-line arrow"></i>
-            </button>
-            <button class="btn shadow-none arrow-btn" [disabled]="next">
-                <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
-            </button>
-            <p class="m-0 ms-2 fw-bold ">{{tabname}}</p>
-            <button class="btn btn-secondary shadow-none folders w-25" (click)="sendData(folder)"
-                data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="folder?.folder"
-                *ngFor="let folder of Label">
-                {{folder?.folder}}</button>
-        </div>
-        <div class="d-flex align-items-center gap-3 ">
-            <form class="search-files-form">
-                <div class="input-group m-2  border-2 ">
-                    <!--For Bucket search-->
-                    <span class="input-group-text text-dark bg-white border-0 "
-                        *ngIf="usertype && tabname=='Buckets' || tabname=='' "><i
-                            class="ri-search-line search"></i></span>
-                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='Buckets'"
-                        name="search" [(ngModel)]="searchVal" (ngModelChange)="performSearch()"
-                        placeholder="Search for Buckets">
-                    <!--For users search-->
-                    <span class="input-group-text text-dark bg-white border-0 "
-                        *ngIf="usertype && tabname=='User management' || tabname=='' "><i
-                            class="ri-search-line search"></i></span>
-                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='User management'"
-                        name="search" [(ngModel)]="searchVal" (ngModelChange)="userSearch()"
-                        placeholder="Search for Users">
-                    <!--For Group search-->
-                    <span class="input-group-text text-dark bg-white border-0 "
-                        *ngIf="usertype && tabname=='Groups' || tabname=='' "><i
-                            class="ri-search-line search"></i></span>
-                    <input class="form-control border-0 shadow-none " *ngIf="usertype && tabname=='Groups'"
-                        name="search" [(ngModel)]="searchVal" (ngModelChange)="groupSearch()"
-                        placeholder="Search for Groups">
-                </div>
-            </form>
-
-            <div class="d-flex justify-content-center align-items-center gap-2 category-div" *ngIf="category">
-                <div class="form-check p-0">
-                    <input class="form-check-input d-none " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label [ngClass]="{'gridView':viewVal}" class=" form-check-label" for="flexRadioDefault1"
-                        (click)="viewType('grid')">
-                        <button class="btn category-btn shadow-none ">
-                            <i [ngClass]="{'grid':viewVal}" class="ri-function-fill category"></i>
-                        </button>
-                    </label>
-                </div>
-                <div class="form-check p-0">
-                    <input class="form-check-input d-none " type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label [ngClass]="{'listView':!viewVal}" class="form-check-label list-icon" for="flexRadioDefault2"
-                        (click)="viewType('list')">
-                        <button class="btn p-0 shadow-none"><i [ngClass]="{'list':!viewVal}"
-                                class="ri-list-check filter"></i></button>
-                    </label>
-                </div>
-            </div>
-            <button class="btn add-bucket shadow-none " *ngIf="usertype && tabname=='Buckets'"
-                (click)="open(content)"><i class="ri-add-line"></i> Add
-                Bucket</button>
-            <!-- Add Bucket Modal-->
-            <ng-template #content let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">Create Bucket</h4>
-                    <button type="button" class="btn-close shadow-none " aria-label="Close"
-                        (click)="modal.dismiss('Cross click')"></button>
-                </div>
-                <div class="modal-body">
-                    <form #form="ngForm">
-                        <label for="bukcet" class="form-check-label mb-3">Bucket Name</label>
-                        <input type="text" class="form-control shadow-none " placeholder="Enter Bucket Name"
-                            #bucket_name="ngModel" [(ngModel)]="newBucketData.bucket_name" name="bucket_name">
-                        <p *ngIf="errMsg " [ngClass]="{'errMsg':errMsg}" class="text-danger m-0 ">*Bucket name is
-                            minimum
-                            three characters</p>
-                        <p *ngIf="specialChars " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 ">*Bucket
-                            name
-                            doesnot includes spaces or special characters</p>
-                        <p *ngIf="nameErr " [ngClass]="{'errMsg':specialChars}" class="text-danger m-0 msg">*Bucket Name
-                            Already Exist</p>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button *ngIf="spinnerBtn" type="button" (click)="createBucket(form)"
-                        class="btn btn-dark w-100 shadow-none  ">Create
-                        Bucket</button>
-                    <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
-                        <div class="spinner-border text-light" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
-                </div>
-            </ng-template>
-
-            <!--Add User-->
-            <button class="btn add-bucket shadow-none " *ngIf="tabname=='User management'" (click)="open(content1)"><i
-                    class="ri-add-line"></i> Add
-                User</button>
-
-            <ng-template #content1 let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">Create User</h4>
-                    <button type="button" [disabled]="spinner" class="shadow-none btn-close" aria-label="Close"
-                        (click)="modal.dismiss('Cross click')"></button>
-                </div>
-                <div class="modal-body">
-                    <form #form="ngForm">
-                        <label for="bukcet" class="form-check-label ">Name</label>
-                        <input type="text" class="form-control mb-3 shadow-none " placeholder="Enter Name"
-                            #name="ngModel" [(ngModel)]="NewUserData.name" name="name">
-                        <label for="bukcet" class="form-check-label ">Username</label>
-                        <input type="email" class="form-control  shadow-none " placeholder="Enter Email"
-                            #username="ngModel" [(ngModel)]="NewUserData.username" name="username">
-                        <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Username Already Exist</p>
-                        <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter All Fileds</p>
-                        <p *ngIf="emailErr" class="msg text-danger m-0">*Email must include '@gmail.com' or '@local.in'
-                        </p>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" (click)="createUser(form)" class="btn btn-dark w-100 shadow-none ">Create
-                        User</button>
-                    <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
-                        <div class="spinner-border text-light" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
-                </div>
-            </ng-template>
-
-            <!--Add Group-->
-            <button class="btn add-bucket shadow-none " *ngIf="tabname=='Groups'" (click)="open(content2)"><i
-                    class="ri-add-line"></i> Add
-                Group</button>
-            <ng-template #content2 let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title " id="modal-basic-title">Create Group</h4>
-                    <button type="button" [disabled]="spinner" class="shadow-none btn-close" aria-label="Close"
-                        (click)="modal.dismiss('Cross click')"></button>
-                </div>
-                <div class="modal-body">
-                    <form #form="ngForm">
-                        <label for="bukcet" class="form-check-label mb-2">Name</label>
-                        <input type="text" class="form-control mb-3 shadow-none " placeholder="Enter Group Name"
-                            #group="ngModel" [(ngModel)]="Groupdata.group" name="group">
-                        <p *ngIf="alreadyExists" class="text-danger m-0  msg">*Group Name Already Exist</p>
-                        <p *ngIf="AllfieldsErr" class="msg text-danger m-0">*Enter Group Name</p>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button *ngIf="spinnerBtn" type="button" (click)="createGroup(form)"
-                        class="btn btn-dark w-100 shadow-none ">Create
-                        Group</button>
-                    <button *ngIf="spinner" disabled class="btn btn-dark text-white w-100  shadow-none ">
-                        <div class="spinner-border text-light" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
-                </div>
-            </ng-template>
-        </div>
+  <div class="header-row-1">
+    <div class="d-flex align-items-center gap-1">
+      <button class="btn shadow-none arrow-btn" [disabled]="prev">
+        <i (click)="goBack()" class="ri-arrow-left-s-line arrow"></i>
+      </button>
+      <button class="btn shadow-none arrow-btn" [disabled]="next">
+        <i (click)="goForward()" class="ri-arrow-right-s-line arrow"></i>
+      </button>
+      <p class="m-0 ms-2 fw-bold">{{ tabname }}</p>
+      <button
+        class="btn btn-secondary shadow-none folders w-25"
+        (click)="sendData(folder)"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        [title]="folder?.folder"
+        *ngFor="let folder of Label"
+      >
+        {{ folder?.folder }}
+      </button>
     </div>
+    <div class="d-flex align-items-center gap-3">
+      <form class="search-files-form">
+        <div class="input-group m-2 border-2">
+          <!--For Bucket search-->
+          <span
+            class="input-group-text text-dark bg-white border-0"
+            *ngIf="(usertype && tabname == 'Buckets') || tabname == ''"
+            ><i class="ri-search-line search"></i
+          ></span>
+          <input
+            class="form-control border-0 shadow-none"
+            *ngIf="usertype && tabname == 'Buckets'"
+            name="search"
+            [(ngModel)]="searchVal"
+            (ngModelChange)="performSearch()"
+            placeholder="Search for Buckets"
+          />
+          <!--For users search-->
+          <span
+            class="input-group-text text-dark bg-white border-0"
+            *ngIf="(usertype && tabname == 'User management') || tabname == ''"
+            ><i class="ri-search-line search"></i
+          ></span>
+          <input
+            class="form-control border-0 shadow-none"
+            *ngIf="usertype && tabname == 'User management'"
+            name="search"
+            [(ngModel)]="searchVal"
+            (ngModelChange)="userSearch()"
+            placeholder="Search for Users"
+          />
+          <!--For Group search-->
+          <span
+            class="input-group-text text-dark bg-white border-0"
+            *ngIf="(usertype && tabname == 'Groups') || tabname == ''"
+            ><i class="ri-search-line search"></i
+          ></span>
+          <input
+            class="form-control border-0 shadow-none"
+            *ngIf="usertype && tabname == 'Groups'"
+            name="search"
+            [(ngModel)]="searchVal"
+            (ngModelChange)="groupSearch()"
+            placeholder="Search for Groups"
+          />
+        </div>
+      </form>
+
+      <div
+        class="d-flex justify-content-center align-items-center gap-2 category-div"
+        *ngIf="category"
+      >
+        <div class="form-check p-0">
+          <input
+            class="form-check-input d-none"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault1"
+          />
+          <label
+            [ngClass]="{ gridView: viewVal }"
+            class="form-check-label"
+            for="flexRadioDefault1"
+            (click)="viewType('grid')"
+          >
+            <button class="btn category-btn shadow-none">
+              <i
+                [ngClass]="{ grid: viewVal }"
+                class="ri-function-fill category"
+              ></i>
+            </button>
+          </label>
+        </div>
+        <div class="form-check p-0">
+          <input
+            class="form-check-input d-none"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault2"
+          />
+          <label
+            [ngClass]="{ listView: !viewVal }"
+            class="form-check-label list-icon"
+            for="flexRadioDefault2"
+            (click)="viewType('list')"
+          >
+            <button class="btn p-0 shadow-none">
+              <i
+                [ngClass]="{ list: !viewVal }"
+                class="ri-list-check filter"
+              ></i>
+            </button>
+          </label>
+        </div>
+      </div>
+      <button
+        class="btn add-bucket shadow-none"
+        *ngIf="usertype && tabname == 'Archives'"
+        (click)="open(content)"
+      >
+        <i class="ri-add-line"></i> Add Bucket
+      </button>
+      <!-- Add Bucket Modal-->
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Create Bucket</h4>
+          <button
+            type="button"
+            class="btn-close shadow-none"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form #form="ngForm">
+            <label for="bukcet" class="form-check-label mb-3"
+              >Bucket Name</label
+            >
+            <input
+              type="text"
+              class="form-control shadow-none"
+              placeholder="Enter Bucket Name"
+              #bucket_name="ngModel"
+              [(ngModel)]="newBucketData.bucket_name"
+              name="bucket_name"
+            />
+            <p
+              *ngIf="errMsg"
+              [ngClass]="{ errMsg: errMsg }"
+              class="text-danger m-0"
+            >
+              *Bucket name is minimum three characters
+            </p>
+            <p
+              *ngIf="specialChars"
+              [ngClass]="{ errMsg: specialChars }"
+              class="text-danger m-0"
+            >
+              *Bucket name doesnot includes spaces or special characters
+            </p>
+            <p
+              *ngIf="nameErr"
+              [ngClass]="{ errMsg: specialChars }"
+              class="text-danger m-0 msg"
+            >
+              *Bucket Name Already Exist
+            </p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="spinnerBtn"
+            type="button"
+            (click)="createBucket(form)"
+            class="btn btn-dark w-100 shadow-none"
+          >
+            Create Bucket
+          </button>
+          <button
+            *ngIf="spinner"
+            disabled
+            class="btn btn-dark text-white w-100 shadow-none"
+          >
+            <div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </ng-template>
+
+      <!--Add User-->
+      <button
+        class="btn add-bucket shadow-none"
+        *ngIf="tabname == 'User management'"
+        (click)="open(content1)"
+      >
+        <i class="ri-add-line"></i> Add User
+      </button>
+
+      <ng-template #content1 let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Create User</h4>
+          <button
+            type="button"
+            [disabled]="spinner"
+            class="shadow-none btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form #form="ngForm">
+            <label for="bukcet" class="form-check-label">Name</label>
+            <input
+              type="text"
+              class="form-control mb-3 shadow-none"
+              placeholder="Enter Name"
+              #name="ngModel"
+              [(ngModel)]="NewUserData.name"
+              name="name"
+            />
+            <label for="bukcet" class="form-check-label">Username</label>
+            <input
+              type="email"
+              class="form-control shadow-none"
+              placeholder="Enter Email"
+              #username="ngModel"
+              [(ngModel)]="NewUserData.username"
+              name="username"
+            />
+            <p *ngIf="alreadyExists" class="text-danger m-0 msg">
+              *Username Already Exist
+            </p>
+            <p *ngIf="AllfieldsErr" class="msg text-danger m-0">
+              *Enter All Fileds
+            </p>
+            <p *ngIf="emailErr" class="msg text-danger m-0">
+              *Email must include '@gmail.com'
+            </p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="!spinner"
+            type="button"
+            (click)="createUser(form)"
+            class="btn btn-dark w-100 shadow-none"
+          >
+            Create User
+          </button>
+          <button
+            *ngIf="spinner"
+            disabled
+            class="btn btn-dark text-white w-100 shadow-none"
+          >
+            <div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </ng-template>
+
+      <!--Add Group-->
+      <button
+        class="btn add-bucket shadow-none"
+        *ngIf="tabname == 'Groups'"
+        (click)="open(content2)"
+      >
+        <i class="ri-add-line"></i> Add Group
+      </button>
+      <ng-template #content2 let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Create Group</h4>
+          <button
+            type="button"
+            [disabled]="spinner"
+            class="shadow-none btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form #form="ngForm">
+            <label for="bukcet" class="form-check-label mb-2">Name</label>
+            <input
+              type="text"
+              class="form-control mb-3 shadow-none"
+              placeholder="Enter Group Name"
+              #group="ngModel"
+              [(ngModel)]="Groupdata.group"
+              name="group"
+            />
+            <p *ngIf="alreadyExists" class="text-danger m-0 msg">
+              *Group Name Already Exist
+            </p>
+            <p *ngIf="AllfieldsErr" class="msg text-danger m-0">
+              *Enter Group Name
+            </p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="spinnerBtn"
+            type="button"
+            (click)="createGroup(form)"
+            class="btn btn-dark w-100 shadow-none"
+          >
+            Create Group
+          </button>
+          <button
+            *ngIf="spinner"
+            disabled
+            class="btn btn-dark text-white w-100 shadow-none"
+          >
+            <div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </div>
