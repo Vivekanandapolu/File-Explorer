@@ -323,8 +323,7 @@ export class BucketsComponent implements OnInit {
       }
     }
     this.http.post(apiurls.downloadFile, data).subscribe((res: any) => {
-      // window.open(res.download_url);
-      console.log(res.download_url.split());
+      window.open(res.download_url);
     });
   }
 
