@@ -34,7 +34,7 @@
             name="search"
             [(ngModel)]="searchVal"
             (ngModelChange)="performSearch()"
-            placeholder="Search for Buckets"
+            placeholder="Search for Properties"
           />
           <!--For users search-->
           <span
@@ -119,12 +119,12 @@
         *ngIf="usertype && tabname == 'Archives'"
         (click)="open(content)"
       >
-        <i class="ri-add-line"></i> Add Bucket
+        <i class="ri-add-line"></i> Add Property
       </button>
-      <!-- Add Bucket Modal-->
+      <!-- Add Property Modal-->
       <ng-template #content let-modal>
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Create Bucket</h4>
+          <h4 class="modal-title" id="modal-basic-title">Create Property</h4>
           <button
             type="button"
             class="btn-close shadow-none"
@@ -135,12 +135,12 @@
         <div class="modal-body">
           <form #form="ngForm">
             <label for="bukcet" class="form-check-label mb-3"
-              >Bucket Name</label
+              >Property Name</label
             >
             <input
               type="text"
               class="form-control shadow-none"
-              placeholder="Enter Bucket Name"
+              placeholder="Enter Property Name"
               #bucket_name="ngModel"
               [(ngModel)]="newBucketData.bucket_name"
               name="bucket_name"
@@ -150,21 +150,21 @@
               [ngClass]="{ errMsg: errMsg }"
               class="text-danger m-0"
             >
-              *Bucket name is minimum three characters
+              *Property name is minimum three characters
             </p>
             <p
               *ngIf="specialChars"
               [ngClass]="{ errMsg: specialChars }"
               class="text-danger m-0"
             >
-              *Bucket name doesnot includes spaces or special characters
+              *Property name doesnot includes spaces or special characters
             </p>
             <p
               *ngIf="nameErr"
               [ngClass]="{ errMsg: specialChars }"
               class="text-danger m-0 msg"
             >
-              *Bucket Name Already Exist
+              *Property Name Already Exist
             </p>
           </form>
         </div>
@@ -175,7 +175,7 @@
             (click)="createBucket(form)"
             class="btn btn-dark w-100 shadow-none"
           >
-            Create Bucket
+            Create Property
           </button>
           <button
             *ngIf="spinner"
