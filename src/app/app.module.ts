@@ -22,9 +22,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LogsComponent } from './components/logs/logs.component';
+// import { CanvasJSAngularChartsModule } from 'canvasjs';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GoogleChartsModule } from 'angular-google-charts';
+
 @NgModule({
   declarations: [
-
     AppComponent,
     SideNavComponent,
     BucketsComponent,
@@ -36,22 +41,30 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ForgotPassComponent,
     GroupsComponent,
     LoaderComponent,
+    DashboardComponent,
+    LogsComponent,
   ],
   imports: [
     NgSelectModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule, FormsModule,
+    HttpClientModule,
+    FormsModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    NgbModule
+    NgbModule,
+    NgxChartsModule,
+    GoogleChartsModule,
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
-    }, AuthGuardGuard
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorInterceptor,
+      multi: true,
+    },
+    AuthGuardGuard,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

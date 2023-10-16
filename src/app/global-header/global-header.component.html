@@ -25,12 +25,12 @@
           <!--For Bucket search-->
           <span
             class="input-group-text text-dark bg-white border-0"
-            *ngIf="(usertype && tabname == 'Buckets') || tabname == ''"
+            *ngIf="tabname == 'Archives'"
             ><i class="ri-search-line search"></i
           ></span>
           <input
+            *ngIf="tabname == 'Archives'"
             class="form-control border-0 shadow-none"
-            *ngIf="usertype && tabname == 'Buckets'"
             name="search"
             [(ngModel)]="searchVal"
             (ngModelChange)="performSearch()"
@@ -114,6 +114,9 @@
           </label>
         </div>
       </div>
+      <!-- <ng-container *ngIf="!category"
+        ><input type="date" class="form-control"
+      /></ng-container> -->
       <button
         class="btn add-bucket shadow-none"
         *ngIf="usertype && tabname == 'Archives'"

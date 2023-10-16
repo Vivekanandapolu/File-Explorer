@@ -1,0 +1,147 @@
+<app-side-nav></app-side-nav>
+<app-global-header [tabname]="'Dashboard'"></app-global-header>
+<div class="main-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <div class="dashboard-details">
+          <div class="card mb-3" routerLink="/buckets">
+            <div
+              class="card-body bucket-card d-flex align-items-center justify-content-between"
+            >
+              <div class="div-1 d-flex align-items-center gap-3">
+                <span class="bucket-img"
+                  ><img src="../../../assets/entypo_bucket.png" alt=""
+                /></span>
+                <div class="bucket-det">
+                  <h5 class="m-0">{{ allBuckets.length }}</h5>
+                  <p class="card-text text-black-50">Properties</p>
+                </div>
+              </div>
+              <div class="div-2">
+                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-3" routerLink="/user-management">
+            <div
+              class="card-body bucket-card d-flex align-items-center justify-content-between"
+            >
+              <div class="div-1 d-flex align-items-center gap-3">
+                <span class="bucket-img"
+                  ><img src="../../../assets/usermanage.png" alt=""
+                /></span>
+                <div class="bucket-det">
+                  <h5 class="m-0">{{ allUsers.length }}</h5>
+                  <p class="card-text text-black-50">Users</p>
+                </div>
+              </div>
+              <div class="div-2">
+                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-3" routerLink="/groups">
+            <div
+              class="card-body bucket-card d-flex align-items-center justify-content-between"
+            >
+              <div class="div-1 d-flex align-items-center gap-3">
+                <span class="bucket-img"
+                  ><img src="../../../assets/policies.png" alt=""
+                /></span>
+                <div class="bucket-det">
+                  <h5 class="m-0">{{ allGroups.length }}</h5>
+                  <p class="card-text text-black-50">Groups</p>
+                </div>
+              </div>
+              <div class="div-2">
+                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-3">
+            <div
+              class="card-body bucket-card d-flex align-items-center justify-content-between"
+            >
+              <div class="div-1 d-flex align-items-center gap-3">
+                <span class="bucket-img"
+                  ><img src="../../../assets/application-img.png" alt=""
+                /></span>
+                <div class="bucket-det">
+                  <h5 class="m-0">54</h5>
+                  <p class="card-text text-black-50">Applications</p>
+                </div>
+              </div>
+              <div class="div-2">
+                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="container-fluid software-cards-div">
+          <div class="row p-0">
+            <div class="col-6 mb-3 position-relative">
+              <h6 class="title">Software 1</h6>
+              <div class="card software">
+                <div class="card-body">
+                  <ngx-charts-pie-chart
+                    [view]="[400, 250]"
+                    [results]="series"
+                    [legend]="true"
+                    [labels]="true"
+                    [doughnut]="true"
+                    [legendTitle]="''"
+                    [labelFormatting]="pieChartLabel.bind(this, series)"
+                    [animations]="false"
+                    [scheme]="colorScheme"
+                  >
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mb-3 position-relative">
+              <h6 class="title">Software 2</h6>
+              <div class="card software">
+                <div class="card-body">
+                  <ngx-charts-pie-chart
+                    [view]="[400, 250]"
+                    [results]="series"
+                    [legend]="true"
+                    [labels]="true"
+                    [doughnut]="true"
+                    [legendTitle]="''"
+                    [labelFormatting]="pieChartLabel.bind(this, series)"
+                    [animations]="false"
+                    [scheme]="colorScheme"
+                  >
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mb-3 position-relative">
+              <h6 class="title">Software 2</h6>
+              <div class="card software">
+                <div class="card-body">
+                  <ngx-charts-pie-chart
+                    [view]="[400, 250]"
+                    [results]="series"
+                    [legend]="true"
+                    [labels]="true"
+                    [doughnut]="true"
+                    [legendTitle]="''"
+                    [labelFormatting]="pieChartLabel.bind(this, series)"
+                    [animations]="false"
+                    [scheme]="colorScheme"
+                  >
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,42 +7,52 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LogsComponent } from './components/logs/logs.component';
 
 const routes: Routes = [
-
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'buckets',
     component: BucketsComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'user-management',
     component: UserManagementComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'groups',
     component: GroupsComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'settings',
     component: TrashComponent,
-    canActivate: [AuthGuardGuard]
-
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'logs',
+    component: LogsComponent,
+    canActivate: [AuthGuardGuard],
   },
   {
     path: 'forgot',
-    component: ForgotPassComponent
-  }
+    component: ForgotPassComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

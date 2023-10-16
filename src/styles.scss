@@ -1,39 +1,95 @@
 /* You can add global styles to this file, and also import other style files */
 
 .main-container {
-    margin-left: 209px;
-    position: relative;
-    top: 15px;
-    padding-left: 38px;
-    height: 80vh;
-    overflow: hidden;
-    overflow-y: scroll;
-
+  margin-left: 209px;
+  position: relative;
+  top: 15px;
+  padding-left: 38px;
+  height: 80vh;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .content-con {
-    padding: 0px;
+  padding: 0px;
 }
 
 .header-row {
-    padding: 0px 15px 0px 19px !important;
+  padding: 0px 15px 0px 19px !important;
 }
 
 .main-container .row {
-    padding: 20px;
-
+  padding: 20px;
 }
 
-
 .main-container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 thead {
-    position: sticky;
-    top: 0px;
+  position: sticky;
+  top: 0px;
 }
 
-.multiselect-dropdown[_ngcontent-ng-c1411523848] .dropdown-btn[_ngcontent-ng-c1411523848] .selected-item-container[_ngcontent-ng-c1411523848] .selected-item[_ngcontent-ng-c1411523848] {
-    max-width: fit-content !important;
+.multiselect-dropdown[_ngcontent-ng-c1411523848]
+  .dropdown-btn[_ngcontent-ng-c1411523848]
+  .selected-item-container[_ngcontent-ng-c1411523848]
+  .selected-item[_ngcontent-ng-c1411523848] {
+  max-width: fit-content !important;
+}
+
+// text {
+//   display: none !important;
+// }
+
+// .pie-label-line.line.animation {
+//   display: none;
+// }
+
+.chart-legend {
+  position: absolute;
+  /* left: 0px; */
+  bottom: 80px;
+  width: max-content !important;
+  left: 40px;
+}
+
+element.style {
+  max-height: 355px;
+}
+.chart-legend .legend-labels {
+  width: fit-content !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 70px;
+  background: transparent;
+
+  line-height: 85%;
+  list-style: none;
+  text-align: left;
+  position: absolute;
+  /* float: left; */
+  width: 100%;
+  bottom: -57px;
+  border-radius: 3px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.ngx-charts-outer {
+  position: relative !important;
+}
+.chart-legend .legend-label {
+  color: #000000a5 !important;
+}
+.chart-legend .legend-label:hover {
+  color: #000 !important;
+  transition: 0.2s;
+}
+
+g[ngx-charts-pie-label] {
+  display: none !important;
 }

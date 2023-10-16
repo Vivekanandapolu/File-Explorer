@@ -1,95 +1,173 @@
 <app-side-nav></app-side-nav>
 <app-global-header></app-global-header>
 <div class="main-container">
-    <div class="header-row">
-        <div class="tabs-content d-flex ">
-            <div class="tab_list">
-                <ul class="nav nav-pills gap-3" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active tab-btn" id="home-tab" data-bs-toggle="tab"
-                            data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i
-                                class="ri-chat-settings-fill"></i> No reply email
-                            settings</button>
-                    </li>
-                    <li class="nav-item w-100" role="presentation">
-                        <button class="nav-link tab-btn w-100" id="profile-tab" data-bs-toggle="tab"
-                            data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
-                            aria-selected="false"><i class="ri-sound-module-line"></i> General
-                            Settings</button>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="email-page">
-                        <form class="form" #form="ngForm">
-                            <h5 class="mb-4 reply-h5">
-                                No reply email settings
-                            </h5>
-                            <label for="host" class="form-label mb-2">SMTP Host</label>
-                            <input type="text" class="mb-3 form-control shadow-none ps-3" name="smtpHost"
-                                #smtpHost="ngModel" [(ngModel)]="smtpDetails.smtpHost" id="host"
-                                placeholder="Enter SMTP Host">
-                            <label for="port" class="form-label mb-2">SMTP Port</label>
-                            <input type="text" class="mb-3 form-control shadow-none  ps-3" name="smtpPort"
-                                #smtpPort="ngModel" [(ngModel)]="smtpDetails.smtpPort" id="port"
-                                placeholder="Enter SMTP Port">
-                            <label for="email" class="form-label mb-2">User</label>
-                            <input type="email" class="mb-3 form-control shadow-none  ps-3" name="user" #user="ngModel"
-                                [(ngModel)]="smtpDetails.user" id="email" placeholder="Enter Email">
-                            <label for="password" class="form-label mb-2">Password</label>
-                            <input type="password" class="mb-3 form-control shadow-none  ps-3" name="password"
-                                #password="ngModel" [(ngModel)]="smtpDetails.password" id="password"
-                                placeholder="Enter Password">
-                            <p class="m-0 msg text-danger" *ngIf="errMsg">*Enter all Fields</p>
-                            <div class="d-flex justify-content-end "> <button *ngIf="spinnerBtn"
-                                    class="shadow-none  btn save-btn" (click)="createSmtpUser(form)">Save</button>
-                                <button *ngIf="spinner" disabled
-                                    class="btn spinner btn-warning text-white w-100 mb-3 shadow-none  submit-btn"
-                                    type="submit">
-                                    <div class="spinner-border text-light" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </form>
-                        <form class="form" #form1="ngForm">
-                            <h5 class="mb-4 reply-h5">
-                                Test
-                            </h5>
-                            <label for="test" class="form-label ">SMTP test e-mail</label>
-                            <p class="m-0 msg text-danger" *ngIf="errMsg1">*Enter all Fields</p>
-                            <p class="m-0 msg text-danger" *ngIf="emailFormat">*Invalid Email Format</p>
-                            <div class="d-flex position-relative ">
-                                <input type="email" name="email" #email="ngModel" [(ngModel)]="testEmail.email"
-                                    class="mb-3 form-control shadow-none  ps-3" placeholder="Enter Email">
-                                <div class="d-flex justify-content-end align-items-center gap-2 "> <button
-                                        *ngIf="spinnerBtn1" class="shadow-none btn save-btn1"
-                                        (click)="testEmailOFSMTP(form1)"><i class="ri-send-plane-fill"></i> Send
-                                        test
-                                        message</button>
-                                    <button *ngIf="spinner1" disabled
-                                        class="btn btn-warning text-white w-100 mb-3 shadow-none  submit-btn"
-                                        type="submit">
-                                        <div class="spinner-border text-light" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+  <div class="header-row">
+    <div class="tabs-content d-flex">
+      <div class="tab_list">
+        <ul class="nav nav-pills gap-3" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active tab-btn"
+              id="home-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#home"
+              type="button"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+            >
+              <i class="ri-chat-settings-fill"></i> No reply email settings
+            </button>
+          </li>
+          <li class="nav-item w-100" role="presentation">
+            <button
+              class="nav-link tab-btn w-100"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#profile"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              <i class="ri-sound-module-line"></i> General Settings
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="home"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+        >
+          <div class="email-page">
+            <form class="form" #form="ngForm">
+              <h5 class="mb-4 reply-h5">No reply email settings</h5>
+              <label for="host" class="form-label mb-2">SMTP Host</label>
+              <input
+                type="text"
+                class="mb-3 form-control shadow-none ps-3"
+                name="smtpHost"
+                #smtpHost="ngModel"
+                [(ngModel)]="smtpDetails.smtpHost"
+                id="host"
+                placeholder="Enter SMTP Host"
+              />
+              <label for="port" class="form-label mb-2">SMTP Port</label>
+              <input
+                type="text"
+                class="mb-3 form-control shadow-none ps-3"
+                name="smtpPort"
+                #smtpPort="ngModel"
+                [(ngModel)]="smtpDetails.smtpPort"
+                id="port"
+                placeholder="Enter SMTP Port"
+              />
+              <label for="email" class="form-label mb-2">User</label>
+              <input
+                type="email"
+                class="mb-3 form-control shadow-none ps-3"
+                name="user"
+                #user="ngModel"
+                [(ngModel)]="smtpDetails.user"
+                id="email"
+                placeholder="Enter Email"
+              />
+              <label for="password" class="form-label mb-2">Password</label>
+              <input
+                type="password"
+                class="mb-3 form-control shadow-none ps-3"
+                name="password"
+                #password="ngModel"
+                [(ngModel)]="smtpDetails.password"
+                id="password"
+                placeholder="Enter Password"
+              />
+              <p class="m-0 msg text-danger" *ngIf="errMsg">
+                *Enter all Fields
+              </p>
+              <div class="d-flex justify-content-end">
+                <button
+                  *ngIf="spinnerBtn"
+                  class="shadow-none btn save-btn"
+                  (click)="createSmtpUser(form)"
+                >
+                  Save
+                </button>
+                <button
+                  *ngIf="spinner"
+                  disabled
+                  class="btn spinner btn-warning text-white w-100 mb-3 shadow-none submit-btn"
+                  type="submit"
+                >
+                  <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </form>
+            <form class="form" #form1="ngForm">
+              <h5 class="mb-4 reply-h5">Test</h5>
+              <label for="test" class="form-label">SMTP test e-mail</label>
+              <p class="m-0 msg text-danger" *ngIf="errMsg1">
+                *Enter all Fields
+              </p>
+              <p class="m-0 msg text-danger" *ngIf="emailFormat">
+                *Invalid Email Format
+              </p>
+              <div class="d-flex position-relative">
+                <input
+                  type="email"
+                  name="email"
+                  #email="ngModel"
+                  [(ngModel)]="testEmail.email"
+                  class="mb-3 form-control shadow-none ps-3"
+                  placeholder="Enter Email"
+                />
+                <div
+                  class="d-flex justify-content-end align-items-center gap-2"
+                >
+                  <button
+                    *ngIf="spinnerBtn1"
+                    class="shadow-none btn save-btn1"
+                    (click)="testEmailOFSMTP(form1)"
+                  >
+                    <i class="ri-send-plane-fill"></i> Send test message
+                  </button>
+                  <button
+                    *ngIf="spinner1"
+                    disabled
+                    class="btn btn-warning text-white w-100 mb-3 shadow-none submit-btn"
+                    type="submit"
+                  >
+                    <div class="spinner-border text-light" role="status">
+                      <span class="visually-hidden">Loading...</span>
                     </div>
+                  </button>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Lorem ipsum dolor
-                    sit amet consectetur adipisicing elit. Repellendus voluptatibus tempore suscipit, ipsam soluta
-                    aspernatur molestiae voluptates labore sint, consequatur molestias delectus est animi quaerat earum
-                    cum eos quidem nobis!</div>
-                <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Lorem ipsum dolor
+              </div>
+            </form>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="profile"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+          voluptatibus tempore suscipit, ipsam soluta aspernatur molestiae
+          voluptates labore sint, consequatur molestias delectus est animi
+          quaerat earum cum eos quidem nobis!
+        </div>
+        <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Lorem ipsum dolor
                     sit amet consectetur adipisicing elit. Repellendus voluptatibus tempore suscipit, ipsam soluta
                     aspernatur molestiae voluptates labore sint, consequatur molestias delectus est animi quaerat earum
                     cum eos quidem nobis!</div>
             </div> -->
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
+</div>

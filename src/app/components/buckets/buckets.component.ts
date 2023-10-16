@@ -23,7 +23,20 @@ export class BucketsComponent implements OnInit {
   FileTypes: any = [];
   TabName: any = '';
   clickedFolder: any = [];
-
+  months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   extensionsArray: any = ['.docx', '.pdf', '.xlsx', '.csv', '.pptx', '.jpg'];
   constructor(
     private http: HttpClient,
@@ -40,7 +53,7 @@ export class BucketsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tokenservice.validateTokenAndRefresh();
-    localStorage.setItem('tabname', 'Buckets');
+    // localStorage.setItem('tabname', 'Buckets');
     this.viewtype = localStorage.getItem('view') || 'grid';
 
     this.bucketsView = false;
@@ -90,11 +103,13 @@ export class BucketsComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.bucketNameGlobal = bucketName;
       this.singleBucketsData = [];
-      this.http.get(apiurls.bucketsData + bucketName).subscribe((res: any) => {
-        console.log(res);
-        this.singleBucketsData.push(...res);
-        resolve(true);
-      });
+      this.http
+        .get(apiurls.bucketsData + bucketName.toLowerCase())
+        .subscribe((res: any) => {
+          console.log(res);
+          this.singleBucketsData.push(...res);
+          resolve(true);
+        });
     });
   }
 
@@ -102,6 +117,31 @@ export class BucketsComponent implements OnInit {
     this.loopArray(this.singleBucketsData, path);
   }
 
+  // loopArray(arr: any, path: any) {
+  //   for (let i = 0; i < arr.length; i++) {
+  //     if (arr[i].type == 'folder') {
+  //       if (arr[i].path == path) {
+  //         this.bucketsView = false;
+  //         let data = {
+  //           files: arr[i].files,
+  //           folderName: arr[i].folderName,
+  //           type: 'folder',
+  //           path: path,
+  //         };
+  //         console.log(
+  //           data.files.filter((val: any) => {
+  //             console.log(val.folderName);
+  //           })
+  //         );
+  //         this.singleBucketsData = [data];
+  //         // this.singleBucketsData
+  //         return;
+  //       } else {
+  //         this.loopArray(arr[i].files, path);
+  //       }
+  //     }
+  //   }
+  // }
   loopArray(arr: any, path: any) {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].type == 'folder') {
@@ -113,6 +153,18 @@ export class BucketsComponent implements OnInit {
             type: 'folder',
             path: path,
           };
+          // console.log(data, '12345');
+
+          // data.files = data.files
+          //   .filter((val: any) => val.type === 'folder') // Filter only folders
+          //   .sort((a: any, b: any) => {
+          //     return (
+          //       this.months.indexOf(a.folderName) -
+          //       this.months.indexOf(b.folderName)
+          //     );
+          //   })
+          //   .map((val: any) => val);
+          // console.log(data, '==========');
           this.singleBucketsData = [data];
           return;
         } else {
@@ -178,7 +230,6 @@ export class BucketsComponent implements OnInit {
       path: path,
     };
     this.singleBucketsData = [data];
-    console.table(this.singleBucketsData);
 
     this.queryParams = {
       path: path,
