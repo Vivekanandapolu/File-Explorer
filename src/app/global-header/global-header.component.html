@@ -64,8 +64,74 @@
             (ngModelChange)="groupSearch()"
             placeholder="Search for Groups"
           />
+
+          <!--For Application search-->
+          <span
+            class="input-group-text text-dark bg-white border-0"
+            *ngIf="usertype && tabname == 'Application Logs'"
+            ><i class="ri-search-line search"></i
+          ></span>
+          <input
+            class="form-control border-0 shadow-none"
+            *ngIf="usertype && tabname == 'Application Logs'"
+            name="search"
+            [(ngModel)]="searchVal"
+            (ngModelChange)="groupSearch()"
+            placeholder="Search Code or property"
+          />
         </div>
       </form>
+
+      <div
+        class="input-group app-select"
+        *ngIf="usertype && tabname == 'Application Logs'"
+      >
+        <div class="input-group-prepend">
+          <span class="input-group-text logs_app">
+            <img src="../../assets/logs_app_dark.svg" alt="" />
+          </span>
+        </div>
+        <select
+          class="form-select border-start-0 shadow-none"
+          id="customSelect"
+          [(ngModel)]="selectedProperty"
+          (ngModelChange)="onPropertySelected()"
+        >
+          <option value="Shiji">Shiji</option>
+          <option value="Marriot_oracle">Marriot_oracle</option>
+          <option value="Starwood_oracle">Starwood_oracle</option>
+        </select>
+      </div>
+
+      <div
+        class="input-group w-25"
+        *ngIf="usertype && tabname == 'Application Logs'"
+      >
+        <div class="input-group-prepend">
+          <span class="input-group-text logs_app">
+            <i class="ri-calendar-event-fill"></i>
+          </span>
+        </div>
+        <select
+          id="customSelect"
+          class="form-select border-start-0 shadow-none"
+          [(ngModel)]="selectedMonth"
+          (ngModelChange)="onMonthSelected()"
+        >
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+      </div>
 
       <div
         class="d-flex justify-content-center align-items-center gap-2 category-div"
@@ -114,9 +180,28 @@
           </label>
         </div>
       </div>
-      <!-- <ng-container *ngIf="!category"
-        ><input type="date" class="form-control"
-      /></ng-container> -->
+
+      <div class="input-group date-group" *ngIf="tabname == 'Logs'">
+        <input
+          class="form-control date-search"
+          placeholder="yyyy-mm-dd"
+          [ngModel]="selectedDate"
+          (ngModelChange)="onDateSelect($event)"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-secondary shadow-none date-btn"
+            (click)="d.toggle()"
+            type="button"
+          >
+            <i class="ri-calendar-event-fill"></i> Pick Date
+            <i class="ri-arrow-down-s-line"></i>
+          </button>
+        </div>
+      </div>
+
       <button
         class="btn add-bucket shadow-none"
         *ngIf="usertype && tabname == 'Archives'"

@@ -1,0 +1,50 @@
+.logs-ul {
+  border-bottom: 1px solid #c1c1c1;
+  position: sticky;
+  top: 0px;
+  z-index: 97;
+  background: white;
+}
+.logs-ul li button {
+  font-size: 16px;
+  background: transparent;
+  color: #444444;
+  border-bottom: 2px solid transparent;
+  border-radius: 0px;
+}
+
+.logs-ul li button.active {
+  font-weight: 600;
+  background: transparent;
+  color: black;
+  border-bottom: 2px solid #ae7744;
+  border-radius: 0px;
+}
+
+.server-log-table {
+  font-size: 14px;
+  white-space: nowrap;
+  thead {
+    tr th span {
+      color: #111111 !important;
+    }
+    position: sticky;
+    top: 43px;
+    z-index: 97;
+    background: white;
+  }
+  tbody {
+    tr td {
+      color: #444444 !important;
+    }
+  }
+}
+
+.description-text {
+  width: 72vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-content {
+  padding: 10px 0px 10px 0px;
+}

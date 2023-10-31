@@ -12,22 +12,24 @@ export class DashboardComponent implements OnInit {
   TabName: any;
   series = [
     {
-      name: `Success  ${70}`,
-      value: 70,
+      name: `Success  ${7}`,
+      value: 7,
       label: '70%',
     },
     {
-      name: `Error   ${30}`,
-      value: 20,
+      name: `Error   ${3}`,
+      value: 2,
       label: '30%',
     },
   ];
+  statusLogs: any = [];
   colorScheme: any = {
     domain: ['#47EC44', '#DD2025'],
   };
   allBuckets: any = [];
   allUsers: any = [];
   allGroups: any = [];
+  applications: any = [];
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -47,6 +49,8 @@ export class DashboardComponent implements OnInit {
     this.getAllUsers();
     this.getBuckets();
     this.getAllGroups();
+    this.getServerStatusLogs();
+    this.getApplications();
   }
 
   getAllUsers() {
@@ -72,6 +76,11 @@ export class DashboardComponent implements OnInit {
       console.log(this.allGroups);
     });
   }
+  getApplications() {
+    this.http.get(apiurls.applicationLogs).subscribe((res: any) => {
+      this.applications = res;
+    });
+  }
   pieChartLabel(series: any[], name: string): string {
     const item = series.filter((data) => data.name === name);
     if (item.length > 0) {
@@ -79,4 +88,29 @@ export class DashboardComponent implements OnInit {
     }
     return name;
   }
+
+  getServerStatusLogs() {
+    let data = [];
+    this.http.get(apiurls.getServerSoftwareLogs).subscribe((res: any) => {
+      this.statusLogs.push(...res);
+
+      this.statusLogs.map((val: any) => {
+        console.log(val);
+      });
+      console.log(this.statusLogs, this.series);
+    });
+  }
 }
+
+// [
+//   {
+//     name: `Success  ${7}`,
+//     value: 7,
+//     label: '70%',
+//   },
+//   {
+//     name: `Error   ${3}`,
+//     value: 2,
+//     label: '30%',
+//   },
+// ]

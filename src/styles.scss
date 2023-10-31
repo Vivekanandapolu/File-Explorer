@@ -93,3 +93,16 @@ element.style {
 g[ngx-charts-pie-label] {
   display: none !important;
 }
+table {
+  tbody {
+    tr {
+      font-size: 14px !important;
+    }
+  }
+}
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";

@@ -1,13 +1,17 @@
+declare var $: any;
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
-
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,16 +21,38 @@ import { FormControl, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ParseSpan } from '@angular/compiler';
 
+import {
+  NgbDateStruct,
+  NgbCalendar,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-global-header',
   templateUrl: './global-header.component.html',
   styleUrls: ['./global-header.component.scss'],
 })
 export class GlobalHeaderComponent implements OnInit {
+  selectedMonth: any;
+  selectedProperty: any;
+  currentMonth = new Date();
+  date!: { year: number; month: number };
+
+  selectedDate: NgbDateStruct | undefined;
+
+  serverLogs: any[] = [];
+  filteredUserLogs: any = [];
+  filteredServerLogs: any = [];
+  userLogs: any[] = [];
+  @ViewChild('datePicker') datePicker!: ElementRef;
   @Input() Label: any;
   @Input() Back: any;
   @Input() Forward: any;
   @Input() tabname: any;
+  @Output() userLogData: EventEmitter<string> = new EventEmitter<string>();
+  @Output() month: EventEmitter<string> = new EventEmitter<string>();
+  @Output() property: EventEmitter<string> = new EventEmitter<string>();
+  @Output() serverLogData: EventEmitter<string> = new EventEmitter<string>();
   @Output() outputData: EventEmitter<string> = new EventEmitter<string>();
   @Output() view_con: EventEmitter<string> = new EventEmitter<string>();
   @Output() createbucket_res: EventEmitter<string> = new EventEmitter<string>();
@@ -61,6 +87,22 @@ export class GlobalHeaderComponent implements OnInit {
     '2023-10-19',
     // Add more date options as needed
   ];
+
+  monthNames: any = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   Groupdata: any = {};
   bucketName: any;
   searchVal: any = '';
@@ -80,7 +122,9 @@ export class GlobalHeaderComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private modalservice: NgbModal
+    private modalservice: NgbModal,
+    private calendar: NgbCalendar,
+    private formatter: NgbDateParserFormatter
   ) {
     this.dropdownSettings = {
       singleSelection: false, // Allow multiple selections
@@ -93,21 +137,36 @@ export class GlobalHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedMonth = this.monthNames[this.currentMonth.getUTCMonth()];
+    this.selectedProperty = 'Shiji';
+
+    let tabname = localStorage.getItem('tabname');
+
+    if (tabname == 'Logs') {
+      this.getUserLogs();
+      this.getServerLogs();
+    }
+    if (tabname == 'User management') {
+      this.getAllUsers();
+    }
+
     if (
-      localStorage.getItem('tabname') == 'User management' ||
-      localStorage.getItem('tabname') == 'Groups' ||
-      localStorage.getItem('tabname') == 'Trash' ||
-      localStorage.getItem('tabname') == 'Dashboard'
+      tabname == 'User management' ||
+      tabname == 'Groups' ||
+      tabname == 'Trash' ||
+      tabname == 'Dashboard' ||
+      tabname == 'Logs' ||
+      tabname == 'Application Logs'
     ) {
       this.category = false;
     }
-    if (localStorage.getItem('tabname') == 'Buckets') {
+    if (tabname == 'Buckets') {
       this.category = true;
+      this.getBuckets();
     }
     if (localStorage.getItem('userType') == 'admin') {
       this.usertype = true;
     }
-
     if (localStorage.getItem('view') == 'grid') {
       this.viewVal = true;
     } else if (localStorage.getItem('view') == 'list') {
@@ -117,6 +176,16 @@ export class GlobalHeaderComponent implements OnInit {
       this.list = res.get('view');
     });
     this.route.queryParamMap.subscribe((params: any) => {
+      if (params.params.month_name) {
+        this.selectedMonth = params.params.month_name;
+      } else {
+        this.selectedMonth = this.monthNames[this.currentMonth.getUTCMonth()];
+      }
+      if (params.params.property_name) {
+        this.selectedProperty = params.params.property_name;
+      } else {
+        this.selectedProperty = 'Shiji';
+      }
       this.searchVal = '';
       // console.log(params);
       this.tabname = params.get('name') || params.get('tabname');
@@ -134,10 +203,10 @@ export class GlobalHeaderComponent implements OnInit {
         this.next = false;
       }
     });
-    this.getBuckets();
-    this.getAllUsers();
   }
-
+  onMonthSelected() {
+    this.month.emit(this.selectedMonth);
+  }
   open(content: any) {
     this.modalservice.open(content, { backdrop: 'static' });
   }
@@ -145,7 +214,6 @@ export class GlobalHeaderComponent implements OnInit {
   getBuckets() {
     this.allBuckets = [];
     this.http.get(apiurls.buckets).subscribe((res: any) => {
-      console.log(res);
       for (let i in res.buckets) {
         this.buckets.push(res.buckets[i].name);
       }
@@ -244,7 +312,6 @@ export class GlobalHeaderComponent implements OnInit {
   AllfieldsErr = false;
 
   createUser(form: NgForm) {
-    console.log('hello');
     this.spinnerBtn = false;
     this.spinner = true;
     if (form.value.name == '' || form.value.username == '') {
@@ -287,9 +354,7 @@ export class GlobalHeaderComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.http.get(apiurls.allUsers).subscribe((res: any) => {
-      console.log(res);
-    });
+    this.http.get(apiurls.allUsers).subscribe((res: any) => {});
   }
 
   createGroup(form: NgForm) {
@@ -330,7 +395,6 @@ export class GlobalHeaderComponent implements OnInit {
     let arr: any = [];
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       res.buckets.filter((val: any) => {
-        console.log(val);
         if (val.name.toLowerCase().includes(this.searchVal.toLowerCase())) {
           arr.push(val);
         } else if (
@@ -339,7 +403,6 @@ export class GlobalHeaderComponent implements OnInit {
           arr.push(val);
         }
       });
-      console.log(arr);
       this.searchBucket.emit(arr);
     });
   }
@@ -365,7 +428,63 @@ export class GlobalHeaderComponent implements OnInit {
         }
       });
     });
-    console.log(groupArr, 'groups Search');
     this.searchGroups.emit(groupArr);
+  }
+
+  getUserLogs() {
+    this.http.get(apiurls.userLogs).subscribe((logs: any) => {
+      this.userLogs = logs;
+    });
+  }
+
+  getServerLogs() {
+    this.http.get(apiurls.serverLogs).subscribe((logs: any) => {
+      this.serverLogs = logs;
+    });
+  }
+  onDateSelect(selectedDate: NgbDateStruct) {
+    this.selectedDate = selectedDate;
+
+    this.filteredUserLogs = this.userLogs.filter((log) => {
+      const logDateParts = log.created_at.split(' ')[0].split('-');
+      const logDate: NgbDateStruct = {
+        year: +logDateParts[0],
+        month: +logDateParts[1],
+        day: +logDateParts[2].slice(0, 2),
+      };
+      return (
+        logDate?.year === selectedDate?.year &&
+        logDate?.month === selectedDate?.month &&
+        logDate?.day === selectedDate?.day
+      );
+    });
+    if (this.selectedDate == null) {
+      this.filteredUserLogs = this.userLogs;
+    }
+    this.userLogData.emit(this.filteredUserLogs);
+
+    this.filteredServerLogs = this.serverLogs.filter((log) => {
+      const logDateParts = log.timestamp.split(' ')[0].split('-');
+      const logDate: NgbDateStruct = {
+        year: +logDateParts[0],
+        month: +logDateParts[1],
+        day: +logDateParts[2].slice(0, 2),
+      };
+
+      return (
+        logDate?.year === selectedDate?.year &&
+        logDate?.month === selectedDate?.month &&
+        logDate?.day === selectedDate?.day
+      );
+    });
+    if (this.selectedDate == null) {
+      this.filteredServerLogs = this.serverLogs;
+    }
+
+    this.serverLogData.emit(this.filteredServerLogs);
+  }
+
+  onPropertySelected() {
+    this.property.emit(this.selectedProperty);
   }
 }

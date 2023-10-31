@@ -1,0 +1,106 @@
+<app-side-nav></app-side-nav>
+<app-global-header
+  (month)="selectedMonth($event)"
+  (property)="selectedProperty($event)"
+>
+</app-global-header>
+<div class="container-fluid">
+  <div class="main-container">
+    <!-- <div class="table-responsive"> -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="prop_name prop_name-1 fw-bold fs-6">Marsha Code</th>
+          <th>01</th>
+          <th>02</th>
+          <th>03</th>
+          <th>04</th>
+          <th>05</th>
+          <th>06</th>
+          <th>07</th>
+          <th>08</th>
+          <th>09</th>
+          <th>10</th>
+          <th>11</th>
+          <th>12</th>
+          <th>13</th>
+          <th>14</th>
+          <th>15</th>
+          <th>16</th>
+          <th>17</th>
+          <th>18</th>
+          <th>19</th>
+          <th>20</th>
+          <th>21</th>
+          <th>22</th>
+          <th>23</th>
+          <th>24</th>
+          <th>25</th>
+          <th>26</th>
+          <th>27</th>
+          <th>28</th>
+          <th *ngIf="currentSelectedMonth != 'February'">29</th>
+          <th *ngIf="currentSelectedMonth != 'February'">30</th>
+          <th
+            *ngIf="
+              currentSelectedMonth != 'February' &&
+              currentSelectedMonth != 'November' &&
+              currentSelectedMonth != 'April' &&
+              currentSelectedMonth != 'June' &&
+              currentSelectedMonth != 'September'
+            "
+          >
+            31
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs; let index = index">
+          <td class="prop_name prop_name_2">
+            <span class="fw-semibold">{{ log?.property }}</span>
+            <p class="m-0 text-black-50" [ngbTooltip]="log?.property_name">
+              {{ log?.property_name }}
+            </p>
+          </td>
+          <ng-container *ngFor="let days of [log?.months]">
+            <td *ngFor="let day of days[currentSelectedMonth]?.split(',')">
+              <p class="w-100 m-0 h-100 bg-success mt-2" *ngIf="day === '1'">
+                <img src="../../../assets/correct.svg" alt="" />
+              </p>
+              <p
+                style="background-color: #ffdede !important"
+                class="w-100 m-0 h-100 bg-success mt-2"
+                *ngIf="day !== '1'"
+              >
+                <img src="../../../assets/wrong.svg" alt="" />
+              </p>
+            </td>
+          </ng-container>
+        </tr>
+        <tr *ngFor="let log of logs; let index = index">
+          <td class="prop_name prop_name_2">
+            <span class="fw-semibold">{{ log?.property }}</span>
+            <p class="m-0 text-black-50" [ngbTooltip]="log?.property_name">
+              {{ log?.property_name }}
+            </p>
+          </td>
+          <ng-container *ngFor="let days of [log?.months]">
+            <td *ngFor="let day of days[currentSelectedMonth]?.split(',')">
+              <p class="w-100 m-0 h-100 bg-success mt-2" *ngIf="day === '1'">
+                <img src="../../../assets/correct.svg" alt="" />
+              </p>
+              <p
+                style="background-color: #ffdede !important"
+                class="w-100 m-0 h-100 bg-success mt-2"
+                *ngIf="day !== '1'"
+              >
+                <img src="../../../assets/wrong.svg" alt="" />
+              </p>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <!-- </div> -->
+  </div>
+</div>

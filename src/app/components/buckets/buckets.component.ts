@@ -53,7 +53,7 @@ export class BucketsComponent implements OnInit {
 
   ngOnInit(): void {
     this.tokenservice.validateTokenAndRefresh();
-    // localStorage.setItem('tabname', 'Buckets');
+    localStorage.setItem('tabname', 'Archives');
     this.viewtype = localStorage.getItem('view') || 'grid';
 
     this.bucketsView = false;

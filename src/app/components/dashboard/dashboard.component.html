@@ -59,7 +59,11 @@
               </div>
             </div>
           </div>
-          <div class="card mb-3">
+          <div
+            class="card mb-3"
+            routerLink="/application_logs"
+            [queryParams]="{ name: 'Application Logs' }"
+          >
             <div
               class="card-body bucket-card d-flex align-items-center justify-content-between"
             >
@@ -68,7 +72,7 @@
                   ><img src="../../../assets/application-img.png" alt=""
                 /></span>
                 <div class="bucket-det">
-                  <h5 class="m-0">54</h5>
+                  <h5 class="m-0">{{ applications.length }}</h5>
                   <p class="card-text text-black-50">Applications</p>
                 </div>
               </div>
@@ -82,13 +86,16 @@
       <div class="col-9">
         <div class="container-fluid software-cards-div">
           <div class="row p-0">
-            <div class="col-6 mb-3 position-relative">
-              <h6 class="title">Software 1</h6>
+            <div
+              class="col-6 mb-3 position-relative"
+              *ngFor="let software of statusLogs; let idx = index"
+            >
+              <h6 class="title">{{ software[0].label.toUpperCase() }}</h6>
               <div class="card software">
                 <div class="card-body">
                   <ngx-charts-pie-chart
                     [view]="[400, 250]"
-                    [results]="series"
+                    [results]="software"
                     [legend]="true"
                     [labels]="true"
                     [doughnut]="true"
@@ -101,7 +108,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-6 mb-3 position-relative">
+            <!-- <div class="col-6 mb-3 position-relative">
               <h6 class="title">Software 2</h6>
               <div class="card software">
                 <div class="card-body">
@@ -138,7 +145,7 @@
                   </ngx-charts-pie-chart>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

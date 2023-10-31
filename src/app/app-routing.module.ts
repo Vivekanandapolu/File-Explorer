@@ -9,6 +9,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LogsComponent } from './components/logs/logs.component';
+import { ApplicationLogsComponent } from './components/application-logs/application-logs.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
   {
     path: 'logs',
     component: LogsComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'application_logs',
+    component: ApplicationLogsComponent,
     canActivate: [AuthGuardGuard],
   },
   {

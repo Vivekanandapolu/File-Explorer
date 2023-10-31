@@ -1,104 +1,98 @@
 .folder {
-    width: 22px;
+  width: 22px;
 }
 
-
 .folders {
-    width: 60px;
+  width: 60px;
 }
 
 .three-dots {
-    width: 24px;
-    transform: rotate(90deg);
-    position: relative;
-    left: 6px;
-    top: 5px;
-    cursor: pointer;
+  width: 24px;
+  transform: rotate(90deg);
+  position: relative;
+  left: 6px;
+  top: 5px;
+  cursor: pointer;
 }
 
-
 .three-div {
-    position: relative;
-    left: 18px;
+  position: relative;
+  left: 18px;
 }
 
 .card-body div {
-    padding: 10px !important;
+  padding: 10px !important;
 }
 
 .three-dots-1 {
-    width: 22px;
-    transform: rotate(90deg);
+  width: 22px;
+  transform: rotate(90deg);
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .folder-card {
-    background: #D4FFF5;
+  background: #d4fff5;
+  height: 100%;
 }
 
 .folder-card:hover {
-    background: #00ffff14;
-    box-shadow: 3px 5px rgb(209 202 202);
-    transition: 0.5s;
+  background: #00ffff14;
+  box-shadow: 3px 5px rgb(209 202 202);
+  transition: 0.5s;
 
-    .card-footer {
-        background-color: #D4FFF5;
-    }
-
+  .card-footer {
+    background-color: #d4fff5;
+  }
 }
 
 .card-body,
 .card-footer {
-    padding: 10px 25px;
+  padding: 10px 25px;
 }
-
 
 .card-footer {
-    cursor: pointer;
-    background: transparent;
-    border-top: 1px solid white;
+  cursor: pointer;
+  background: transparent;
+  border-top: 1px solid white;
 }
-
-
 
 .card-title {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-
 .card-title-1 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
 }
 
 .card-text {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .list-folder {
-    margin: 0px !important;
-    width: 22px;
+  margin: 0px !important;
+  width: 22px;
 }
 
 .download {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.table>:not(:last-child)>:last-child>* {
-    font-size: 14px !important;
-    border-bottom: 1px solid #00000030;
+.table > :not(:last-child) > :last-child > * {
+  font-size: 14px !important;
+  border-bottom: 1px solid #00000030;
 }
 
 .folderName {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .nofiles {
-    text-align: center;
-    color: #0000007a;
+  text-align: center;
+  color: #0000007a;
 }

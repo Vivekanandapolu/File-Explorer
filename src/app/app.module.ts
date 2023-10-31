@@ -17,7 +17,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { LoaderComponent } from './loader/loader.component';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
@@ -27,6 +27,8 @@ import { LogsComponent } from './components/logs/logs.component';
 // import { CanvasJSAngularChartsModule } from 'canvasjs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { ApplicationLogsComponent } from './components/application-logs/application-logs.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -43,8 +45,10 @@ import { GoogleChartsModule } from 'angular-google-charts';
     LoaderComponent,
     DashboardComponent,
     LogsComponent,
+    ApplicationLogsComponent,
   ],
   imports: [
+    BsDatepickerModule,
     NgSelectModule,
     BrowserModule,
     BrowserAnimationsModule,

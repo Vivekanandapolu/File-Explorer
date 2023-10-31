@@ -23,5 +23,8 @@ export const apiurls = {
   smptUser: domain + '/auth/get_smtp',
   testMail: domain + '/auth/test_smtp',
   folderDownload: domain + '/bucket/download_folder/',
-  logs: domain + '',
+  userLogs: domain + '/auth/user_logs',
+  serverLogs: domain + '/auth/server_logs',
+  getServerSoftwareLogs: domain + '/auth/server_status_logs',
+  applicationLogs: domain + '/auth/application_logs',
 };
