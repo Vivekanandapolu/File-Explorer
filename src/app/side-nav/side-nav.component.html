@@ -62,7 +62,7 @@
             ><img src="../../assets/log.png" alt="" /> Logs</a
           >
         </li>
-        <li class="nav-item" *ngIf="userType == 'admin'">
+        <!-- <li class="nav-item" *ngIf="userType == 'admin'">
           <a
             routerLink="/application_logs"
             [queryParams]="{ name: 'Application Logs' }"
@@ -70,7 +70,7 @@
             class="nav-link text-white"
             ><img src="../../assets/log_app.svg" alt="" /> Application Logs</a
           >
-        </li>
+        </li> -->
         <li class="nav-item" *ngIf="userType == 'admin'">
           <a
             routerLink="/settings"
