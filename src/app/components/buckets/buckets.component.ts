@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { apiurls } from 'src/app/shared/apiurls';
@@ -363,6 +363,27 @@ export class BucketsComponent implements OnInit {
 
   //Download File
 
+  // downloadFile(bucketName: any, file: any) {
+  //   let data: any = {};
+  //   let name;
+  //   for (let i in bucketName) {
+  //     if (i == 'path') {
+  //       name = bucketName[i].split('/')[0];
+  //       data.bucket_name = name;
+  //       data.path = file.fileurl;
+  //     }
+  //   }
+  //   // let queryParams = new HttpParams();
+  //   this.http
+  //     .get(apiurls.downloadFolderDupli, { params: data })
+  //     .subscribe((res: any) => {
+  //       const blob = new Blob([res.download_url], { type: 'text/csv' });
+  //       const url = window.URL.createObjectURL(blob);
+  //       window.URL.revokeObjectURL(url);
+  //       window.open(url);
+  //     });
+  // }
+
   downloadFile(bucketName: any, file: any) {
     let data: any = {};
     let name;
@@ -373,9 +394,33 @@ export class BucketsComponent implements OnInit {
         data.path = file.fileurl;
       }
     }
-    this.http.post(apiurls.downloadFile, data).subscribe((res: any) => {
-      window.open(res.download_url);
-    });
+    console.log(file.fileurl.split('/')[4]);
+    // Make a GET request to fetch the file data
+    this.http
+      .get(apiurls.downloadFolderDupli, {
+        params: data,
+        responseType: 'arraybuffer',
+      })
+      .subscribe((res: ArrayBuffer) => {
+        // Create a Blob from the array buffer
+        const blob = new Blob([res], { type: 'text/csv' });
+
+        // Create a temporary URL for the blob
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.fileurl.split('/')[4]; // Set the desired file name
+
+        // Trigger the download
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      });
   }
 
   //Download Folder

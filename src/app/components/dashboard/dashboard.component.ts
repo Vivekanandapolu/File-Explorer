@@ -101,16 +101,3 @@ export class DashboardComponent implements OnInit {
     });
   }
 }
-
-// [
-//   {
-//     name: `Success  ${7}`,
-//     value: 7,
-//     label: '70%',
-//   },
-//   {
-//     name: `Error   ${3}`,
-//     value: 2,
-//     label: '30%',
-//   },
-// ]

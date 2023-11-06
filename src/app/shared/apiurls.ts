@@ -27,4 +27,5 @@ export const apiurls = {
   serverLogs: domain + '/auth/server_logs',
   getServerSoftwareLogs: domain + '/auth/server_status_logs',
   applicationLogs: domain + '/auth/application_logs',
+  downloadFolderDupli: domain + '/bucket/file/downloadfolder111',
 };
