@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { apiurls } from 'src/app/shared/apiurls';
@@ -375,7 +375,7 @@ export class BucketsComponent implements OnInit {
   //   }
   //   // let queryParams = new HttpParams();
   //   this.http
-  //     .get(apiurls.downloadFolderDupli, { params: data })
+  //     .get(apiurls.downloadFileDup, { params: data })
   //     .subscribe((res: any) => {
   //       const blob = new Blob([res.download_url], { type: 'text/csv' });
   //       const url = window.URL.createObjectURL(blob);
@@ -394,46 +394,113 @@ export class BucketsComponent implements OnInit {
         data.path = file.fileurl;
       }
     }
-    console.log(file.fileurl.split('/')[4]);
-    // Make a GET request to fetch the file data
-    this.http
-      .get(apiurls.downloadFolderDupli, {
-        params: data,
-        responseType: 'arraybuffer',
-      })
-      .subscribe((res: ArrayBuffer) => {
-        // Create a Blob from the array buffer
-        const blob = new Blob([res], { type: 'text/csv' });
+    console.log(file.fileurl.split('.')[1]);
+    if (file.fileurl.split('.')[1] == 'csv') {
+      console.log('csv file ');
 
-        // Create a temporary URL for the blob
-        const url = window.URL.createObjectURL(blob);
+      this.http
+        .get(apiurls.downloadFileDup, {
+          params: data,
+          responseType: 'arraybuffer',
+        })
+        .subscribe((res: ArrayBuffer) => {
+          // Create a Blob from the array buffer
+          const blob = new Blob([res], { type: 'text/csv' });
 
-        // Create a temporary anchor element to trigger the download
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = file.fileurl.split('/')[4]; // Set the desired file name
+          // Create a temporary URL for the blob
+          const url = window.URL.createObjectURL(blob);
 
-        // Trigger the download
-        document.body.appendChild(a);
-        a.click();
+          // Create a temporary anchor element to trigger the download
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = file.fileurl.split('/').pop(); // Set the desired file name
 
-        // Clean up
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      });
+          // Trigger the download
+          document.body.appendChild(a);
+          a.click();
+
+          // Clean up
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        });
+    }
+    if (file.fileurl.split('.')[1] == 'txt') {
+      this.http
+        .get(apiurls.downloadFileDup, {
+          params: data,
+          responseType: 'arraybuffer',
+        })
+        .subscribe((res: ArrayBuffer) => {
+          const blob = new Blob([res], { type: 'text/plain' });
+          const dataUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = file.fileurl.split('/').pop(); // Set the desired file name
+
+          // Trigger the download
+          document.body.appendChild(a);
+          a.click();
+
+          // Clean up
+          window.URL.revokeObjectURL(dataUrl);
+          document.body.removeChild(a);
+        });
+    }
   }
 
   //Download Folder
 
   downloadFolder(folderName: any, BucketName: any) {
-    console.log(folderName.path.split('/').slice(1).join('/'));
-
     let folderData: any = {};
     folderData.bucket_name = folderName.path.split('/')[0];
     folderData.folder_path = folderName.path.split('/').slice(1).join('/');
     this.http.post(apiurls.folderDownload, folderData).subscribe((res: any) => {
       window.open(res.download_url);
     });
+  }
+  // downloadFolder1(folderName: any, BucketName: any) {
+  //   let folderData: any = {};
+  //   folderData.bucket_name = folderName.path.split('/')[0];
+  //   folderData.folder_path = folderName.path.split('/').slice(1).join('/');
+  //   this.http
+  //     .get(apiurls.downloadFolderDup, { params: folderData })
+  //     .subscribe((res: any) => {
+  //       const binaryData = res; // Replace ... with your binary data
+  //       const blob = new Blob([binaryData]);
+  //       const url = window.URL.createObjectURL(blob);
+  //       window.open(url);
+
+  //       window.URL.revokeObjectURL(url);
+  //     });
+  // }
+  downloadFolder1(folderName: any, BucketName: any) {
+    console.log(folderName);
+    const folderData: any = {};
+    folderData.bucket_name = folderName.path.split('/')[0];
+    folderData.folder_path = folderName.path.split('/').slice(1).join('/');
+
+    const httpOptions: any = {
+      responseType: 'arraybuffer', // Set the response type to arraybuffer
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: folderData,
+    };
+
+    this.http
+      .get(apiurls.downloadFolderDup, httpOptions)
+      .subscribe((res: ArrayBuffer) => {
+        const blob = new Blob([res], { type: 'application/zip' }); // Specify the correct MIME type
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+
+        a.download = folderName.path.split('/')[0]; // Set the desired file name
+
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      });
   }
   newBukcet(val: any) {
     if (val) {
