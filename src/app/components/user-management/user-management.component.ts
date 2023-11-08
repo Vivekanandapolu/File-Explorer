@@ -128,7 +128,7 @@ export class UserManagementComponent implements OnInit {
     this.allBuckets = [];
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       for (let i in res.buckets) {
-        this.allBuckets.push(res.buckets[i].name);
+        this.allBuckets.push(res.buckets[i].name.toLowerCase());
       }
     });
   }

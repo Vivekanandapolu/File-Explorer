@@ -100,7 +100,8 @@ export class GroupsComponent implements OnInit {
   getBuckets() {
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       res.buckets.filter((bucket: any) => {
-        this.allBuckets.push(bucket.name);
+        this.allBuckets.push(bucket.name.toLowerCase());
+        console.log(bucket);
       });
     });
   }
