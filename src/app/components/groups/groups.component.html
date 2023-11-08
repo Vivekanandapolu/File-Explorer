@@ -142,7 +142,9 @@
                       alt=""
                     />
                   </div>
-                  <p class="card-title fw-bold m-0">{{ policy }}</p>
+                  <p class="card-title fw-bold m-0">
+                    {{ policy.toUpperCase() }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -153,7 +155,7 @@
             (click)="ViewallBuckets(group)"
           >
             <p class="m-0">
-              View All Buckets <i class="ri-arrow-right-s-line"></i>
+              View All Properties <i class="ri-arrow-right-s-line"></i>
             </p>
           </div>
         </div>
@@ -246,7 +248,7 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="allBucketsView">
-      <p class="mb-3 fw-bold">Buckets</p>
+      <p class="mb-3 fw-bold">Properties</p>
       <div class="mb-4 groupBuckets1 d-flex">
         <div class="" *ngFor="let bucket of groupBuckets">
           <div class="card folder-card">
@@ -263,7 +265,7 @@
                   alt=""
                 />
               </div>
-              <p class="card-title fw-bold m-0">{{ bucket }}</p>
+              <p class="card-title fw-bold m-0">{{ bucket.toUpperCase() }}</p>
             </div>
           </div>
         </div>

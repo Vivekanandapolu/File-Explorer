@@ -86,8 +86,9 @@ export class BucketsComponent implements OnInit {
     this.allBuckets = [];
     this.http.get(apiurls.buckets).subscribe((res: any) => {
       this.buckets = [res];
+      console.log(this.buckets);
       for (let bucket in this.buckets) {
-        this.allBuckets.push(...this.buckets[bucket].buckets);
+        this.allBuckets.push(...this.buckets[bucket]?.buckets);
       }
 
       const queryParams = {

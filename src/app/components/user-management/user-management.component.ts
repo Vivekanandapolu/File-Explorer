@@ -110,7 +110,7 @@ export class UserManagementComponent implements OnInit {
     } else {
       console.log(form.value);
       let selectedBuckets: any;
-      selectedBuckets = form?.value?.buckets?.join(',');
+      selectedBuckets = form?.value?.buckets?.join(',').toLowerCase();
       form.value.buckets = selectedBuckets;
       this.http.post(apiurls.addBuckets, form.value).subscribe((res: any) => {
         console.log(form.value);

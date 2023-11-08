@@ -153,7 +153,7 @@ export class GroupsComponent implements OnInit {
       this.router.queryParamMap.subscribe((params: any) => {
         console.log(params.params.tabname, 'params');
       });
-      form.value.buckets = form.value.buckets?.join(',');
+      form.value.buckets = form.value.buckets?.join(',').toLowerCase();
       this.http
         .post(apiurls.manageBuckets, form.value)
         .subscribe((res: any) => {

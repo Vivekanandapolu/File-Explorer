@@ -11,7 +11,7 @@
       <thead class="fw-bold">
         <tr class="table-secondary text-center">
           <td scope="col" class="text-center">Name</td>
-          <td colspan="3" class="buckets" scope="col">Bucket</td>
+          <td colspan="3" class="buckets" scope="col">Property</td>
           <td scope="col">Action</td>
         </tr>
       </thead>
@@ -31,7 +31,7 @@
             *ngIf="user.bucketname"
             class="text-center buckets"
           >
-            {{ user.bucketname }}
+            {{ user.bucketname.toUpperCase() }}
           </td>
           <td colspan="3" *ngIf="!user.bucketname" class="text-center">
             <i class="ri-subtract-line sub"></i>
