@@ -55,22 +55,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of logs; let index = index">
+        <tr *ngFor="let log of finalData; let index = index">
           <td class="prop_name prop_name_2">
             <span class="fw-semibold">{{ log?.property }}</span>
             <p class="m-0 text-black-50" [ngbTooltip]="log?.property_name">
               {{ log?.property_name }}
             </p>
           </td>
-          <ng-container *ngFor="let days of [log?.months]">
-            <td *ngFor="let day of days[currentSelectedMonth]?.split(',')">
-              <p class="w-100 m-0 h-100 bg-success mt-2" *ngIf="day === '1'">
+          <ng-container *ngFor="let days of log?.month?.split(',')">
+            <td>
+              <p class="w-100 m-0 h-100 bg-success mt-2" *ngIf="days === 1">
                 <img src="../../../assets/correct.svg" alt="" />
               </p>
               <p
                 style="background-color: #ffdede !important"
                 class="w-100 m-0 h-100 bg-success mt-2"
-                *ngIf="day !== '1'"
+                *ngIf="days !== 1"
               >
                 <img src="../../../assets/wrong.svg" alt="" />
               </p>

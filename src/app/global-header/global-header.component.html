@@ -227,7 +227,7 @@
             >
             <input
               type="text"
-              class="form-control shadow-none"
+              class="form-control shadow-none mb-3"
               placeholder="Enter Property Name"
               #bucket_name="ngModel"
               [(ngModel)]="newBucketData.bucket_name"
@@ -254,6 +254,15 @@
             >
               *Property Name Already Exist
             </p>
+            <label for="bukcet" class="form-check-label mb-2">Hotel</label>
+            <input
+              type="text"
+              class="form-control shadow-none"
+              placeholder="Enter Property Name"
+              #description="ngModel"
+              [(ngModel)]="newBucketData.description"
+              name="description"
+            />
           </form>
         </div>
         <div class="modal-footer">

@@ -1,83 +1,100 @@
 .tab-btn {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    gap: 10px;
-    color: black;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 10px;
+  color: black;
 }
 
 .tabs-content {
-    gap: 60px;
-    height: -webkit-fill-available;
+  gap: 60px;
+  height: -webkit-fill-available;
 }
 
 .tab_list {
-    padding-right: 60px;
-    border-right: 1px solid rgba(0, 0, 0, 0.397);
-    width: 286px;
+  padding-right: 60px;
+  border-right: 1px solid rgba(0, 0, 0, 0.397);
+  width: 286px;
 }
 
 .tab_list ul {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .err1 {
-    position: relative;
-    top: 56px;
+  position: relative;
+  top: 56px;
 }
 
 .spinner {
-    width: fit-content !important;
+  width: fit-content !important;
 }
 
 .email-div {
-    top: -22px;
+  top: -22px;
 }
 
 .header-row {
-    height: -webkit-fill-available;
+  height: -webkit-fill-available;
 }
 
 .spinner-border {
-    width: 1.5rem;
-    height: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
-    color: #AE7744;
-    background-color: #FFDBB9;
+.nav-pills .show > .nav-link {
+  color: #ae7744;
+  background-color: #ffdbb9;
 }
 
 .tab-content {
-    padding: 0px 72px;
-    width: -webkit-fill-available;
+  #home {
+    margin: 10px 82px 10px 0px;
+  }
+  #marsha {
+    margin: 24px 33px 0px -19px;
+  }
+  width: -webkit-fill-available;
 }
 
 .form {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .form input {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .reply-h5 {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .save-btn {
-    background-color: #AE7744;
-    color: white;
-    font-size: 14px;
-    padding: 5px 25px;
+  background-color: #ae7744;
+  color: white;
+  font-size: 14px;
+  padding: 5px 25px;
 }
 
 .save-btn1 {
-    background-color: #AE7744;
-    color: white;
-    font-size: 14px;
-    gap: 10px;
-    position: absolute;
-    top: 0px;
+  background-color: #ae7744;
+  color: white;
+  font-size: 14px;
+  gap: 10px;
+  position: absolute;
+  top: 0px;
+}
+
+.table {
+  thead {
+    tr {
+      td {
+        color: #111;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
 }

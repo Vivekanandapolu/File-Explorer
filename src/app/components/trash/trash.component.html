@@ -33,6 +33,20 @@
               <i class="ri-sound-module-line"></i> General Settings
             </button>
           </li>
+          <li class="nav-item w-100" role="presentation">
+            <button
+              class="nav-link tab-btn w-100"
+              id="marsha-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#marsha"
+              type="button"
+              role="tab"
+              aria-controls="marsha"
+              aria-selected="false"
+            >
+              <i class="ri-sound-module-line"></i> Marsha
+            </button>
+          </li>
         </ul>
       </div>
       <div class="tab-content" id="myTabContent">
@@ -162,12 +176,67 @@
           voluptates labore sint, consequatur molestias delectus est animi
           quaerat earum cum eos quidem nobis!
         </div>
-        <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Lorem ipsum dolor
-                    sit amet consectetur adipisicing elit. Repellendus voluptatibus tempore suscipit, ipsam soluta
-                    aspernatur molestiae voluptates labore sint, consequatur molestias delectus est animi quaerat earum
-                    cum eos quidem nobis!</div>
-            </div> -->
+        <div
+          class="tab-pane fade"
+          id="marsha"
+          role="tabpanel"
+          aria-labelledby="contact-tab"
+        >
+          <table class="table table-striped table-bordered">
+            <thead class="table-secondary">
+              <tr>
+                <td>Marsha Code</td>
+                <td>Property name</td>
+                <td class="text-center">Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let marsha of marshaDetails">
+                <td class="fw-bold">{{ marsha?.Marsha }}</td>
+                <td class="fw-normal">{{ marsha?.Hotel }}</td>
+                <td class="text-center" (click)="openmodal(content, marsha)">
+                  <i class="ri-pencil-fill"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4>Edit Marsha Deatils</h4>
+    <button class="btn-close shadow-none" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm" (ngSubmit)="updateMarshaDetails(form, detail?.id)">
+      <label for="" class="form-label"> Marsh Code </label>
+      <input
+        type="text"
+        class="form-control mb-3 shadow-none"
+        placeholder="Marsha Code"
+        [value]="detail?.Marsha"
+        readonly
+      />
+      <label for="" class="form-label"> Marsh Code </label>
+      <input
+        type="text"
+        class="form-control mb-3 shadow-none"
+        placeholder="Property Name"
+        [value]="detail?.Hotel"
+        [(ngModel)]="detail.Hotel"
+        #Hotel="ngModel"
+        name="Hotel"
+      />
+      <button
+        class="btn update-btn w-100 bg-warning"
+        type="submit"
+        [disabled]="!detail.Hotel"
+      >
+        Update
+      </button>
+    </form>
+  </div>
+</ng-template>

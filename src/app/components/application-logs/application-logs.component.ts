@@ -13,6 +13,7 @@ export class ApplicationLogsComponent implements OnInit {
   currentSelectedMonth: any = '';
   currentProperty: any = '';
   date = new Date();
+  finalData: any = [];
   monthNames: any = [
     'January',
     'February',
@@ -35,11 +36,9 @@ export class ApplicationLogsComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    console.log(' ===== ngOnIn');
     // this.currentSelectedMonth = this.monthNames[this.date.getUTCMonth()];
     localStorage.setItem('tabname', 'Application Logs');
     this.route.queryParamMap.subscribe((params: any) => {
-      console.log('params ==== ', params);
       this.currentSelectedMonth = params.params.month_name
         ? params.params.month_name
         : this.monthNames[this.date.getUTCMonth()];
@@ -48,20 +47,30 @@ export class ApplicationLogsComponent implements OnInit {
         ? params.params.property_name
         : 'Shiji';
       this.getApplicationLogs();
+      this.currentPropertyData(params.params.property_name);
     });
   }
   getApplicationLogs() {
-    console.log(' ===== ');
+    this.finalData = [];
     this.http.get(apiurls.applicationLogs).subscribe((res: any) => {
       this.total_logs_data = res;
-      this.logs = res.filter(
-        (each: any) => each?.software == this.currentProperty.trim()
-      );
+      this.logs = res.filter((each: any) => {
+        if (each?.software == this.currentProperty.trim()) {
+          let data = {
+            software: this.currentProperty.trim(),
+            property: each?.property,
+            property_name: each?.property_name,
+            monthName: this.currentSelectedMonth,
+            month: each.months[this.currentSelectedMonth],
+          };
+          this.finalData.push(data);
+        }
+      });
+      console.log(this.finalData, '=======');
     });
   }
   selectedMonth(monthName: any) {
     let name: any;
-
     this.route.queryParamMap.subscribe((params: any) => {
       name = params.params.property_name;
     });
@@ -73,10 +82,7 @@ export class ApplicationLogsComponent implements OnInit {
         property_name: name,
       },
     });
-    let monthValues: any = [];
-    this.logs.filter((property: any) => {
-      monthValues = property.months;
-    });
+    this.currentPropertyData(name);
   }
   selectedProperty(Property: any) {
     let name: any;
@@ -93,6 +99,23 @@ export class ApplicationLogsComponent implements OnInit {
     this.logs = this.total_logs_data.filter((property: any) => {
       if (property.software == Property) {
         return property;
+      }
+    });
+    this.currentPropertyData(name);
+  }
+
+  currentPropertyData(name: any) {
+    this.finalData = [];
+    this.logs.filter((property: any) => {
+      if (property?.software == name) {
+        let data = {
+          software: name,
+          property: property?.property,
+          property_name: property?.property_name,
+          monthName: this.currentSelectedMonth,
+          month: property.months[this.currentSelectedMonth],
+        };
+        this.finalData.push(data);
       }
     });
   }

@@ -29,4 +29,6 @@ export const apiurls = {
   applicationLogs: domain + '/auth/application_logs',
   downloadFileDup: domain + '/bucket/file/downloadfolder111',
   downloadFolderDup: domain + '/bucket/download_folder11',
+  marshaCode: domain + '/auth/hotel_data',
+  updateMarshaHotel: domain + '/auth/edit_hotel/',
 };
