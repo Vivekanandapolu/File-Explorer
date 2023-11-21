@@ -242,7 +242,7 @@
                       <i
                         download
                         class="ri-download-2-line ms-3"
-                        (click)="downloadFolder(files, bucket)"
+                        (click)="downloadFolder1(files, bucket)"
                       ></i>
                     </td>
                   </tr>
@@ -275,6 +275,13 @@
                           clas
                           *ngIf="files?.filetype == '.csv'"
                           src="../../../assets/csv.svg"
+                          class="folder"
+                          alt=""
+                        />
+                        <img
+                          clas
+                          *ngIf="files?.filetype == '.zip'"
+                          src="../../../assets/icons8-zip-96.png"
                           class="folder"
                           alt=""
                         />
@@ -386,6 +393,13 @@
                           clas
                           *ngIf="files?.filetype == '.jpg'"
                           src="../../../assets/jpg.svg"
+                          class="folder"
+                          alt=""
+                        />
+                        <img
+                          clas
+                          *ngIf="files?.filetype == '.zip'"
+                          src="../../../assets/icons8-zip-96.png"
                           class="folder"
                           alt=""
                         />

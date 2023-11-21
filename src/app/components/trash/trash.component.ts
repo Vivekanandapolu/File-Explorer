@@ -38,7 +38,7 @@ export class TrashComponent {
     let headername = {
       name: 'Trash',
     };
-    this.route.navigate(['/trash'], { queryParams: headername });
+    this.route.navigate(['/settings'], { queryParams: headername });
     this.router.queryParamMap.subscribe((res: any) => {
       this.TabName = res.params.name;
     });

@@ -29,6 +29,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { ApplicationLogsComponent } from './components/application-logs/application-logs.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     NgbModule,
     NgxChartsModule,
     GoogleChartsModule,
+    NgxPaginationModule,
   ],
   providers: [
     {

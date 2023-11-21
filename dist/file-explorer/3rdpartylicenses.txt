@@ -522,6 +522,9 @@ MIT
 ngx-bootstrap/utils
 MIT
 
+ngx-pagination
+MIT
+
 ngx-toastr
 MIT
 The MIT License (MIT)

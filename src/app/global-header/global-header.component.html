@@ -189,6 +189,7 @@
           (ngModelChange)="onDateSelect($event)"
           ngbDatepicker
           #d="ngbDatepicker"
+          [readonly]="!selectedDate"
         />
         <div class="input-group-append">
           <button
@@ -211,17 +212,17 @@
       </button>
       <!-- Add Property Modal-->
       <ng-template #content let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Create Property</h4>
-          <button
-            type="button"
-            class="btn-close shadow-none"
-            aria-label="Close"
-            (click)="modal.dismiss('Cross click')"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form #form="ngForm">
+        <form #form="ngForm">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Create Property</h4>
+            <button
+              type="button"
+              class="btn-close shadow-none"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
             <label for="bukcet" class="form-check-label mb-3"
               >Property Name</label
             >
@@ -262,28 +263,30 @@
               #description="ngModel"
               [(ngModel)]="newBucketData.description"
               name="description"
+              required="true"
             />
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            *ngIf="spinnerBtn"
-            type="button"
-            (click)="createBucket(form)"
-            class="btn btn-dark w-100 shadow-none"
-          >
-            Create Property
-          </button>
-          <button
-            *ngIf="spinner"
-            disabled
-            class="btn btn-dark text-white w-100 shadow-none"
-          >
-            <div class="spinner-border text-light" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              [disabled]="!description.value"
+              *ngIf="spinnerBtn"
+              type="button"
+              (click)="createBucket(form)"
+              class="btn btn-dark w-100 shadow-none"
+            >
+              Create Property
+            </button>
+            <button
+              *ngIf="spinner"
+              disabled
+              class="btn btn-dark text-white w-100 shadow-none"
+            >
+              <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </form>
       </ng-template>
 
       <!--Add User-->

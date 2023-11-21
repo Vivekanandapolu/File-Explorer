@@ -37,7 +37,15 @@ export class BucketsComponent implements OnInit {
     'November',
     'December',
   ];
-  extensionsArray: any = ['.docx', '.pdf', '.xlsx', '.csv', '.pptx', '.jpg'];
+  extensionsArray: any = [
+    '.docx',
+    '.pdf',
+    '.xlsx',
+    '.csv',
+    '.pptx',
+    '.jpg',
+    '.zip',
+  ];
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -396,7 +404,7 @@ export class BucketsComponent implements OnInit {
       }
     }
     console.log(file.fileurl.split('.')[1]);
-    if (file.fileurl.split('.')[1] == 'csv') {
+    if (file.fileurl.split('.')[file.fileurl.split('.').length - 1] == 'zip') {
       console.log('csv file ');
 
       this.http
@@ -425,7 +433,7 @@ export class BucketsComponent implements OnInit {
           document.body.removeChild(a);
         });
     }
-    if (file.fileurl.split('.')[1] == 'txt') {
+    if (file.fileurl.split('.')[file.fileurl.split('.').length - 1] == 'txt') {
       this.http
         .get(apiurls.downloadFileDup, {
           params: data,
@@ -433,6 +441,27 @@ export class BucketsComponent implements OnInit {
         })
         .subscribe((res: ArrayBuffer) => {
           const blob = new Blob([res], { type: 'text/plain' });
+          const dataUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = file.fileurl.split('/').pop(); // Set the desired file name
+          // Trigger the download
+          document.body.appendChild(a);
+          a.click();
+
+          // Clean up
+          window.URL.revokeObjectURL(dataUrl);
+          document.body.removeChild(a);
+        });
+    }
+    if (file.fileurl.split('.')[file.fileurl.split('.').length - 1] == 'csv') {
+      this.http
+        .get(apiurls.downloadFileDup, {
+          params: data,
+          responseType: 'arraybuffer',
+        })
+        .subscribe((res: ArrayBuffer) => {
+          const blob = new Blob([res], { type: 'text/csv' });
           const dataUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = dataUrl;

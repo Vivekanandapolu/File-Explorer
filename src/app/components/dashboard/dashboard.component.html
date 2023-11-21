@@ -1,154 +1,154 @@
 <app-side-nav></app-side-nav>
-<app-global-header [tabname]="'Dashboard'"></app-global-header>
+<app-global-header [tabname]="title"></app-global-header>
 <div class="main-container">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-3">
-        <div class="dashboard-details">
-          <div class="card mb-3" routerLink="/buckets">
-            <div
-              class="card-body bucket-card d-flex align-items-center justify-content-between"
+  <ng-container *ngIf="innerView">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3">
+          <div class="dashboard-details">
+            <div class="card mb-3" routerLink="/buckets">
+              <div
+                class="card-body bucket-card d-flex align-items-center justify-content-between"
+              >
+                <div class="div-1 d-flex align-items-center gap-3">
+                  <span class="bucket-img"
+                    ><img src="../../../assets/entypo_bucket.png" alt=""
+                  /></span>
+                  <div class="bucket-det">
+                    <h5 class="m-0">{{ allBuckets.length }}</h5>
+                    <p class="card-text text-black-50">Properties</p>
+                  </div>
+                </div>
+                <div class="div-2">
+                  <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3" routerLink="/user-management">
+              <div
+                class="card-body bucket-card d-flex align-items-center justify-content-between"
+              >
+                <div class="div-1 d-flex align-items-center gap-3">
+                  <span class="bucket-img"
+                    ><img src="../../../assets/usermanage.png" alt=""
+                  /></span>
+                  <div class="bucket-det">
+                    <h5 class="m-0">{{ allUsers.length }}</h5>
+                    <p class="card-text text-black-50">Users</p>
+                  </div>
+                </div>
+                <div class="div-2">
+                  <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3" routerLink="/groups">
+              <div
+                class="card-body bucket-card d-flex align-items-center justify-content-between"
+              >
+                <div class="div-1 d-flex align-items-center gap-3">
+                  <span class="bucket-img"
+                    ><img src="../../../assets/policies.png" alt=""
+                  /></span>
+                  <div class="bucket-det">
+                    <h5 class="m-0">{{ allGroups.length }}</h5>
+                    <p class="card-text text-black-50">Groups</p>
+                  </div>
+                </div>
+                <div class="div-2">
+                  <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
+                </div>
+              </div>
+            </div>
+            <!-- <div
+              class="card mb-3"
+              routerLink="/application_logs"
+              [queryParams]="{ name: 'Application Logs' }"
             >
-              <div class="div-1 d-flex align-items-center gap-3">
-                <span class="bucket-img"
-                  ><img src="../../../assets/entypo_bucket.png" alt=""
-                /></span>
-                <div class="bucket-det">
-                  <h5 class="m-0">{{ allBuckets.length }}</h5>
-                  <p class="card-text text-black-50">Properties</p>
+              <div
+                class="card-body bucket-card d-flex align-items-center justify-content-between"
+              >
+                <div class="div-1 d-flex align-items-center gap-3">
+                  <span class="bucket-img"
+                    ><img src="../../../assets/application-img.png" alt=""
+                  /></span>
+                  <div class="bucket-det">
+                    <h5 class="m-0">{{ applications.length }}</h5>
+                    <p class="card-text text-black-50">Applications</p>
+                  </div>
                 </div>
-              </div>
-              <div class="div-2">
-                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-3" routerLink="/user-management">
-            <div
-              class="card-body bucket-card d-flex align-items-center justify-content-between"
-            >
-              <div class="div-1 d-flex align-items-center gap-3">
-                <span class="bucket-img"
-                  ><img src="../../../assets/usermanage.png" alt=""
-                /></span>
-                <div class="bucket-det">
-                  <h5 class="m-0">{{ allUsers.length }}</h5>
-                  <p class="card-text text-black-50">Users</p>
-                </div>
-              </div>
-              <div class="div-2">
-                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-3" routerLink="/groups">
-            <div
-              class="card-body bucket-card d-flex align-items-center justify-content-between"
-            >
-              <div class="div-1 d-flex align-items-center gap-3">
-                <span class="bucket-img"
-                  ><img src="../../../assets/policies.png" alt=""
-                /></span>
-                <div class="bucket-det">
-                  <h5 class="m-0">{{ allGroups.length }}</h5>
-                  <p class="card-text text-black-50">Groups</p>
-                </div>
-              </div>
-              <div class="div-2">
-                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
-              </div>
-            </div>
-          </div>
-          <!-- <div
-            class="card mb-3"
-            routerLink="/application_logs"
-            [queryParams]="{ name: 'Application Logs' }"
-          >
-            <div
-              class="card-body bucket-card d-flex align-items-center justify-content-between"
-            >
-              <div class="div-1 d-flex align-items-center gap-3">
-                <span class="bucket-img"
-                  ><img src="../../../assets/application-img.png" alt=""
-                /></span>
-                <div class="bucket-det">
-                  <h5 class="m-0">{{ applications.length }}</h5>
-                  <p class="card-text text-black-50">Applications</p>
-                </div>
-              </div>
-              <div class="div-2">
-                <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
-      <div class="col-9">
-        <div class="container-fluid software-cards-div">
-          <div class="row p-0">
-            <div
-              class="col-6 mb-3 position-relative"
-              *ngFor="let software of statusLogs; let idx = index"
-            >
-              <h6 class="title">{{ software[0].label.toUpperCase() }}</h6>
-              <div class="card software">
-                <div class="card-body">
-                  <ngx-charts-pie-chart
-                    [view]="[400, 250]"
-                    [results]="software"
-                    [legend]="true"
-                    [labels]="true"
-                    [doughnut]="true"
-                    [legendTitle]="''"
-                    [labelFormatting]="pieChartLabel.bind(this, series)"
-                    [animations]="false"
-                    [scheme]="colorScheme"
-                  >
-                  </ngx-charts-pie-chart>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="col-6 mb-3 position-relative">
-              <h6 class="title">Software 2</h6>
-              <div class="card software">
-                <div class="card-body">
-                  <ngx-charts-pie-chart
-                    [view]="[400, 250]"
-                    [results]="series"
-                    [legend]="true"
-                    [labels]="true"
-                    [doughnut]="true"
-                    [legendTitle]="''"
-                    [labelFormatting]="pieChartLabel.bind(this, series)"
-                    [animations]="false"
-                    [scheme]="colorScheme"
-                  >
-                  </ngx-charts-pie-chart>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 mb-3 position-relative">
-              <h6 class="title">Software 2</h6>
-              <div class="card software">
-                <div class="card-body">
-                  <ngx-charts-pie-chart
-                    [view]="[400, 250]"
-                    [results]="series"
-                    [legend]="true"
-                    [labels]="true"
-                    [doughnut]="true"
-                    [legendTitle]="''"
-                    [labelFormatting]="pieChartLabel.bind(this, series)"
-                    [animations]="false"
-                    [scheme]="colorScheme"
-                  >
-                  </ngx-charts-pie-chart>
+                <div class="div-2">
+                  <i class="ri-arrow-right-s-line fw-bold fs-5"></i>
                 </div>
               </div>
             </div> -->
           </div>
         </div>
+        <div class="col-9">
+          <div class="container-fluid software-cards-div">
+            <div class="row p-0">
+              <div
+                class="col-6 mb-3 position-relative"
+                (click)="innerDashboardView(software[0].label)"
+                *ngFor="let software of statusLogs; let idx = index"
+              >
+                <h6 class="title">
+                  {{ software[0].label.toUpperCase() }}
+                  <br />
+                  <small class="text-black-50">
+                    Properties(<span
+                      *ngFor="let soft of softwareData | keyvalue"
+                    >
+                      <span *ngIf="soft.key == software[0].label">{{
+                        soft.value
+                      }}</span></span
+                    >)
+                  </small>
+                </h6>
+                <div class="card software">
+                  <div class="card-body">
+                    <ngx-charts-pie-chart
+                      [view]="[400, 250]"
+                      [results]="software"
+                      [legend]="true"
+                      [labels]="true"
+                      [doughnut]="true"
+                      [legendTitle]="''"
+                      [labelFormatting]="pieChartLabel.bind(this, series)"
+                      [animations]="false"
+                      [scheme]="colorScheme"
+                    >
+                    </ngx-charts-pie-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="!innerView">
+    <div class="container-fluid">
+      <ng-container *ngIf="propertyDetails.length">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th class="fw-bold">Marsha</th>
+              <th class="fw-bold">Property</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let property of propertyDetails">
+              <td>{{ property.code }}</td>
+              <td>{{ property.property_name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="!propertyDetails.length">
+        <h5 class="text-black-50 no">No Properties</h5>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>

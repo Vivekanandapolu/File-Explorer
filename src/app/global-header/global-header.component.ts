@@ -39,6 +39,7 @@ export class GlobalHeaderComponent implements OnInit {
   date!: { year: number; month: number };
 
   selectedDate: NgbDateStruct | undefined;
+  @Output() onlyDate: EventEmitter<string> = new EventEmitter<string>();
 
   serverLogs: any[] = [];
   filteredUserLogs: any = [];
@@ -143,8 +144,8 @@ export class GlobalHeaderComponent implements OnInit {
     let tabname = localStorage.getItem('tabname');
 
     if (tabname == 'Logs') {
-      this.getUserLogs();
-      this.getServerLogs();
+      // this.getUserLogs();
+      // this.getServerLogs();
     }
     if (tabname == 'User management') {
       this.getAllUsers();
@@ -208,6 +209,7 @@ export class GlobalHeaderComponent implements OnInit {
     this.month.emit(this.selectedMonth);
   }
   open(content: any) {
+    this.newBucketData = {};
     this.modalservice.open(content, { backdrop: 'static' });
   }
   //All Buckets
@@ -263,6 +265,9 @@ export class GlobalHeaderComponent implements OnInit {
           this.spinnerBtn = true;
           this.spinner = false;
           this.createbucket_res.emit(res.message);
+          this.toastr.success('Property created Successfully', '', {
+            timeOut: 2000,
+          });
         }
       });
     }
@@ -443,8 +448,25 @@ export class GlobalHeaderComponent implements OnInit {
     });
   }
   onDateSelect(selectedDate: NgbDateStruct) {
+    console.log(selectedDate);
+    let day: any;
     this.selectedDate = selectedDate;
 
+    if (selectedDate) {
+      if (selectedDate.day < 10) {
+        day = `0${selectedDate.day}`;
+        this.onlyDate.emit(
+          selectedDate.year + '-' + selectedDate.month + '-' + day
+        );
+      } else {
+        day = selectedDate.day;
+        this.onlyDate.emit(
+          selectedDate.year + '-' + selectedDate.month + '-' + day
+        );
+      }
+    } else {
+      this.onlyDate.emit(selectedDate);
+    }
     this.filteredUserLogs = this.userLogs.filter((log) => {
       const logDateParts = log.created_at.split(' ')[0].split('-');
       const logDate: NgbDateStruct = {

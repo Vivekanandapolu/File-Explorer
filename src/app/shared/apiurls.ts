@@ -25,10 +25,12 @@ export const apiurls = {
   folderDownload: domain + '/bucket/download_folder/',
   userLogs: domain + '/auth/user_logs',
   serverLogs: domain + '/auth/server_logs',
-  getServerSoftwareLogs: domain + '/auth/server_status_logs',
   applicationLogs: domain + '/auth/application_logs',
   downloadFileDup: domain + '/bucket/file/downloadfolder111',
   downloadFolderDup: domain + '/bucket/download_folder11',
   marshaCode: domain + '/auth/hotel_data',
   updateMarshaHotel: domain + '/auth/edit_hotel/',
+  softwarePropertyDetails: domain + '/auth/software_property_details/',
+  allSoftwares: domain + '/auth/all_softwares',
+  charts: domain + '/auth/server_count_logs',
 };
